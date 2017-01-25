@@ -56,6 +56,36 @@ export default class AppLayout extends Component {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/dashboard"><div className="sidebar-icon"><FontAwesome name="home" /></div> &nbsp;
+                    <FormattedMessage id={AppKeys.PAGES_EXPLORE_APIS} />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard"><div className="sidebar-icon"><FontAwesome name="home" /></div> &nbsp;
+                    <FormattedMessage id={AppKeys.PAGES_ADD_NEW_API} />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard"><div className="sidebar-icon"><FontAwesome name="home" /></div> &nbsp;
+                    <FormattedMessage id={AppKeys.PAGES_MY_APPLICATIONS} />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard"><div className="sidebar-icon"><FontAwesome name="home" /></div> &nbsp;
+                    <FormattedMessage id={AppKeys.PAGES_MY_SUBSCRIPTIONS} />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard"><div className="sidebar-icon"><FontAwesome name="home" /></div> &nbsp;
+                    <FormattedMessage id={AppKeys.PAGES_MY_PROFILE} />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard"><div className="sidebar-icon"><FontAwesome name="home" /></div> &nbsp;
+                    <FormattedMessage id={AppKeys.PAGES_MONITORING} />
+                  </Link>
+                </li>
+                <li>
                   <div className="sidebar-locale">
                      <LocaleWidget locale='en' /><span className="locale-widget-separator">|</span><LocaleWidget locale='fr' />
                   </div>

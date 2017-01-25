@@ -314,10 +314,12 @@ body {
 }
 
 .nav>li>a {
-    padding: 12px 15px;
+    /*padding: 12px 15px;*/
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
-    height: 50px
+    height: 60px;
+    vertical-align: -webkit-baseline-middle;
+    vertical-align: middle;
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
