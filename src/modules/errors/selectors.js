@@ -1,7 +1,5 @@
-// @flow
 import { NAME } from './constants';
-import { ImmutableState } from './model';
 
-const errorsBranchOf = (rootState: any): ImmutableState => rootState[NAME];
+const errorsBranchOf = (rootState) => rootState[NAME];
 
-export const getMessage = (rootState: any) => errorsBranchOf(rootState).getMessage();
+export const getMessage = (rootState) => errorsBranchOf(rootState).getMessage();

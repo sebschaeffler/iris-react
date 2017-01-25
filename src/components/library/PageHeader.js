@@ -4,7 +4,6 @@ import FontAwesome from 'react-fontawesome';
 import { injectIntl } from 'react-intl';
 import { Link } from 'react-router';
 import msg, { Keys } from './PageHeader_messages';
-import type { PropsWithIntl } from '../../types';
 
 function renderBreadcrumbs(rootText, youAreHereText, display, title) {
   if (!display) {
@@ -22,15 +21,7 @@ function renderBreadcrumbs(rootText, youAreHereText, display, title) {
   );
 };
 
-type Props = PropsWithIntl<{|
-  title: ?string,
-  headerIcon: ?string,
-  rootText?: string,
-  youAreHereText?: string,
-  display?: boolean
-|}>;
-
-export const PageHeader = (props: Props) => {
+export const PageHeader = (props) => {
   const {title, headerIcon, intl,
     display = true
   } = props;

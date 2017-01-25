@@ -1,4 +1,3 @@
-// @flow
 import { messageFunctionBuilder } from '../../i18n';
 
 export const Keys = {

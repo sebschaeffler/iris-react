@@ -1,23 +1,18 @@
-// @flow
 import { normalize } from 'normalizr';
 import _ from 'lodash';
 import axios from 'axios';
 import { API_CALL } from './model';
-import type { APICallInfo, AnyAction, Action } from './model';
 import { RequestType } from './model';
 
 const ROOT_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 // Provides an easy way to create an action for this middleware to handle
-export const createAction = (callInfo: APICallInfo): Action => {
+export const createAction = (callInfo) => {
   return {
     type: API_CALL,
     callInfo
   };
 };
-
-// for convenience
-export type APIAction = Action;
 
 /**
  * Removes (sub-)properties with null or undefined values from a given JSON object
@@ -36,7 +31,7 @@ function filterNil(jsonObject) {
  * @param {object} schema     The schema to normalize the response to
  * @returns {Promise}         The promise backing the request
  */
-function callGet(endpoint: string, parameters: Object, schema: Normalizr$Schema): Promise<any> {
+function callGet(endpoint, parameters, schema) {
   const queryParams = filterNil(parameters);
   const url = `${ROOT_URL}/${endpoint}`;
 
@@ -61,7 +56,7 @@ function callGet(endpoint: string, parameters: Object, schema: Normalizr$Schema)
   });
 }
 
-function callPost(endpoint: string, parameters: Object): Promise<any> {
+function callPost(endpoint, parameters) {
   const formParams = filterNil(parameters);
 
   let request;
@@ -86,7 +81,7 @@ function callPost(endpoint: string, parameters: Object): Promise<any> {
 }
 
 // Middleware that interprets actions with callInfo property specified
-const middleware: any = (store: any) => (next: any) => (action: any) => {
+const middleware = (store) => (next) => (action) => {
   // Don't do anything if the action is not for us, i.e. call next dispatch method
   if (action.type !== API_CALL || action.callInfo == null) {
     return next(action);
@@ -110,7 +105,7 @@ const middleware: any = (store: any) => (next: any) => (action: any) => {
   }
 
   // Define function that builds new action with the given mutations
-  function actionWith(mutations): AnyAction {
+  function actionWith(mutations) {
     const newAction = Object.assign({}, action, mutations);
     delete newAction.callInfo; // remove API call info property
     return newAction;

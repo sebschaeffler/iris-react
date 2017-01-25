@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { Image, /*Badge,*/ Navbar, Nav, NavDropdown, MenuItem /*, ProgressBar */ } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';

@@ -1,4 +1,3 @@
-// @flow
 import { messageFunctionBuilder } from './index';
 
 export const APP_VALUES_CURRENCIES_PREFIX = `app.values.currencies.`;

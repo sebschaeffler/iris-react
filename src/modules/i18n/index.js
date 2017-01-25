@@ -1,4 +1,3 @@
-// @flow
 import * as actions from './actions';
 import components from './components';
 import * as constants from './constants';

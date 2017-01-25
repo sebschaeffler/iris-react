@@ -1,10 +1,9 @@
-// @flow
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import api from '../middleware/api';
 import dbpApp from '../rootReducer.js';
 
-const configureStore = (preloadedState: any) => createStore(
+const configureStore = (preloadedState) => createStore(
   dbpApp,
   preloadedState,
   applyMiddleware(thunk, api)

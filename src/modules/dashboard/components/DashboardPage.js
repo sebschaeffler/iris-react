@@ -1,7 +1,5 @@
-// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as I from 'immutable';
 /*import { Form, ControlLabel, Button } from 'react-bootstrap';
 import { Link } from 'react-router';*/
 import { FormattedDate, injectIntl } from 'react-intl';
@@ -13,20 +11,8 @@ import PageHeader from '../../../components/library/PageHeader';
 //import StatWidget from "../../../components/library/StatWidget";
 import msg, { Keys } from './DashboardPage_messages';
 import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
-import type { PropsWithIntl } from '../../../types';
-
-type OwnProps = {|
-  results: I.List<balancesModule.model.ImmutableBalance>,
-  chartQueryParameters: balancesModule.model.ImmutableQueryParameters,
-  favouriteAccount: ?accountsModule.model.ImmutableAccount,
-|};
-
-type Props = PropsWithIntl<OwnProps> & {
-  queryCharts: typeof balancesModule.actions.queryCharts,
-};
 
 class DashboardPage extends Component {
-  props: Props;
 
   render() {
     let deadline = new Date();
@@ -66,7 +52,7 @@ class DashboardPage extends Component {
   }
 };
 
-const mapStateToProps = (state): OwnProps => {
+const mapStateToProps = (state) => {
   return {
   }
 };

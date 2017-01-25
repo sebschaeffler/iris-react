@@ -1,20 +1,9 @@
-// @flow
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Link } from 'react-router';
 
-type Props = {|
-  headerText: string,
-  css: string,
-  widgetStyle: string,
-  footerText: string,
-  icon: string,
-  count: string,
-  linkTo: string
-|};
-
-const StatWidget = (props: Props) => {
+const StatWidget = (props) => {
     const footerText = "pull-left ".concat(props.css);
     const icon = "pull-right ".concat(props.css);
 

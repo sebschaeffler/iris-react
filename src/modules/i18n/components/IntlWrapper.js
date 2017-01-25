@@ -3,11 +3,6 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import strings from '../../../i18n/strings.json';
 import { NAME } from '../constants';
-import { ImmutableState } from '../model';
-
-type OwnProps = {|
-  locale: string
-|};
 
 export class IntlWrapper extends Component {
   render () {
@@ -22,9 +17,9 @@ export class IntlWrapper extends Component {
   }
 }
 
-const mapStateToProps = (state): OwnProps => {
+const mapStateToProps = (state) => {
   return {
-    locale: (state[NAME]: ImmutableState).getLocale()
+    locale: (state[NAME]).getLocale()
   }
 };
 

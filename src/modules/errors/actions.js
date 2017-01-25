@@ -1,20 +1,14 @@
-// @flow
 import * as t from './actionTypes';
-
-export type Action =
-  {| type: t.ResetMessageActionType |}
-  | {| type: t.SetMessageActionType , errorMessage: string |}
-  ;
 
 export const types = t;
 
-export const resetMessage = (): Action => {
+export const resetMessage = () => {
   return {
     type: t.RESET_MESSAGE
   };
 };
 
-export const setMessage = (errorMessage: string): Action => {
+export const setMessage = (errorMessage) => {
   return {
     type: t.SET_MESSAGE,
     errorMessage: errorMessage

@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const convertToFormattedDate = (date, format: string = 'DD/MM/YYYY') =>
+const convertToFormattedDate = (date, format = 'DD/MM/YYYY') =>
   date != null ? moment(date).format(format) : null;
 
 const parseDateToMillis = (date) =>

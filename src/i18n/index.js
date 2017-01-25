@@ -1,4 +1,3 @@
-// @flow
 import { addLocaleData, defineMessages } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
@@ -7,16 +6,16 @@ export function setup() {
   addLocaleData([...en, ...fr]);
 }
 
-export function messageFunctionBuilder<K: Object>(_keys: K): (key: ($Keys<K>)) => Object {
-  const keys: K = addIdToNestedMessages(_keys);
+export function messageFunctionBuilder(_keys) {
+  const keys = addIdToNestedMessages(_keys);
   const messageDescriptors = defineMessages(keys);
 
-  return function (key: ($Keys<typeof _keys>)) {
+  return function (key) {
     return messageDescriptors[key]
   }
 }
 
-function addIdToNestedMessages(nestedMessages: Object, parentKey: ?string = null, prefix: string = ''): any {
+function addIdToNestedMessages(nestedMessages, parentKey = null, prefix = '') {
   return Object.keys(nestedMessages).reduce((messages, key) => {
     let value = nestedMessages[key];
 
