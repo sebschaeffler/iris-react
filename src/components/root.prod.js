@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import routes from '../routes';
 import IntlWrapper from '../modules/i18n/components/IntlWrapper';
@@ -11,10 +11,5 @@ const Root = ({ store, history }) => (
     </IntlWrapper>
   </Provider>
 );
-
-Root.propTypes = {
-  store: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
-};
 
 export default Root;
