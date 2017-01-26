@@ -5,7 +5,7 @@ She travels with the speed of wind from one end of the world to the other.
 
 # iris-react
 
-This is a web front-end written in React/Redux which is used as part of the DBG Digital Business Platform project.
+This is a web front-end written in React/Redux which is used as part of the Digital Business Platform project.
 
 This developer portal is intended to manage (publication and consumption of) APIs and respective users (publishers/consumers).
 
