@@ -41,7 +41,7 @@ body {
 }
 
 .big_icon {
-  font-size: 3em;
+  font-size: 4.3em;
 }
 
 .welcome {
@@ -130,7 +130,7 @@ body {
   min-height: 100px;
 }
 
-.query-button {
+.query-button, .default-submit-button {
   margin-right: 20px;
 }
 
@@ -560,7 +560,7 @@ table.dataTable thead .sorting:after {
 }
 
 .huge {
-    font-size: 40px;
+    font-size: 24px;
 }
 
 .sidebar-icon {
@@ -592,6 +592,10 @@ table.dataTable thead .sorting:after {
 .widget-today .panel-body, .widget-time .panel-body {
     padding: 15px;
     height: 45px;
+}
+
+.panel-heading a:hover{
+    color:#fff;
 }
 
 .panel-default>.panel-heading, .panel-heading {
@@ -807,4 +811,45 @@ table.dataTable thead .sorting:after {
   color: #000;
   font-weight: normal;
   font-size: 1.2em;
+}
+
+.button-area {
+  text-align: center;
+}
+
+.default-submit-button[disabled], .default-submit-button[disabled]:hover {
+  background-color: none;
+  color:#333;
+}
+
+.default-submit-button {
+  background-color: #1d2939;
+  background-image: none;
+  text-shadow: none;
+  color: #fff;
+}
+
+.default-submit-button:hover {
+  background-color: #1caf9a;
+  background-image: none;
+  text-shadow: none;
+  color: #fff;
+}
+
+.center-aligned-light-label {
+  text-align: center !important;
+  padding-left: 0 !important;
+  color: #888 !important;
+}
+
+.widget-rating-icon{
+  padding: 4px;
+}
+
+.explore-footer {
+  padding: 20px 30px;
+}
+
+.spacer {
+  margin: 20px;
 }

@@ -1,6 +1,8 @@
 {
   "en": {
-    "app.title": "Digital Business Platform",
+    "addapi.shareprices.placeholder": "e.g. Share Prices",
+    "addapi.buttons.save": "Save",
+    "app.title": "Developer portal",
     "app.pages.dashboard": "Dashboard",
     "app.pages.apilist": "Explore APIs",
     "app.pages.apicreate": "Add new API",
@@ -10,7 +12,7 @@
     "app.pages.monitoring":"Monitoring",
     "app.views.query.header.title": "Query",
     "app.views.query.buttons.query": "Query",
-    "app.views.query.buttons.reset": "Reset",
+    "app.views.buttons.reset": "Reset",
     "app.views.list.header.title": "List",
     "app.views.list.messages.noresults": "No rows available",
     "app.views.popup.buttons.close": "Close",
@@ -19,7 +21,7 @@
     "app.values.currencies.usd": "US Dollar",
     "app.values.currencies.gbp": "British Pound",
     "app.values.currencies.jpy": "Japanese Yen",
-    "pageheader.messages.youarehere": "You are here",
+    "pageheader.messages.youarehere": "You are here: ",
     "pageheader.messages.home": "Home",
     "dashboard.sections.dashboard.title": "Dashboard",
     "dashboard.sections.apis.title": "My APIs",
@@ -29,10 +31,15 @@
     "dashboard.widgets.deadline.title": "Cash Deadline",
     "dashboard.widgets.tasks.title": "Pending tasks",
     "dashboard.widgets.messages.title": "Unread messages",
-    "accounts.popups.favouriteaccount.header": "Preferences"
+    "accounts.popups.favouriteaccount.header": "Preferences",
+    "listapis.sections.title": "Explore APIs",
+    "apps.sections.title": "My application",
+    "subscriptions.sections.title": "My subscriptions"
   },
   "fr": {
-    "app.title": "Platforme Digitale Business",
+    "addapi.shareprices.placeholder": "e.g. Cours des actions",
+    "addapi.buttons.save": "Enregistrer",
+    "app.title": "Portail développeur",
     "app.pages.dashboard": "Dashboard",
     "app.pages.apilist": "Parcourir les APIs",
     "app.pages.apicreate": "Ajouter une API",
@@ -42,7 +49,7 @@
     "app.pages.monitoring":"Activités",
     "app.views.query.header.title": "Recherche",
     "app.views.query.buttons.query": "Rechercher",
-    "app.views.query.buttons.reset": "Réinitialiser",
+    "app.views.buttons.reset": "Réinitialiser",
     "app.views.list.header.title": "Liste",
     "app.views.list.messages.noresults": "Pas de resultats disponibles",
     "app.views.popup.buttons.close": "Fermer",
@@ -51,7 +58,7 @@
     "app.values.currencies.usd": "Dollar américain",
     "app.values.currencies.gbp": "Livre Sterline",
     "app.values.currencies.jpy": "Yen Japonais",
-    "pageheader.messages.youarehere": "Vous êtes ici",
+    "pageheader.messages.youarehere": "Vous êtes ici : ",
     "pageheader.messages.home": "Début",
     "dashboard.sections.dashboard.title": "Dashboard",
     "dashboard.sections.apis.title": "Mes APIs",
@@ -61,6 +68,9 @@
     "dashboard.widgets.deadline.title": "Date limite cash",
     "dashboard.widgets.tasks.title": "Taches en attente",
     "dashboard.widgets.messages.title": "Messages non lus",
-    "accounts.popups.favouriteaccount.header": "Préférences"
+    "accounts.popups.favouriteaccount.header": "Préférences",
+    "listapis.sections.title": "Explorer les APIs",
+    "apps.sections.title": "Mes applications",
+    "subscriptions.sections.title": "Mes abonnements"
   }
 }

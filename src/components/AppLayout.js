@@ -14,7 +14,6 @@ export default class AppLayout extends Component {
           <Navbar.Header style={{ marginBottom: 10 }}>
             <Navbar.Brand>
               <Link to='/'>
-                {/*<span className='teal'>Digital Business Platform</span>*/}
                 <Image src={require('../../assets/dbglogo.png')} />
               </Link>
             </Navbar.Brand>
@@ -56,33 +55,23 @@ export default class AppLayout extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to='/dashboard'><div className='sidebar-icon'><FontAwesome name='cogs' /></div> &nbsp;
+                  <Link to='/explore'><div className='sidebar-icon'><FontAwesome name='cogs' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_EXPLORE_APIS} />
                   </Link>
                 </li>
                 <li>
-                  <Link to='/dashboard'><div className='sidebar-icon'><FontAwesome name='plus' /></div> &nbsp;
+                  <Link to='/addapi'><div className='sidebar-icon'><FontAwesome name='plus' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_ADD_NEW_API} />
                   </Link>
                 </li>
                 <li>
-                  <Link to='/dashboard'><div className='sidebar-icon'><FontAwesome name='list' /></div> &nbsp;
+                  <Link to='/myapps'><div className='sidebar-icon'><FontAwesome name='list' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_MY_APPLICATIONS} />
                   </Link>
                 </li>
                 <li>
-                  <Link to='/dashboard'><div className='sidebar-icon'><FontAwesome name='pencil' /></div> &nbsp;
+                  <Link to='/mysubscriptions'><div className='sidebar-icon'><FontAwesome name='pencil' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_MY_SUBSCRIPTIONS} />
-                  </Link>
-                </li>
-                <li>
-                  <Link to='/dashboard'><div className='sidebar-icon'><FontAwesome name='user' /></div> &nbsp;
-                    <FormattedMessage id={AppKeys.PAGES_MY_PROFILE} />
-                  </Link>
-                </li>
-                <li>
-                  <Link to='/dashboard'><div className='sidebar-icon'><FontAwesome name='bar-chart' /></div> &nbsp;
-                    <FormattedMessage id={AppKeys.PAGES_MONITORING} />
                   </Link>
                 </li>
                 <li>

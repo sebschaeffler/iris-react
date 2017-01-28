@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { injectIntl } from 'react-intl';
