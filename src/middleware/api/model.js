@@ -4,5 +4,7 @@ export const API_CALL = 'api/API_CALL';
 export const RequestType = {
   GET: 'GET',
   POST: 'POST',
+  DELETE: 'POST',
+  UPDATE: 'UPDATE',
   REDIRECT: 'REDIRECT'
 };

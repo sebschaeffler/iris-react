@@ -138,7 +138,6 @@ const middleware = (store) => (next) => (action) => {
   } else if (httpRequestType !== null && httpRequestType === RequestType.REDIRECT) {
     // redirect browser user agent
     window.location = endpoint;
-    //console.log("Redirection to...", endpoint);
   } else {
     // GET by default
     return callGet(endpoint, parameters, schema).then(

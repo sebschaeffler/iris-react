@@ -6,7 +6,7 @@ import { Panel, Form, FormGroup, FormControl, Col, ControlLabel, Button } from '
 import PageHeader from '../../../components/library/PageHeader';
 import msg, { Keys } from './AddApiPage_messages';
 import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
-import { Api } from '../model';
+import { Api } from '../../../model/api';
 import { loadDefaultValues } from '../actions';
 
 class AddApiPage extends Component {

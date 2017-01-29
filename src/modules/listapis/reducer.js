@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
-import * as api from '../../model/api';
+import * as apis from '../../model/apis';
 
-const INITIAL_STATE = new api.Api();
+const INITIAL_STATE = new apis.Apis();
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
