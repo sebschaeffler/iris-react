@@ -1,12 +1,6 @@
 import * as t from './actionTypes';
 
-export function loadDefaultValues() {
-  return {
-    type: t.LOAD_DEFAULT_VALUES
-  };
-};
-
-export function submit(params) {
+export function submitNewApi(params) {
   return {
     type: t.SUBMIT,
     params

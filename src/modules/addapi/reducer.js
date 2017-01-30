@@ -1,14 +1,28 @@
+import { Record } from 'immutable';
 import * as types from './actionTypes';
-import * as api from '../../model/api';
+import * as model from '../../model/api';
 
-const INITIAL_STATE = new api.Api();
+const StateRecord = new Record({
+  api: new model.Api(),
+  isProcessing: false,
+  isSuccessful: false,
+  errors: null
+});
+
+class State extends StateRecord {
+}
+
+const INITIAL_STATE = new State();
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case types.LOAD_DEFAULT_VALUES:
-      return state;
     case types.SUBMIT:
-      return state;
+      const { params } = action;
+      return state
+        .set('isProcessing', true)
+        .update('api', (values) =>
+          params
+        )
     default:
       return state;
   }

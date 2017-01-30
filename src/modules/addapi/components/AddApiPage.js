@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Panel, Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap';
+import { Panel, Form, FormGroup, FormControl, Col, ControlLabel, Button, Row } from 'react-bootstrap';
 import PageHeader from '../../../components/library/PageHeader';
 import msg, { Keys } from './AddApiPage_messages';
 import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
-import { Api } from '../../../model/api';
-import { loadDefaultValues } from '../actions';
+import * as model from '../../../model/api';
+import { submitNewApi } from '../actions';
 
 class AddApiPage extends Component {
 
@@ -15,6 +15,7 @@ class AddApiPage extends Component {
     super(props);
 
     this.state = {
+      localApi: this.props.initialValues,
       generalPanelExpanded: true,
       definitionPanelExpanded: true,
       policiesPanelExpanded: true
@@ -23,27 +24,54 @@ class AddApiPage extends Component {
     this.toggleGeneralPanel = this.toggleGeneralPanel.bind(this);
     this.toggleDefinitionPanel = this.toggleDefinitionPanel.bind(this);
     this.togglePoliciesPanel = this.togglePoliciesPanel.bind(this);
+    this.renderField = this.renderField.bind(this);
+    this.renderActualComponent = this.renderActualComponent.bind(this);
+    this.syncFrom = this.syncFrom.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  // setState() does not immediately mutate this.state but creates a pending state transition.
+  // Accessing this.state after calling this method can potentially return the existing value.
+  // There is no guarantee of synchronous operation of calls to setState and calls may be batched
+  // for performance gains.
+  componentWillReceiveProps(nextProps) {
+    // Here is where "initialvalues" name is misleading it actually returns what came out from the reducer
+    this.setState({
+      localApi: this.syncFrom(nextProps.initialValues)
+    }, function () {
+      console.log("New values: ", this.state.localApi);
+    });
   }
 
   componentDidMount() {
-    this.props.loadDefaultValues();
-    // reduxForm expectsthis.props.initialValues to get the default values through mapStateToProps
+    this.setState({
+      localApi: this.syncFrom(this.props.initialValues)
+    }, function () {
+      console.log("Current values", this.state.localApi);
+    });
   }
 
+  syncFrom(datasource) {
+    //console.log("Datasource: ", datasource);
+    if (datasource) {
+      // update local state with new object built from source
+      return new model.Api().setName(datasource.name || this.props.initialValues.name)
+        .setContext(datasource.context || this.props.initialValues.context)
+        .setVersion(datasource.version || this.props.initialValues.version)
+        .setVisibility(datasource.visibility || this.props.initialValues.visibility)
+        .setDescription(datasource.description || this.props.initialValues.context)
+        .setTags(datasource.tags || this.props.initialValues.context)
+        .setApiEndpoint(datasource.api_endpoint || this.props.initialValues.context)
+        .setDocEndpoint(datasource.doc_endpoint || this.props.initialValues.context);
+    } else {
+      console.log("ERROR: values for sync. is null");
+    }
+  }
 
   onSubmit(values) {
-    const result = new Api({
-      name: values.name,
-      context: values.context,
-      version: values.version,
-      visibility: values.visibility,
-      thumbnail: null,
-      description: values.description,
-      tags: values.tags,
-      api_endpoint: values.api_endpoint,
-      doc_endpoint: values.doc_endpoint
-    });
-    console.log(result);
+    // Sync local state from form values
+    const api = this.syncFrom(values);
+    this.props.submitNewApi(api);
   }
 
   toggleGeneralPanel() {
@@ -58,129 +86,113 @@ class AddApiPage extends Component {
     this.setState({ policiesPanelExpanded: !this.state.policiesPanelExpanded });
   }
 
-  renderField({ input, meta: { touched, error, warning }, type, placeholder, disabled }) {
+  // Stateles
+  renderActualComponent(input, type, placeholder, staticValue) {
     return (
-      <div>
-        <FormControl
-          type={type}
-          componentClass={type === 'textarea' || type === 'select' ? type : 'input'}
-          {...input}
-          disabled={disabled}
-          placeholder={placeholder}
-          />
-        {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+      <FormControl
+        type={type}
+        componentClass={type === 'textarea' || type === 'select' ? type : 'input'}
+        {...input}
+        placeholder={placeholder}
+        />
+    );
+  }
+
+  //Should be stateless, i.e. no binding to 'this' to access the states (local or global)
+  renderField({ input, meta: { touched, error, warning }, label, size, type, placeholder, disabled, staticValue }) {
+    return (
+      <div className={(touched && error ? 'has-error' : '')}>
+        <Col componentClass={ControlLabel} sm={2}>
+          {label}
+        </Col>
+        <Col sm={size || 3} className={disabled ? 'form-control-static' : ''}>
+          {disabled ? staticValue : this.renderActualComponent(input, type, placeholder, staticValue)}
+          {touched && ((error && <span className={'help-block'} style={{ marginBottom: 0 }}>{error}</span>) || (warning && <span className={'help-block'}>{warning}</span>))}
+        </Col>
       </div>
     );
   }
 
   render() {
+    console.log("Local api: ", this.state.localApi.getContext());
     return (
       <div className='page-wrapper content'>
         <PageHeader title={this.props.intl.formatMessage(msg(Keys.SECTIONS_ADD_API_TITLE))} headerIcon='plus' rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))} />
         <Form horizontal onSubmit={this.props.handleSubmit(this.onSubmit)}>
           <Panel collapsible defaultExpanded header='General details' onSelect={this.toggleGeneralPanel} expanded={this.state.generalPanelExpanded} >
-            <FormGroup controlId='name'>
-              <Col componentClass={ControlLabel} sm={2}>
-                Name
-                </Col>
-              <Col sm={4}>
-                <Field
-                  type='text'
-                  name='name'
-                  placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
-                  component={this.renderField} />
-              </Col>
-              <Col componentClass={ControlLabel} sm={1}>
-                Context
-                </Col>
-              <Col sm={3}>
-                <Field
-                  type='text'
-                  name='context'
-                  component={this.renderField}
-                  disabled />
-              </Col>
-            </FormGroup>
-            <FormGroup controlId='context'>
-              <Col componentClass={ControlLabel} sm={2}>
-                Version
-                </Col>
-              <Col sm={2}>
-                <Field
-                  type='text'
-                  name='version'
-                  placeholder='e.g. 1.0.0'
-                  component={this.renderField}
-                  />
-              </Col>
-              <Col componentClass={ControlLabel} sm={2} className='center-aligned-light-label'>
-                (current configuration)
-                </Col>
-              <Col componentClass={ControlLabel} sm={1}>
-                Visibility
-                </Col>
-              <Col sm={3}>
-                <Field
-                  type='text'
-                  name='visibility'
-                  component={this.renderField}
-                  disabled />
-              </Col>
-            </FormGroup>
-            <FormGroup controlId='description'>
-              <Col componentClass={ControlLabel} sm={2}>
-                Description
-                </Col>
-              <Col sm={8}>
-                <Field
-                  type='textarea'
-                  name='description'
-                  component={this.renderField}
-                  placeholder='High level description of the API'
-                  />
-              </Col>
-            </FormGroup>
-            <FormGroup controlId='tags'>
-              <Col componentClass={ControlLabel} sm={2}>
-                Tags
-                </Col>
-              <Col sm={8}>
-                <Field
-                  type='text'
-                  name='tags'
-                  component={this.renderField}
-                  placeholder='e.g. share prices, options, futures'
-                  />
-              </Col>
-            </FormGroup>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='name'
+                label='Name'
+                placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
+                component={this.renderField} />
+              <Field
+                type='text'
+                name='context'
+                label='Context'
+                staticValue={this.state.localApi.getContext()}
+                component={this.renderField}
+                disabled />
+            </Row>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='version'
+                label='Version'
+                placeholder='e.g. 1.0.0'
+                component={this.renderField}
+                />
+              <Field
+                type='text'
+                name='visibility'
+                label='Visibility'
+                staticValue={this.state.localApi.getVisibility()}
+                component={this.renderField}
+                disabled />
+            </Row>
+            <Row className="form-group">
+              <Field
+                type='textarea'
+                name='description'
+                label='Description'
+                size={8}
+                component={this.renderField}
+                placeholder='High level description of the API'
+                />
+            </Row>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='tags'
+                label='Tags'
+                size={8}
+                component={this.renderField}
+                placeholder='e.g. share prices, options, futures'
+                />
+            </Row>
           </Panel>
           <Panel collapsible defaultExpanded header='API definition' onSelect={this.toggleDefinitionPanel} expanded={this.state.definitionPanelExpanded} >
-            <FormGroup controlId='api_endpoint'>
-              <Col componentClass={ControlLabel} sm={2}>
-                Api endpoint
-                </Col>
-              <Col sm={8}>
-                <Field
-                  type='text'
-                  name='api_endpoint'
-                  component={this.renderField}
-                  placeholder='e.g. http://www.example.com/sharePrices'
-                  />
-              </Col>
-            </FormGroup>
-            <FormGroup controlId='doc_endpoint'>
-              <Col componentClass={ControlLabel} sm={2}>
-                Documentation endpoint
-                </Col>
-              <Col sm={8}>
-                <Field
-                  type='text'
-                  name='doc_endpoint'
-                  component={this.renderField}
-                  placeholder='e.g. http://www.example.com/sharePrices/swagger-ui'
-                  />
-              </Col>
-            </FormGroup>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='api_endpoint'
+                label='Api endpoint'
+                size={8}
+                component={this.renderField}
+                placeholder='e.g. http://www.example.com/sharePrices'
+                />
+            </Row>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='doc_endpoint'
+                label='Documentation enpoint'
+                size={8}
+                component={this.renderField}
+                placeholder='e.g. http://www.example.com/sharePrices/swagger-ui'
+                />
+            </Row>
           </Panel>
           <Panel collapsible defaultExpanded header='Policies' onSelect={this.togglePoliciesPanel} expanded={this.state.policiesPanelExpanded} >
             <Col componentClass={ControlLabel} sm={14}>
@@ -207,25 +219,39 @@ class AddApiPage extends Component {
             </FormGroup>
           </div>
         </Form>
-      </div>
+      </div >
     );
   }
 
 }
 
 export const validate = (values) => {
-  console.log('Validation: ', values);
   let errors = {};
-  if (!values.name || values.name === '') {
-    // this.props.intl.formatMessage({id: })
+  if (!values.name || values.name.trim() === '') {
     errors.name = 'Name is required';
+  }
+  if (!values.version || values.version.trim() === '') {
+    errors.version = 'Version is required';
+  }
+  if (!values.description || values.description.trim() === '') {
+    errors.description = 'Description is required';
+  }
+  if (!values.api_endpoint || values.api_endpoint.trim() === '') {
+    errors.api_endpoint = 'Api endpoint is required';
+  }
+  if (!values.doc_endpoint || values.doc_endpoint.trim() === '') {
+    errors.doc_endpoint = 'Documentation endpoint is required';
+  }
+  if (!values.tags || values.tags.trim() === '') {
+    errors.tags = 'At least one tag is required';
   }
   return errors;
 }
 
 const mapStateToProps = (state) => {
   return {
-    initialValues: state.addapi
+    // this is REALLY misleading, it should be called valuesFromState or something similar
+    initialValues: state.addapi.api
   }
 };
 
@@ -234,4 +260,4 @@ export const AddApiCreateForm = reduxForm({
   validate
 })(AddApiPage);
 
-export default connect(mapStateToProps, { loadDefaultValues })(injectIntl(AddApiCreateForm));
+export default connect(mapStateToProps, { submitNewApi })(injectIntl(AddApiCreateForm));
