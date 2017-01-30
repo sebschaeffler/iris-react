@@ -38,9 +38,11 @@ class AddApiPage extends Component {
     // Here is where "initialvalues" name is misleading it actually returns what came out from the reducer
     this.setState({
       localApi: this.syncFrom(nextProps.initialValues)
-    }, function () {
-      console.log("New values: ", this.state.localApi);
-    });
+    }
+      // , function () {
+      //   console.log("New values: ", this.state.localApi);
+      // }
+    );
   }
 
   componentDidMount() {
@@ -114,7 +116,6 @@ class AddApiPage extends Component {
   }
 
   render() {
-    console.log("Local api: ", this.state.localApi.getContext());
     return (
       <div className='page-wrapper content'>
         <PageHeader title={this.props.intl.formatMessage(msg(Keys.SECTIONS_ADD_API_TITLE))} headerIcon='plus' rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))} />
@@ -227,21 +228,33 @@ class AddApiPage extends Component {
 
 export const validate = (values) => {
   let errors = {};
+  const urlRegExp = /([a-z]+:\/+)([^\/\s]*)([a-z0-9\-@\^=%&;\/~\+]*)[\?]?([^ #]*)#?([^ #]*)/ig;
   if (!values.name || values.name.trim() === '') {
     errors.name = 'Name is required';
   }
+
   if (!values.version || values.version.trim() === '') {
     errors.version = 'Version is required';
+  } else if (!values.version.match(/^\d+\.\d+$/)) {
+    errors.version = 'Version should respect the following pattern: {major_version}.{minor_version}, e.g. 1.0';
   }
+
   if (!values.description || values.description.trim() === '') {
     errors.description = 'Description is required';
   }
+
   if (!values.api_endpoint || values.api_endpoint.trim() === '') {
     errors.api_endpoint = 'Api endpoint is required';
+  } else if (!values.api_endpoint.match(urlRegExp)) {
+    errors.api_endpoint = 'A valid URI is expected: e.g. http(s)://domain_name/endpoint';
   }
+
   if (!values.doc_endpoint || values.doc_endpoint.trim() === '') {
     errors.doc_endpoint = 'Documentation endpoint is required';
+  } else if (!values.doc_endpoint.match(urlRegExp)) {
+    errors.doc_endpoint = 'A valid URI is expected: e.g. http(s)://domain_name/endpoint';
   }
+
   if (!values.tags || values.tags.trim() === '') {
     errors.tags = 'At least one tag is required';
   }
