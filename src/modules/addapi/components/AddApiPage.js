@@ -6,7 +6,7 @@ import { Panel, Form, FormGroup, FormControl, Col, ControlLabel, Button, Row } f
 import PageHeader from '../../../components/library/PageHeader';
 import msg, { Keys } from './AddApiPage_messages';
 import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
-import * as model from '../../../model/api';
+import Api from '../../../model/api';
 import { submitNewApi } from '../actions';
 
 class AddApiPage extends Component {
@@ -37,7 +37,8 @@ class AddApiPage extends Component {
   // There is no guarantee of synchronous operation of calls to setState and calls may be batched
   // for performance gains.
   componentWillReceiveProps(nextProps) {
-    // Here is where "initialvalues" name is misleading it actually returns what came out from the redux-form reducer
+    // Here is where "initialvalues" name is misleading it actually returns what came out from
+    // the redux-form reducer
     if (!nextProps || !nextProps.submitSucceeded) {
       this.setState({
         localApi: this.syncFrom(nextProps.initialValues)
@@ -64,7 +65,7 @@ class AddApiPage extends Component {
     //console.log("Datasource: ", datasource);
     if (datasource) {
       // update local state with new object built from source
-      return new model.Api().setName(datasource.name || this.props.initialValues.name)
+      return new Api().setName(datasource.name || this.props.initialValues.name)
         .setContext(datasource.context || this.props.initialValues.context)
         .setVersion(datasource.version || this.props.initialValues.version)
         .setVisibility(datasource.visibility || this.props.initialValues.visibility)

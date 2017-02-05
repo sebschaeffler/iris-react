@@ -1,9 +1,9 @@
 import { Record } from 'immutable';
 import * as types from './actionTypes';
-import * as model from '../../model/api';
+import Api from '../../model/api';
 
 const StateRecord = new Record({
-  api: new model.Api(),
+  api: new Api(),
   isProcessing: false,
   isSuccessful: false,
   errors: null
@@ -24,12 +24,12 @@ export default function (state = INITIAL_STATE, action) {
         .update('api', (values) =>
           parameters
         );
-    case types.SUBMIT_SUCCESSFUL:
+    case types.SUBMIT_SUCCESS:
       return state
         .set('isProcessing', false)
         .set('isSuccessful', true)
         .set('errors', null);
-    case types.SUBMIT_FAILED:
+    case types.SUBMIT_ERROR:
       return state
         .set('isProcessing', false)
         .set('isSuccessful', false)

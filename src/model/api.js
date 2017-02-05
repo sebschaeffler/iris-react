@@ -1,6 +1,7 @@
 import { Record } from 'immutable';
 
-export class Api extends Record({
+export default class Api extends Record({
+  id: null,
   name: '',
   context: 'Clearstream Xact',
   version: '',
@@ -9,9 +10,14 @@ export class Api extends Record({
   description: '',
   tags: '',
   api_endpoint: '',
-  doc_endpoint: ''
+  doc_endpoint: '',
+  rating: 0,
+  numberOfUsers: 0
 })
 {
+  getId() { return this.get('id'); }
+  setId(id) { return this.set('id', id); }
+
   getName() { return this.get('name'); }
   setName(name) { return this.set('name', name); }
 
@@ -38,5 +44,11 @@ export class Api extends Record({
 
   getDocEndpoint() { return this.get('doc_endpoint'); }
   setDocEndpoint(doc_endpoint) { return this.set('doc_endpoint', doc_endpoint); }
+
+  getRating() { return this.get('rating'); }
+  setRating(rating) { return this.set('rating', rating); }
+
+  getNumberOfUsers() { return this.get('numberOfUsers'); }
+  setNumberOfUsers(numberOfUsers) { return this.set('numberOfUsers', numberOfUsers); }
 
 };

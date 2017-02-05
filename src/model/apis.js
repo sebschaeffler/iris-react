@@ -1,6 +1,6 @@
 import { Record } from 'immutable';
 
-export class Apis extends Record({
+export default class Apis extends Record({
   list: []
 })
 {
@@ -8,7 +8,5 @@ export class Apis extends Record({
   setList(list) { return this.set('list', list); }
 
   add(api) { this.getList().push(api); }
-
   clear() { this.getList().clear(); }
-
 };

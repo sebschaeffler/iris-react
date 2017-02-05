@@ -13,7 +13,7 @@ export function submitRequest(params) {
 
 export function submitError(params) {
   return {
-    type: a.SUBMIT_FAILED,
+    type: a.SUBMIT_ERROR,
     params
   };
 }
@@ -21,7 +21,7 @@ export function submitError(params) {
 export function submitSuccess(response) {
   return dispatch => {
     dispatch({
-      type: a.SUBMIT_SUCCESSFUL,
+      type: a.SUBMIT_SUCCESS,
       response
     });
   }
@@ -31,7 +31,7 @@ export function submitNewApi(params) {
   return dispatch => {
     dispatch(apiMiddleware.createAction({
         endpoint: SUBMIT_NEW_API_URL,
-        actionTypes: [a.SUBMIT, a.SUBMIT_SUCCESSFUL, a.SUBMIT_FAILED],
+        actionTypes: [a.SUBMIT, a.SUBMIT_SUCCESS, a.SUBMIT_ERROR],
         parameters: params,
         httpRequestType: RequestType.POST
       }));

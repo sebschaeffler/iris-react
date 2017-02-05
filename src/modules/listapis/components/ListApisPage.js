@@ -5,8 +5,56 @@ import PageHeader from '../../../components/library/PageHeader';
 import ApiWidget from '../../../components/library/ApiWidget';
 import msg, { Keys } from './ListApisPage_messages';
 import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
+import { load } from '../actions';
 
 class ListApisPage extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.renderList = this.renderList.bind(this);
+  }
+
+
+  renderList() {
+    const listapis = this.props.list;
+    if (listapis && listapis.getList()) {
+      // Do not forget to return the list, not only the items inside that list
+      return listapis.getList().map((item) => {
+        return (
+          <div className='col-lg-4 col-md-8' key={item.getId()}>
+            <ApiWidget
+              widgetStyle='info'
+              icon='line-chart'
+              count={item.getNumberOfUsers()}
+              headerText={item.getName()}
+              rating={item.getRating()}
+              linkTo={'/api/' + item.getId()}
+              css='default-dark'
+            />
+          </div>
+        );
+      });
+    }
+  }
+
+  getCount() {
+    const listapis = this.props.list;
+    if (listapis && listapis.getList() && listapis.getList().length > 0) {
+      return (
+        <div>
+          <span>There are currently </span>
+          <span className='teal'>{listapis.getList().length}</span>
+          <span> api{listapis.getList().length > 1 ? 's' : ''} available.</span>
+        </div>
+      );
+    }
+    return (
+      <div>
+        No apis are currently available.
+      </div>
+    );
+  }
 
   render() {
     return (
@@ -16,41 +64,9 @@ class ListApisPage extends Component {
           headerIcon='cogs'
           rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))} />
         <div className="spacer" />
-        <div className='col-lg-4 col-md-8'>
-          <ApiWidget
-            widgetStyle='info'
-            icon='line-chart'
-            count='1.0'
-            headerText='Share prices'
-            rating='4'
-            linkTo='/'
-            css='default-dark'
-            />
-        </div>
-        <div className='col-lg-4 col-md-8'>
-          <ApiWidget
-            widgetStyle='info'
-            icon='usd'
-            count='1.0'
-            headerText='Balances'
-            rating='5'
-            linkTo='/'
-            css='default-dark'
-            />
-        </div>
-        <div className='col-lg-4 col-md-8'>
-          <ApiWidget
-            widgetStyle='info'
-            icon='user'
-            count='1.0'
-            headerText='Accounts'
-            rating='3'
-            linkTo='/'
-            css='default-dark'
-            />
-        </div>
+        {this.renderList()}
         <div className='col-lg-12 col-md-8 explore-footer'>
-          There are currently <span className='teal'>3</span> apis available.
+          {this.getCount()}
         </div>
       </div>
     );
@@ -60,7 +76,11 @@ class ListApisPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    list: state.listapis.list,
+    isProcessing: state.listapis.isProcessing,
+    isSuccessful: state.listapis.isSuccessful,
+    errors: state.listapis.errors
   }
 };
 
-export default connect(mapStateToProps, {})(injectIntl(ListApisPage));
+export default connect(mapStateToProps, { load })(injectIntl(ListApisPage));
