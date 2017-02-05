@@ -1,8 +1,39 @@
-import * as t from './actionTypes';
+import * as a from './actionTypes';
+import * as apiMiddleware from '../../middleware/api';
+import { RequestType } from '../../middleware/api/model';
+
+const SUBMIT_NEW_API_URL = '';
+
+export function submitRequest(params) {
+  return {
+    type: a.SUBMIT,
+    params
+  };
+}
+
+export function submitError(params) {
+  return {
+    type: a.SUBMIT_FAILED,
+    params
+  };
+}
+
+export function submitSuccess(response) {
+  return dispatch => {
+    dispatch({
+      type: a.SUBMIT_SUCCESSFUL,
+      response
+    });
+  }
+}
 
 export function submitNewApi(params) {
-  return {
-    type: t.SUBMIT,
-    params
+  return dispatch => {
+    dispatch(apiMiddleware.createAction({
+        endpoint: SUBMIT_NEW_API_URL,
+        actionTypes: [a.SUBMIT, a.SUBMIT_SUCCESSFUL, a.SUBMIT_FAILED],
+        parameters: params,
+        httpRequestType: RequestType.POST
+      }));
   };
 };

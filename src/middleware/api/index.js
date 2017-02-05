@@ -51,6 +51,7 @@ function callGet(endpoint, parameters, schema) {
         resolve(normalize(json, schema));
       }).catch(error => {
         const message = error.response ? error.response.data : error.message;
+        console.log('ERROR', message);
         reject({ message });
       });
   });
@@ -82,6 +83,7 @@ function callPost(endpoint, parameters) {
 
 // Middleware that interprets actions with callInfo property specified
 const middleware = (store) => (next) => (action) => {
+
   // Don't do anything if the action is not for us, i.e. call next dispatch method
   if (action.type !== API_CALL || action.callInfo == null) {
     return next(action);

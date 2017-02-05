@@ -18,7 +18,8 @@ class AddApiPage extends Component {
       localApi: this.props.initialValues,
       generalPanelExpanded: true,
       definitionPanelExpanded: true,
-      policiesPanelExpanded: true
+      policiesPanelExpanded: true,
+      errors: null
     };
 
     this.toggleGeneralPanel = this.toggleGeneralPanel.bind(this);
@@ -28,6 +29,7 @@ class AddApiPage extends Component {
     this.renderActualComponent = this.renderActualComponent.bind(this);
     this.syncFrom = this.syncFrom.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.renderErrors = this.renderErrors.bind(this);
   }
 
   // setState() does not immediately mutate this.state but creates a pending state transition.
@@ -35,21 +37,26 @@ class AddApiPage extends Component {
   // There is no guarantee of synchronous operation of calls to setState and calls may be batched
   // for performance gains.
   componentWillReceiveProps(nextProps) {
-    // Here is where "initialvalues" name is misleading it actually returns what came out from the reducer
-    this.setState({
-      localApi: this.syncFrom(nextProps.initialValues)
+    // Here is where "initialvalues" name is misleading it actually returns what came out from the redux-form reducer
+    if (!nextProps || !nextProps.submitSucceeded) {
+      this.setState({
+        localApi: this.syncFrom(nextProps.initialValues)
+      }, function () {
+        //console.log("New values (componentWillReceiveProps): ", this.state.localApi);
+      });
     }
-      // , function () {
-      //   console.log("New values: ", this.state.localApi);
-      // }
-    );
+    if(nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      })
+    }
   }
 
   componentDidMount() {
     this.setState({
       localApi: this.syncFrom(this.props.initialValues)
     }, function () {
-      console.log("Current values", this.state.localApi);
+      //console.log("Current values (componentDidMount)", this.state.localApi);
     });
   }
 
@@ -61,12 +68,12 @@ class AddApiPage extends Component {
         .setContext(datasource.context || this.props.initialValues.context)
         .setVersion(datasource.version || this.props.initialValues.version)
         .setVisibility(datasource.visibility || this.props.initialValues.visibility)
-        .setDescription(datasource.description || this.props.initialValues.context)
-        .setTags(datasource.tags || this.props.initialValues.context)
-        .setApiEndpoint(datasource.api_endpoint || this.props.initialValues.context)
-        .setDocEndpoint(datasource.doc_endpoint || this.props.initialValues.context);
+        .setDescription(datasource.description || this.props.initialValues.description)
+        .setTags(datasource.tags || this.props.initialValues.tags)
+        .setApiEndpoint(datasource.api_endpoint || this.props.initialValues.api_endpoint)
+        .setDocEndpoint(datasource.doc_endpoint || this.props.initialValues.doc_endpoint);
     } else {
-      console.log("ERROR: values for sync. is null");
+      //console.log("ERROR: datasource for sync. is null");
     }
   }
 
@@ -74,6 +81,15 @@ class AddApiPage extends Component {
     // Sync local state from form values
     const api = this.syncFrom(values);
     this.props.submitNewApi(api);
+  }
+
+  renderErrors() {
+    if (this.state.errors) {
+      return (<div>
+        {this.state.errors}
+      </div>
+      );
+    }
   }
 
   toggleGeneralPanel() {
@@ -96,7 +112,7 @@ class AddApiPage extends Component {
         componentClass={type === 'textarea' || type === 'select' ? type : 'input'}
         {...input}
         placeholder={placeholder}
-        />
+      />
     );
   }
 
@@ -143,7 +159,7 @@ class AddApiPage extends Component {
                 label='Version'
                 placeholder='e.g. 1.0.0'
                 component={this.renderField}
-                />
+              />
               <Field
                 type='text'
                 name='visibility'
@@ -160,7 +176,7 @@ class AddApiPage extends Component {
                 size={8}
                 component={this.renderField}
                 placeholder='High level description of the API'
-                />
+              />
             </Row>
             <Row className="form-group">
               <Field
@@ -170,7 +186,7 @@ class AddApiPage extends Component {
                 size={8}
                 component={this.renderField}
                 placeholder='e.g. share prices, options, futures'
-                />
+              />
             </Row>
           </Panel>
           <Panel collapsible defaultExpanded header='API definition' onSelect={this.toggleDefinitionPanel} expanded={this.state.definitionPanelExpanded} >
@@ -182,7 +198,7 @@ class AddApiPage extends Component {
                 size={8}
                 component={this.renderField}
                 placeholder='e.g. http://www.example.com/sharePrices'
-                />
+              />
             </Row>
             <Row className="form-group">
               <Field
@@ -192,7 +208,7 @@ class AddApiPage extends Component {
                 size={8}
                 component={this.renderField}
                 placeholder='e.g. http://www.example.com/sharePrices/swagger-ui'
-                />
+              />
             </Row>
           </Panel>
           <Panel collapsible defaultExpanded header='Policies' onSelect={this.togglePoliciesPanel} expanded={this.state.policiesPanelExpanded} >
@@ -200,6 +216,7 @@ class AddApiPage extends Component {
               Default policies will be enabled.
                 </Col>
           </Panel>
+          {this.renderErrors()}
           <div className='button-area'>
             <FormGroup>
               <Col>
@@ -264,13 +281,15 @@ export const validate = (values) => {
 const mapStateToProps = (state) => {
   return {
     // this is REALLY misleading, it should be called valuesFromState or something similar
-    initialValues: state.addapi.api
+    initialValues: state.addapi.api,
+    isSuccessful: state.addapi.isSuccessful,
+    errors: state.addapi.errors
   }
 };
 
 export const AddApiCreateForm = reduxForm({
-  form: 'addApiForm',
-  validate
+  form: 'addApiForm'
+  //validate
 })(AddApiPage);
 
 export default connect(mapStateToProps, { submitNewApi })(injectIntl(AddApiCreateForm));

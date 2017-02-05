@@ -6,5 +6,6 @@ export const RequestType = {
   POST: 'POST',
   DELETE: 'POST',
   UPDATE: 'UPDATE',
+  PATCH: 'PATCH',
   REDIRECT: 'REDIRECT'
 };

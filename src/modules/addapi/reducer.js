@@ -15,14 +15,25 @@ class State extends StateRecord {
 const INITIAL_STATE = new State();
 
 export default function (state = INITIAL_STATE, action) {
+  const { parameters, errorMessage } = action;
   switch (action.type) {
     case types.SUBMIT:
-      const { params } = action;
       return state
         .set('isProcessing', true)
+        .set('errors', null)
         .update('api', (values) =>
-          params
-        )
+          parameters
+        );
+    case types.SUBMIT_SUCCESSFUL:
+      return state
+        .set('isProcessing', false)
+        .set('isSuccessful', true)
+        .set('errors', null);
+    case types.SUBMIT_FAILED:
+      return state
+        .set('isProcessing', false)
+        .set('isSuccessful', false)
+        .set('errors', errorMessage);
     default:
       return state;
   }
