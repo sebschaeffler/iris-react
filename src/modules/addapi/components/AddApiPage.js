@@ -46,7 +46,7 @@ class AddApiPage extends Component {
         //console.log("New values (componentWillReceiveProps): ", this.state.localApi);
       });
     }
-    if(nextProps.errors) {
+    if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors
       })
@@ -218,24 +218,22 @@ class AddApiPage extends Component {
                 </Col>
           </Panel>
           {this.renderErrors()}
-          <div className='button-area'>
-            <FormGroup>
-              <Col>
-                <Button
-                  className='default-submit-button'
-                  type='submit'
-                  disabled={this.props.pristine || this.props.submitting}>
-                  <FormattedMessage id={Keys.BUTTON_CREATE} />
-                </Button>
-                <Button
-                  className='query-reset'
-                  type='button'
-                  onClick={this.props.reset}
-                  disabled={this.props.pristine || this.props.submitting}>
-                  <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
-                </Button>
-              </Col>
-            </FormGroup>
+          <div className='button-left'>
+            <Col>
+              <Button
+                className='default-submit-button'
+                type='submit'
+                disabled={this.props.pristine || this.props.submitting}>
+                <FormattedMessage id={Keys.BUTTON_CREATE} />
+              </Button>
+              <Button
+                className='query-reset'
+                type='button'
+                onClick={this.props.reset}
+                disabled={this.props.pristine || this.props.submitting}>
+                <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
+              </Button>
+            </Col>
           </div>
         </Form>
       </div >
@@ -267,9 +265,7 @@ export const validate = (values) => {
     errors.api_endpoint = 'A valid URI is expected: e.g. http(s)://domain_name/endpoint';
   }
 
-  if (!values.doc_endpoint || values.doc_endpoint.trim() === '') {
-    errors.doc_endpoint = 'Documentation endpoint is required';
-  } else if (!values.doc_endpoint.match(urlRegExp)) {
+  if (values.doc_endpoint && values.doc_endpoint.trim() !== '' && !values.doc_endpoint.match(urlRegExp)) {
     errors.doc_endpoint = 'A valid URI is expected: e.g. http(s)://domain_name/endpoint';
   }
 

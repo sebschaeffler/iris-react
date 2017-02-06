@@ -1,7 +1,18 @@
-import * as t from './actionTypes';
+import * as a from './actionTypes';
+import * as apiMiddleware from '../../middleware/api';
+import { RequestType } from '../../middleware/api/model';
+import { Schemas } from '../../normalizer';
 
-export function load() {
-  return {
-    type: t.LOAD
+const API_URL = 'api';
+
+export function load(params) {
+  return dispatch => {
+    dispatch(apiMiddleware.createAction({
+        endpoint: API_URL,
+        actionTypes: [a.LOAD, a.LOAD_SUCCESS, a.LOAD_ERROR],
+        parameters: params,
+        schema: Schemas.API_ARRAY,
+        httpRequestType: RequestType.GET
+      }));
   };
 };

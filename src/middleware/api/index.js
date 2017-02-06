@@ -32,8 +32,8 @@ function filterNil(jsonObject) {
  * @returns {Promise}         The promise backing the request
  */
 function callGet(endpoint, parameters, schema) {
-  const queryParams = filterNil(parameters);
-  const url = `${ROOT_URL}/${endpoint}`;
+  const queryParams = parameters === null ? null : filterNil(parameters);
+  let url = `${ROOT_URL}/${endpoint}`;
 
   let request;
   if (queryParams === null) {
@@ -96,7 +96,7 @@ const middleware = (store) => (next) => (action) => {
   if (typeof endpoint !== 'string') {
     throw new Error('Specify a string endpoint URL.')
   }
-  if (!schema && !httpRequestType) {
+  if (!schema && (!httpRequestType || httpRequestType === RequestType.GET)) {
     throw new Error('Specify one of the exported Schemas')
   }
   if (!Array.isArray(actionTypes) || (httpRequestType !== RequestType.REDIRECT && actionTypes.length !== 3)) {

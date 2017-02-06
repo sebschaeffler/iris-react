@@ -1,2 +1,2 @@
-export const LOAD='addapi/LOAD';
-export const SUBMIT='addapi/SUBMIT';
+export const LOAD='subscriptions/LOAD';
+export const SUBMIT='subscriptions/SUBMIT';

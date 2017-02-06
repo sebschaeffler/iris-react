@@ -5,7 +5,7 @@ import i18n from './modules/i18n';
 import addApiReducer from './modules/addapi/reducer';
 import appsReducer from './modules/apps/reducer';
 import listapisReducer from './modules/listapis/reducer';
-import subscriptionsReducer from './modules/listapis/reducer';
+import subscriptionsReducer from './modules/subscriptions/reducer';
 
 const rootReducer = combineReducers({
   addapi: addApiReducer,

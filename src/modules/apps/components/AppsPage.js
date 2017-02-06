@@ -7,6 +7,15 @@ import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
 
 class AppsPage extends Component {
 
+  constructor(props) {
+    super(props);
+    this.createNewApp = this.createNewApp.bind(this);
+  }
+
+  createNewApp() {
+
+  }
+
   render() {
     return (
       <div className='page-wrapper content'>
@@ -15,14 +24,10 @@ class AppsPage extends Component {
           headerIcon='list'
           rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))} />
         <div className="spacer" />
-
-        <div className='col-lg-12 col-md-8 explore-footer'>
-          There are currently <span className='teal'>0</span> application(s).
-        </div>
+        {this.props.children}
       </div>
     );
   }
-
 }
 
 const mapStateToProps = (state) => {

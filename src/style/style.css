@@ -813,8 +813,12 @@ table.dataTable thead .sorting:after {
   font-size: 1.2em;
 }
 
-.button-area {
+.button-center {
   text-align: center;
+}
+
+.button-left {
+  margin: 20px 0 20px 13px;
 }
 
 .default-submit-button[disabled], .default-submit-button[disabled]:hover {
@@ -866,4 +870,8 @@ table.dataTable thead .sorting:after {
 
 .no-margin-bottom {
   margin-bottom: 0;
+}
+
+.button-text {
+  padding-left: 15px;
 }

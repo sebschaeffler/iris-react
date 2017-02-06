@@ -15,7 +15,10 @@ const getRoutes = (store) => {
       <Route path="dashboard" component={dashboard.components.DashboardPage} />
       <Route path="addapi" component={addapi.components.AddApiPage} />
       <Route path="explore" component={listapis.components.ListApisPage} />
-      <Route path="myapps" component={apps.components.AppsPage} />
+      <Route component={apps.components.AppsPage}>
+        <Route path="appslist" component={apps.components.AppsListPage} />
+        <Route path="newapp" component={apps.components.AppsCreatePage} />
+      </Route>
       <Route path="mysubscriptions" component={subscriptions.components.SubscriptionsPage} />
     </Route>
   );

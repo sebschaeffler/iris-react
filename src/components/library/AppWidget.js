@@ -3,18 +3,7 @@ import { Panel } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Link } from 'react-router';
 
-const MAX_STARS = 5;
-
-function _displayRating(rating) {
-  var result = [];
-  while (result.length < MAX_STARS) {
-    const icon = result.length < rating ? 'star' : 'star-o';
-    result.push(<span key={result.length} className='widget-rating-icon'><FontAwesome name={icon} /></span>);
-  }
-  return result;
-}
-
-const ApiWidget = (props) => {
+const AppWidget = (props) => {
   const icon = 'pull-right '.concat(props.css);
 
   return (
@@ -32,9 +21,6 @@ const ApiWidget = (props) => {
       }
       footer={
         <Link to={props.linkTo}>
-          <span className='widget-star'>
-            {_displayRating(props.rating)}
-          </span>
           <span className={icon}><FontAwesome name='arrow-circle-o-right' /></span>
           <div className='clearfix'></div>
         </Link>
@@ -44,4 +30,4 @@ const ApiWidget = (props) => {
 
 }
 
-export default ApiWidget;
+export default AppWidget;

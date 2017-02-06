@@ -2,7 +2,7 @@ import * as a from './actionTypes';
 import * as apiMiddleware from '../../middleware/api';
 import { RequestType } from '../../middleware/api/model';
 
-const SUBMIT_NEW_API_URL = '';
+const API_URL = 'api';
 
 export function submitRequest(params) {
   return {
@@ -30,7 +30,7 @@ export function submitSuccess(response) {
 export function submitNewApi(params) {
   return dispatch => {
     dispatch(apiMiddleware.createAction({
-        endpoint: SUBMIT_NEW_API_URL,
+        endpoint: API_URL,
         actionTypes: [a.SUBMIT, a.SUBMIT_SUCCESS, a.SUBMIT_ERROR],
         parameters: params,
         httpRequestType: RequestType.POST

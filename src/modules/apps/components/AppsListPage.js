@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import PageHeader from '../../../components/library/PageHeader';
 import { FormGroup, Col, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
-import ApiWidget from '../../../components/library/ApiWidget';
-import msg, { Keys } from './ListApisPage_messages';
-import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
+import AppWidget from '../../../components/library/ApiWidget';
+import { Keys } from './AppsPage_messages';
+import { Keys as AppKeys } from '../../../i18n/keys';
+import { Link } from 'react-router';
 import { load } from '../actions';
-//import { getQueryResults } from '../selectors';
 
-class ListApisPage extends Component {
+class AppsListPage extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      localList: this.props.list
-    };
+      list: []
+    }
 
     this.renderList = this.renderList.bind(this);
     this.buildParams = this.buildParams.bind(this);
@@ -54,10 +53,10 @@ class ListApisPage extends Component {
       return listapis.getList().map((item) => {
         return (
           <div className='col-lg-4 col-md-8' key={item.getId()}>
-            <ApiWidget
+            <AppWidget
               widgetStyle='info'
               icon='line-chart'
-              count={item.getNumberOfUsers() + ' consumers'}
+              count=''
               headerText={item.getName()}
               rating={item.getRating()}
               linkTo={'/api/' + item.getId()}
@@ -70,33 +69,44 @@ class ListApisPage extends Component {
   }
 
   getCount() {
-    const listapis = this.props.list;
-    if (listapis && listapis.getList() && listapis.getList().length > 0) {
+    const listapps = this.props.list;
+    if (listapps && listapps.getList() && listapps.getList().length > 0) {
       return (
         <div>
-          <span>There {listapis.getList().length > 1 ? 'are' : 'is'} currently </span>
-          <span className='teal'>{listapis.getList().length}</span>
-          <span> api{listapis.getList().length > 1 ? 's' : ''} available.</span>
+          <span>There {listapps.getList().length > 1 ? 'are' : 'is'} currently </span>
+          <span className='teal'>{listapps.getList().length}</span>
+          <span> application{listapps.getList().length > 1 ? 's' : ''} available.</span>
         </div>
       );
     }
     return (
       <div>
-        No apis are currently available.
+        No application has been registered yet.
       </div>
     );
   }
 
   render() {
     return (
-      <div className='page-wrapper content'>
-        <PageHeader
-          title={this.props.intl.formatMessage(msg(Keys.SECTIONS_LIST_APIS_TITLE))}
-          headerIcon='cogs'
-          rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))} />
-        <div className="spacer" />
+      <div>
+        <div className='button-left'>
+          <FormGroup>
+            <Col>
+              <Link to='/newapp'>
+                <Button
+                  className='default-submit-button'
+                  type='submit'>
+                  <FontAwesome name='plus' />
+                  <span className="button-text">
+                    <FormattedMessage id={Keys.BUTTON_CREATE} />
+                  </span>
+                </Button>
+              </Link>
+            </Col>
+          </FormGroup>
+        </div>
         {this.renderList()}
-        <div className='col-lg-12 col-md-8 explore-footer'>
+        <div className='col-lg-12 col-md-8'>
           {this.getCount()}
         </div>
         <div className='button-center'>
@@ -105,7 +115,8 @@ class ListApisPage extends Component {
               <Button
                 className='default-submit-button'
                 type='submit'
-                onClick={this.refresh}>
+                onClick={this.refresh}
+                disabled={this.props.pristine || this.props.submitting}>
                 <FontAwesome name='refresh' />
                 <span className="button-text">
                   <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />
@@ -114,19 +125,17 @@ class ListApisPage extends Component {
             </Col>
           </FormGroup>
         </div>
-      </div >
+      </div>
     );
   }
-
 }
 
 const mapStateToProps = (state) => {
   return {
-    list: state.listapis.list,
-    isProcessing: state.listapis.isProcessing,
-    isSuccessful: state.listapis.isSuccessful,
-    errors: state.listapis.errors
+    list: state.apps.list,
+    isProcessing: state.apps.isProcessing,
+    errors: state.apps.errors
   }
 };
 
-export default connect(mapStateToProps, { load })(injectIntl(ListApisPage));
+export default connect(mapStateToProps, { load })(injectIntl(AppsListPage));

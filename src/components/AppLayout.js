@@ -65,7 +65,7 @@ export default class AppLayout extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to='/myapps'><div className='sidebar-icon'><FontAwesome name='list' /></div> &nbsp;
+                  <Link to='/appslist'><div className='sidebar-icon'><FontAwesome name='list' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_MY_APPLICATIONS} />
                   </Link>
                 </li>

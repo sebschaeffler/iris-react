@@ -1,11 +1,11 @@
 import { Schema, arrayOf } from 'normalizr';
 
-const balanceSchema = new Schema('balances', { idAttribute: 'id' });
-const accountSchema = new Schema('accounts', { idAttribute: 'id' });
+const apiSchema = new Schema('apis', { idAttribute: 'id' });
+const appSchema = new Schema('apps', { idAttribute: 'id' });
 
 export const Schemas = {
-  BALANCE: balanceSchema,
-  BALANCE_ARRAY: arrayOf(balanceSchema),
-  ACCOUNTS: accountSchema,
-  ACCOUNT_ARRAY: arrayOf(accountSchema)
+  API: apiSchema,
+  API_ARRAY: arrayOf(apiSchema),
+  APP: appSchema,
+  APP_ARRAY: arrayOf(appSchema)
 };
