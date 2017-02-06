@@ -27,8 +27,8 @@ Open your browser and type:
 
 # Mock server
 
-The actual server isstill a work-in-progress. In the meantime a mock server has been implemented:
+The actual server is still a work-in-progress.
 
-`https://github.com/bidispot/iris-be-mock`
+In the meantime a [mock server](https://github.com/bidispot/iris-be-mock) has been implemented:
 
-The current implementation of iris-rect expects this mock server to runat port 3100.
+The current implementation of iris-rect expects this mock server to run at port 3100.
