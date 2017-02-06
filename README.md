@@ -24,3 +24,11 @@ Launch the node server:
 Open your browser and type:
 
 `http://localhost:3000/`
+
+# Mock server
+
+The actual server isstill a work-in-progress. In the meantime a mock server has been implemented:
+
+`https://github.com/bidispot/iris-be-mock`
+
+The current implementation of iris-rect expects this mock server to runat port 3100.
