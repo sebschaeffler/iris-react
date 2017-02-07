@@ -818,7 +818,18 @@ table.dataTable thead .sorting:after {
 }
 
 .button-left {
-  margin: 20px 0 20px 13px;
+  margin-left: 13px ;
+  float: left;
+}
+
+.button-right {
+  float: right;
+}
+
+.workarea {
+  width: 100%;
+  height: 100%;
+  float: right;
 }
 
 .default-submit-button[disabled], .default-submit-button[disabled]:hover {

@@ -95,11 +95,7 @@ class ListApisPage extends Component {
           headerIcon='cogs'
           rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))} />
         <div className="spacer" />
-        {this.renderList()}
-        <div className='col-lg-12 col-md-8 explore-footer'>
-          {this.getCount()}
-        </div>
-        <div className='button-center'>
+        <div className='button-right'>
           <FormGroup>
             <Col>
               <Button
@@ -114,6 +110,13 @@ class ListApisPage extends Component {
             </Col>
           </FormGroup>
         </div>
+        <div className="workarea">
+          {this.renderList()}
+          <div className='col-lg-12 col-md-8 explore-footer'>
+            {this.getCount()}
+          </div>
+        </div>
+
       </div >
     );
   }

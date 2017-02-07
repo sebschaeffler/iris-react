@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { FormGroup, Col, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
-import AppWidget from '../../../components/library/ApiWidget';
+import AppWidget from '../../../components/library/AppWidget';
 import { Keys } from './AppsPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
 import { Link } from 'react-router';
@@ -58,7 +58,6 @@ class AppsListPage extends Component {
               icon='line-chart'
               count=''
               headerText={item.getName()}
-              rating={item.getRating()}
               linkTo={'/api/' + item.getId()}
               css='default-dark'
             />
@@ -89,41 +88,42 @@ class AppsListPage extends Component {
   render() {
     return (
       <div>
-        <div className='button-left'>
-          <FormGroup>
-            <Col>
-              <Link to='/newapp'>
-                <Button
-                  className='default-submit-button'
-                  type='submit'>
-                  <FontAwesome name='plus' />
-                  <span className="button-text">
-                    <FormattedMessage id={Keys.BUTTON_CREATE} />
-                  </span>
-                </Button>
-              </Link>
-            </Col>
-          </FormGroup>
-        </div>
-        {this.renderList()}
-        <div className='col-lg-12 col-md-8'>
-          {this.getCount()}
-        </div>
-        <div className='button-center'>
-          <FormGroup>
+        <div>
+          <div className='button-left'>
+            <FormGroup>
+              <Col>
+                <Link to='/newapp'>
+                  <Button
+                    className='default-submit-button'
+                    type='submit'>
+                    <FontAwesome name='plus' />
+                    <span className="button-text">
+                      <FormattedMessage id={Keys.BUTTON_CREATE} />
+                    </span>
+                  </Button>
+                </Link>
+              </Col>
+            </FormGroup>
+          </div>
+          <div className='button-right'>
             <Col>
               <Button
                 className='default-submit-button'
                 type='submit'
-                onClick={this.refresh}
-                disabled={this.props.pristine || this.props.submitting}>
+                onClick={this.refresh}>
                 <FontAwesome name='refresh' />
                 <span className="button-text">
                   <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />
                 </span>
               </Button>
             </Col>
-          </FormGroup>
+          </div>
+        </div>
+        <div className="workarea">
+          {this.renderList()}
+          <div className='col-lg-12 col-md-8 explore-footer'>
+            {this.getCount()}
+          </div>
         </div>
       </div>
     );

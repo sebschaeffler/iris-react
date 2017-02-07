@@ -70,7 +70,7 @@ export default class AppLayout extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to='/mysubscriptions'><div className='sidebar-icon'><FontAwesome name='pencil' /></div> &nbsp;
+                  <Link to='/subscriptionslist'><div className='sidebar-icon'><FontAwesome name='pencil' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_MY_SUBSCRIPTIONS} />
                   </Link>
                 </li>

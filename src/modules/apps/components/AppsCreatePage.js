@@ -89,34 +89,60 @@ class AppsCreatePage extends Component {
             </Col>
           </FormGroup>
         </div>
-        <Form horizontal onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <Row className="form-group">
-            <Field
-              type='text'
-              name='name'
-              label='Name'
-              placeholder='Name'
-              component={this.renderField} />
-          </Row>
-          {this.renderErrors()}
-          <div className='button-left'>
-            <Col>
-              <Button
-                className='default-submit-button'
-                type='submit'
-                disabled={this.props.pristine || this.props.submitting}>
-                <FormattedMessage id={Keys.BUTTON_SUBMIT} />
-              </Button>
-              <Button
-                className='query-reset'
-                type='button'
-                onClick={this.props.reset}
-                disabled={this.props.pristine || this.props.submitting}>
-                <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
-              </Button>
-            </Col>
-          </div>
-        </Form>
+        <div className="workarea">
+          <Form horizontal onSubmit={this.props.handleSubmit(this.onSubmit)}>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='name'
+                label='Name'
+                placeholder='Name'
+                component={this.renderField} />
+            </Row>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='name'
+                label='Blu'
+                placeholder='Blue'
+                component={this.renderField} />
+            </Row>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='name'
+                label='Bla'
+                placeholder='Bla'
+                component={this.renderField} />
+            </Row>
+            <Row className="form-group">
+              <Field
+                type='text'
+                name='name'
+                label='Foo'
+                placeholder='Foo'
+                component={this.renderField} />
+            </Row>
+            {this.renderErrors()}
+            <div className='button-left'>
+              <Col>
+                <Button
+                  className='default-submit-button'
+                  type='submit'
+                  disabled={this.props.pristine || this.props.submitting}>
+                  <FormattedMessage id={Keys.BUTTON_SUBMIT} />
+                </Button>
+                <Button
+                  className='query-reset'
+                  type='button'
+                  onClick={this.props.reset}
+                  disabled={this.props.pristine || this.props.submitting}>
+                  <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
+                </Button>
+              </Col>
+            </div>
+          </Form>
+        </div>
       </div>
     );
   }

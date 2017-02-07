@@ -21,6 +21,7 @@ const AppWidget = (props) => {
       }
       footer={
         <Link to={props.linkTo}>
+          <span>Click here to open the details</span>
           <span className={icon}><FontAwesome name='arrow-circle-o-right' /></span>
           <div className='clearfix'></div>
         </Link>

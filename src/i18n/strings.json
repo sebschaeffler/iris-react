@@ -2,7 +2,6 @@
   "en": {
     "addapi.shareprices.placeholder": "e.g. Share Prices",
     "addapi.buttons.save": "Save",
-    "apps.buttons.save": "Save",
     "app.title": "Developer portal",
     "app.pages.dashboard": "Dashboard",
     "app.pages.apilist": "Explore APIs",
@@ -37,14 +36,17 @@
     "listapis.sections.title": "Explore APIs",
     "listapis.buttons.refresh": "Refresh",
     "apps.sections.title": "My application",
-    "subscriptions.sections.title": "My subscriptions",
     "apps.buttons.create": "New application",
-    "apps.buttons.back": "Back to application list"
+    "apps.buttons.back": "Back to application list",
+    "apps.buttons.save": "Save",
+    "subscriptions.sections.title": "My subscriptions",
+    "subscriptions.buttons.create": "New subscription",
+    "subscriptions.buttons.back": "Back to subscriptions list",
+    "subscriptions.buttons.save": "Save"
   },
   "fr": {
     "addapi.shareprices.placeholder": "e.g. Cours des actions",
     "addapi.buttons.save": "Enregistrer",
-    "apps.buttons.save": "Enregistrer",
     "app.title": "Portail développeur",
     "app.pages.dashboard": "Dashboard",
     "app.pages.apilist": "Parcourir les APIs",
@@ -79,8 +81,12 @@
     "listapis.sections.title": "Explorer les APIs",
     "listapis.buttons.refresh": "Rafraîchir",
     "apps.sections.title": "Mes applications",
-    "subscriptions.sections.title": "Mes abonnements",
     "apps.buttons.create": "Nouvelle application",
-    "apps.buttons.back": "Retour à la liste d'applications"
+    "apps.buttons.back": "Retour à la liste d'applications",
+    "apps.buttons.save": "Enregistrer",
+    "subscriptions.sections.title": "Mes abonnements",
+    "subscriptions.buttons.create": "New subscription",
+    "subscriptions.buttons.back": "Retour à la liste d'abonnements",
+    "subscriptions.buttons.save": "Enregistrer"
   }
 }

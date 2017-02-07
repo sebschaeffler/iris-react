@@ -1,12 +1,15 @@
 import { Record } from 'immutable';
 
 export class App extends Record({
+  id: '',
   name: '',
 })
 {
+  getId() { return this.get('id'); }
+  setId(id) { return this.set('id', id); }
+
   getName() { return this.get('name'); }
   setName(name) { return this.set('name', name); }
-
 };
 
 export class Apps extends Record({

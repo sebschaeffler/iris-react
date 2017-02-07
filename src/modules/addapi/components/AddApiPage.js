@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Panel, Form, FormGroup, FormControl, Col, ControlLabel, Button, Row } from 'react-bootstrap';
+import { Panel, Form, FormControl, Col, ControlLabel, Button, Row } from 'react-bootstrap';
 import PageHeader from '../../../components/library/PageHeader';
 import msg, { Keys } from './AddApiPage_messages';
 import appMsg, { Keys as AppKeys } from '../../../i18n/keys';

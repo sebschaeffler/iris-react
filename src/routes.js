@@ -19,7 +19,10 @@ const getRoutes = (store) => {
         <Route path="appslist" component={apps.components.AppsListPage} />
         <Route path="newapp" component={apps.components.AppsCreatePage} />
       </Route>
-      <Route path="mysubscriptions" component={subscriptions.components.SubscriptionsPage} />
+      <Route component={subscriptions.components.SubscriptionsPage}>
+        <Route path="subscriptionslist" component={subscriptions.components.SubscriptionsListPage} />
+        <Route path="newsubscription" component={subscriptions.components.SubscriptionsCreatePage} />
+      </Route>
     </Route>
   );
 };

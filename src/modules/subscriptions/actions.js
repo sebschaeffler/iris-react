@@ -1,14 +1,29 @@
-import * as t from './actionTypes';
+import * as a from './actionTypes';
+import * as apiMiddleware from '../../middleware/api';
+import { RequestType } from '../../middleware/api/model';
+import { Schemas } from '../../normalizer';
 
-export function load() {
-  return {
-    type: t.LOAD
+const SUBSCRIPTION_URL = 'subscription';
+
+export function load(params) {
+  return dispatch => {
+    dispatch(apiMiddleware.createAction({
+        endpoint: SUBSCRIPTION_URL,
+        actionTypes: [a.LOAD, a.LOAD_SUCCESS, a.LOAD_ERROR],
+        parameters: params,
+        schema: Schemas.SUBSCRIPTION_ARRAY,
+        httpRequestType: RequestType.GET
+      }));
   };
 };
 
-export function submit(params) {
-  return {
-    type: t.SUBMIT,
-    params
+export function submitNewApp(params) {
+  return dispatch => {
+    dispatch(apiMiddleware.createAction({
+        endpoint: SUBSCRIPTION_URL,
+        actionTypes: [a.SUBMIT, a.SUBMIT_SUCCESS, a.SUBMIT_ERROR],
+        parameters: params,
+        httpRequestType: RequestType.POST
+      }));
   };
 };

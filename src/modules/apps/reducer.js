@@ -14,6 +14,8 @@ class State extends StateRecord {
 
 const INITIAL_STATE = new State();
 
+INITIAL_STATE.get('list').add(new App().setId(1).setName("Kewl App"));
+
 export default function (state = INITIAL_STATE, action) {
   const { response, errorMessage } = action;
   switch (action.type) {
