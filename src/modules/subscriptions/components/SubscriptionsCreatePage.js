@@ -115,14 +115,6 @@ class SubscriptionsCreatePage extends Component {
                 placeholder='Bla'
                 component={this.renderField} />
             </Row>
-            <Row className="form-group">
-              <Field
-                type='text'
-                name='name'
-                label='Foo'
-                placeholder='Foo'
-                component={this.renderField} />
-            </Row>
             {this.renderErrors()}
             <div className='button-left'>
               <Col>

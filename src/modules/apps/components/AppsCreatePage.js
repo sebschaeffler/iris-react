@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Form, FormGroup, FormControl, Col, ControlLabel, Button, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Keys } from './AppsPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
-import { Link } from 'react-router';
 import { submitNewApp } from '../actions';
 
 class AppsCreatePage extends Component {
@@ -97,30 +97,26 @@ class AppsCreatePage extends Component {
                 name='name'
                 label='Name'
                 placeholder='Name'
+                size={8}
                 component={this.renderField} />
             </Row>
             <Row className="form-group">
               <Field
-                type='text'
-                name='name'
-                label='Blu'
-                placeholder='Blue'
-                component={this.renderField} />
+                type='textarea'
+                name='description'
+                label='Description'
+                size={8}
+                component={this.renderField}
+                placeholder='Description of the application'
+              />
             </Row>
             <Row className="form-group">
               <Field
                 type='text'
-                name='name'
-                label='Bla'
-                placeholder='Bla'
-                component={this.renderField} />
-            </Row>
-            <Row className="form-group">
-              <Field
-                type='text'
-                name='name'
-                label='Foo'
-                placeholder='Foo'
+                name='callback_url'
+                label='Callback URL'
+                size={8}
+                placeholder='http://www.example.com'
                 component={this.renderField} />
             </Row>
             {this.renderErrors()}

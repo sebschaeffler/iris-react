@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Panel, Form, FormControl, Col, ControlLabel, Button, Row } from 'react-bootstrap';
-import PageHeader from '../../../components/library/PageHeader';
-import msg, { Keys } from './AddApiPage_messages';
-import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
+import { Panel, Form, FormGroup, FormControl, Col, ControlLabel, Button, Row } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
+import msg, { Keys } from './ApisPage_messages';
+import { Keys as AppKeys } from '../../../i18n/keys';
 import Api from '../../../model/api';
 import { submitNewApi } from '../actions';
 
-class AddApiPage extends Component {
+class ApisCreatePage extends Component {
 
   constructor(props) {
     super(props);
@@ -134,109 +135,127 @@ class AddApiPage extends Component {
 
   render() {
     return (
-      <div className='page-wrapper content'>
-        <PageHeader title={this.props.intl.formatMessage(msg(Keys.SECTIONS_ADD_API_TITLE))} headerIcon='plus' rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))} />
-        <Form horizontal onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <Panel collapsible defaultExpanded header='General details' onSelect={this.toggleGeneralPanel} expanded={this.state.generalPanelExpanded} >
-            <Row className="form-group">
-              <Field
-                type='text'
-                name='name'
-                label='Name'
-                placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
-                component={this.renderField} />
-              <Field
-                type='text'
-                name='context'
-                label='Context'
-                staticValue={this.state.localApi.getContext()}
-                component={this.renderField}
-                disabled />
-            </Row>
-            <Row className="form-group">
-              <Field
-                type='text'
-                name='version'
-                label='Version'
-                placeholder='e.g. 1.0.0'
-                component={this.renderField}
-              />
-              <Field
-                type='text'
-                name='visibility'
-                label='Visibility'
-                staticValue={this.state.localApi.getVisibility()}
-                component={this.renderField}
-                disabled />
-            </Row>
-            <Row className="form-group">
-              <Field
-                type='textarea'
-                name='description'
-                label='Description'
-                size={8}
-                component={this.renderField}
-                placeholder='High level description of the API'
-              />
-            </Row>
-            <Row className="form-group">
-              <Field
-                type='text'
-                name='tags'
-                label='Tags'
-                size={8}
-                component={this.renderField}
-                placeholder='e.g. share prices, options, futures'
-              />
-            </Row>
-          </Panel>
-          <Panel collapsible defaultExpanded header='API definition' onSelect={this.toggleDefinitionPanel} expanded={this.state.definitionPanelExpanded} >
-            <Row className="form-group">
-              <Field
-                type='text'
-                name='api_endpoint'
-                label='Api endpoint'
-                size={8}
-                component={this.renderField}
-                placeholder='e.g. http://www.example.com/sharePrices'
-              />
-            </Row>
-            <Row className="form-group">
-              <Field
-                type='text'
-                name='doc_endpoint'
-                label='Documentation enpoint'
-                size={8}
-                component={this.renderField}
-                placeholder='e.g. http://www.example.com/sharePrices/swagger-ui'
-              />
-            </Row>
-          </Panel>
-          <Panel collapsible defaultExpanded header='Policies' onSelect={this.togglePoliciesPanel} expanded={this.state.policiesPanelExpanded} >
-            <Col componentClass={ControlLabel} sm={14}>
-              Default policies will be enabled.
-                </Col>
-          </Panel>
-          {this.renderErrors()}
-          <div className='button-left'>
+      <div>
+        <div className='button-left'>
+          <FormGroup>
             <Col>
-              <Button
-                className='default-submit-button'
-                type='submit'
-                disabled={this.props.pristine || this.props.submitting}>
-                <FormattedMessage id={Keys.BUTTON_CREATE} />
-              </Button>
-              <Button
-                className='query-reset'
-                type='button'
-                onClick={this.props.reset}
-                disabled={this.props.pristine || this.props.submitting}>
-                <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
-              </Button>
+              <Link to='/apislist'>
+                <Button
+                  className='default-submit-button'
+                  type='reset'
+                  onClick={this.cancel}>
+                  <FontAwesome name='arrow-left' />
+                  <span className="button-text">
+                    <FormattedMessage id={Keys.BUTTON_BACK_TO_LIST} />
+                  </span>
+                </Button>
+              </Link>
             </Col>
-          </div>
-        </Form>
-      </div >
+          </FormGroup>
+        </div>
+        <div className="workarea">
+          <Form horizontal onSubmit={this.props.handleSubmit(this.onSubmit)}>
+            <Panel collapsible defaultExpanded header='General details' onSelect={this.toggleGeneralPanel} expanded={this.state.generalPanelExpanded} >
+              <Row className="form-group">
+                <Field
+                  type='text'
+                  name='name'
+                  label='Name'
+                  placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
+                  component={this.renderField} />
+                <Field
+                  type='text'
+                  name='context'
+                  label='Context'
+                  staticValue={this.state.localApi.getContext()}
+                  component={this.renderField}
+                  disabled />
+              </Row>
+              <Row className="form-group">
+                <Field
+                  type='text'
+                  name='version'
+                  label='Version'
+                  placeholder='e.g. 1.0.0'
+                  component={this.renderField}
+                />
+                <Field
+                  type='text'
+                  name='visibility'
+                  label='Visibility'
+                  staticValue={this.state.localApi.getVisibility()}
+                  component={this.renderField}
+                  disabled />
+              </Row>
+              <Row className="form-group">
+                <Field
+                  type='textarea'
+                  name='description'
+                  label='Description'
+                  size={8}
+                  component={this.renderField}
+                  placeholder='High level description of the API'
+                />
+              </Row>
+              <Row className="form-group">
+                <Field
+                  type='text'
+                  name='tags'
+                  label='Tags'
+                  size={8}
+                  component={this.renderField}
+                  placeholder='e.g. share prices, options, futures'
+                />
+              </Row>
+            </Panel>
+            <Panel collapsible defaultExpanded header='API definition' onSelect={this.toggleDefinitionPanel} expanded={this.state.definitionPanelExpanded} >
+              <Row className="form-group">
+                <Field
+                  type='text'
+                  name='api_endpoint'
+                  label='Api endpoint'
+                  size={8}
+                  component={this.renderField}
+                  placeholder='e.g. http://www.example.com/sharePrices'
+                />
+              </Row>
+              <Row className="form-group">
+                <Field
+                  type='text'
+                  name='doc_endpoint'
+                  label='Documentation enpoint'
+                  size={8}
+                  component={this.renderField}
+                  placeholder='e.g. http://www.example.com/sharePrices/swagger-ui'
+                />
+              </Row>
+            </Panel>
+            <Panel collapsible defaultExpanded header='Policies' onSelect={this.togglePoliciesPanel} expanded={this.state.policiesPanelExpanded} >
+              <Col componentClass={ControlLabel} sm={14}>
+                Default policies will be enabled.
+                </Col>
+            </Panel>
+            {this.renderErrors()}
+            <div className='button-left'>
+              <Col>
+                <Button
+                  className='default-submit-button'
+                  type='submit'
+                  disabled={this.props.pristine || this.props.submitting}>
+                  <FormattedMessage id={Keys.BUTTON_SUBMIT} />
+                </Button>
+                <Button
+                  className='query-reset'
+                  type='button'
+                  onClick={this.props.reset}
+                  disabled={this.props.pristine || this.props.submitting}>
+                  <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
+                </Button>
+              </Col>
+            </div>
+          </Form>
+        </div >
+      </div>
     );
   }
 
@@ -278,15 +297,15 @@ export const validate = (values) => {
 const mapStateToProps = (state) => {
   return {
     // this is REALLY misleading, it should be called valuesFromState or something similar
-    initialValues: state.addapi.api,
-    isSuccessful: state.addapi.isSuccessful,
-    errors: state.addapi.errors
+    initialValues: state.apis.api,
+    isSuccessful: state.apis.isSuccessful,
+    errors: state.apis.errors
   }
 };
 
-export const AddApiCreateForm = reduxForm({
+export const ApisCreateForm = reduxForm({
   form: 'addApiForm'
   //validate
-})(AddApiPage);
+})(ApisCreatePage);
 
-export default connect(mapStateToProps, { submitNewApi })(injectIntl(AddApiCreateForm));
+export default connect(mapStateToProps, { submitNewApi })(injectIntl(ApisCreateForm));

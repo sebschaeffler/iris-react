@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import PageHeader from '../../../components/library/PageHeader';
+import { Link } from 'react-router';
 import { FormGroup, Col, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import ApiWidget from '../../../components/library/ApiWidget';
-import msg, { Keys } from './ListApisPage_messages';
-import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
+import { Keys } from './ApisPage_messages';
+import { Keys as AppKeys } from '../../../i18n/keys';
 import { load } from '../actions';
-//import { getQueryResults } from '../selectors';
 
-class ListApisPage extends Component {
+class ApisListPage extends Component {
 
   constructor(props) {
     super(props);
@@ -89,14 +88,25 @@ class ListApisPage extends Component {
 
   render() {
     return (
-      <div className='page-wrapper content'>
-        <PageHeader
-          title={this.props.intl.formatMessage(msg(Keys.SECTIONS_LIST_APIS_TITLE))}
-          headerIcon='cogs'
-          rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))} />
-        <div className="spacer" />
-        <div className='button-right'>
-          <FormGroup>
+      <div>
+        <div>
+          <div className='button-left'>
+            <FormGroup>
+              <Col>
+                <Link to='/newapi'>
+                  <Button
+                    className='default-submit-button'
+                    type='submit'>
+                    <FontAwesome name='plus' />
+                    <span className="button-text">
+                      <FormattedMessage id={Keys.BUTTON_CREATE} />
+                    </span>
+                  </Button>
+                </Link>
+              </Col>
+            </FormGroup>
+          </div>
+          <div className='button-right'>
             <Col>
               <Button
                 className='default-submit-button'
@@ -108,7 +118,7 @@ class ListApisPage extends Component {
                 </span>
               </Button>
             </Col>
-          </FormGroup>
+          </div>
         </div>
         <div className="workarea">
           {this.renderList()}
@@ -116,8 +126,7 @@ class ListApisPage extends Component {
             {this.getCount()}
           </div>
         </div>
-
-      </div >
+      </div>
     );
   }
 
@@ -125,11 +134,11 @@ class ListApisPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    list: state.listapis.list,
-    isProcessing: state.listapis.isProcessing,
-    isSuccessful: state.listapis.isSuccessful,
-    errors: state.listapis.errors
+    list: state.apis.list,
+    isProcessing: state.apis.isProcessing,
+    isSuccessful: state.apis.isSuccessful,
+    errors: state.apis.errors
   }
 };
 
-export default connect(mapStateToProps, { load })(injectIntl(ListApisPage));
+export default connect(mapStateToProps, { load })(injectIntl(ApisListPage));

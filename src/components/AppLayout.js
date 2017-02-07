@@ -55,15 +55,17 @@ export default class AppLayout extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to='/explore'><div className='sidebar-icon'><FontAwesome name='cogs' /></div> &nbsp;
+                  <Link to='/apislist'><div className='sidebar-icon'><FontAwesome name='cogs' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_EXPLORE_APIS} />
                   </Link>
                 </li>
+                {/*
                 <li>
                   <Link to='/addapi'><div className='sidebar-icon'><FontAwesome name='plus' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_ADD_NEW_API} />
                   </Link>
                 </li>
+                */}
                 <li>
                   <Link to='/appslist'><div className='sidebar-icon'><FontAwesome name='list' /></div> &nbsp;
                     <FormattedMessage id={AppKeys.PAGES_MY_APPLICATIONS} />
