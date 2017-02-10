@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form/immutable';
-//import { Link } from 'react-router';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Form, FormGroup, FormControl, Col, ControlLabel, Button, Row } from 'react-bootstrap';
+import { Form, FormGroup, Col, Button, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Keys } from './AppsPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
+import SField from '../../../components/library/SField';
 import { submitNewApp, load, resetApp, updateApp, deleteApp } from '../actions';
 import * as actions from '../actionTypes';
 import { App } from '../model';
@@ -22,8 +22,6 @@ class AppsCreatePage extends Component {
     };
 
     this.onAppSubmit = this.onAppSubmit.bind(this);
-    this.renderField = this.renderField.bind(this);
-    this.renderActualComponent = this.renderActualComponent.bind(this);
     this.renderErrors = this.renderErrors.bind(this);
     this.renderCreateActions = this.renderCreateActions.bind(this);
     this.renderDetailActions = this.renderDetailActions.bind(this);
@@ -50,7 +48,6 @@ class AppsCreatePage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log(nextProps);
     if (nextProps.currentAction === actions.UPDATE_SUCCESS || nextProps.currentAction === actions.DELETE_SUCCESS || nextProps.currentAction === actions.SUBMIT_SUCCESS) {
       this.redirectUser();
     }
@@ -84,37 +81,7 @@ class AppsCreatePage extends Component {
     });
   }
 
-  // Stateles
-  renderActualComponent(input, type, placeholder, staticValue) {
-    //console.log(this.props.initialValues.get(input.name))
-    return (
-      <FormControl
-        type={type}
-        componentClass={type === 'textarea' || type === 'select' ? type : 'input'}
-        //{...input}
-        value={input.value ? input.value : this.props.initialValues.get(input.name)}
-        //defaultValue={this.props.initialValues.get(input.name)}
-        onBlur={() => { }}
-        onChange={event => input.onChange(event.target.value)}
-        placeholder={placeholder}
-      />
-    );
-  }
 
-  //Should be stateless, i.e. no binding to 'this' to access the states (local or global)
-  renderField({ input, meta: { touched, error, warning }, label, size, type, placeholder, disabled, staticValue }) {
-    return (
-      <div className={(touched && error ? 'has-error' : '')}>
-        <Col componentClass={ControlLabel} sm={2}>
-          {label}
-        </Col>
-        <Col sm={size || 3} className={disabled ? 'form-control-static' : ''}>
-          {disabled ? staticValue : this.renderActualComponent(input, type, placeholder, staticValue)}
-          {touched && ((error && <span className={'help-block'} style={{ marginBottom: 0 }}>{error}</span>) || (warning && <span className={'help-block'}>{warning}</span>))}
-        </Col>
-      </div>
-    );
-  }
 
   renderErrors() {
     if (this.state.errors) {
@@ -222,7 +189,7 @@ class AppsCreatePage extends Component {
             name='id'
             label='Technical identifier'
             size={8}
-            component={this.renderField}
+            component={SField}
             staticValue={this.props.initialValues.getId()}
             disabled />
         </Row>
@@ -244,7 +211,7 @@ class AppsCreatePage extends Component {
                 label='Name'
                 placeholder='Name'
                 size={8}
-                component={this.renderField}
+                component={SField}
                 staticValue={this.props.initialValues.getName()}
                 disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
             </Row>
@@ -254,7 +221,7 @@ class AppsCreatePage extends Component {
                 name='description'
                 label='Description'
                 size={8}
-                component={this.renderField}
+                component={SField}
                 placeholder='Description of the application'
                 staticValue={this.props.initialValues.getDescription()}
                 disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
@@ -266,7 +233,7 @@ class AppsCreatePage extends Component {
                 label='Callback URL'
                 size={8}
                 placeholder='http://www.yourapi.com'
-                component={this.renderField}
+                component={SField}
                 staticValue={this.props.initialValues.getCallbackUrl()}
                 disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
             </Row>

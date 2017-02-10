@@ -54,7 +54,7 @@ export function updateApp(params) {
 
 export function deleteApp(params) {
   console.log(params);
-  if (params === null || !params.id || params.id === '') {
+  if (params === null || (!params.id && params.id !== 0) || params.id === '') {
     throw new Error("ERROR while deleting: 'id' is mandatory ", params);
   }
   return dispatch => {

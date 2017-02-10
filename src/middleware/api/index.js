@@ -66,7 +66,7 @@ function executeRequest(httpRequestType, endpoint, parameters, schema) {
           params
         });
       } else {
-        console.log("ERROR while updating, parameters cannot be null");
+        throw new Error("ERROR while updating, parameters cannot be null");
       }
       break;
     case RequestType.PUT:
@@ -75,7 +75,7 @@ function executeRequest(httpRequestType, endpoint, parameters, schema) {
           params
         });
       } else {
-        console.log("ERROR while updating, parameters cannot be null");
+        throw new Error("ERROR while updating, parameters cannot be null");
       }
       break;
     case RequestType.DELETE:
