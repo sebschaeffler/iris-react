@@ -58,7 +58,7 @@ class AppsListPage extends Component {
               icon='line-chart'
               count=''
               headerText={item.getName()}
-              linkTo={'/api/' + item.getId()}
+              linkTo={'/app/' + item.getId()}
               css='default-dark'
             />
           </div>

@@ -4,7 +4,7 @@ export const Keys = {
   SECTIONS_APPS_TITLE: 'apps.sections.title',
   BUTTON_CREATE: 'apps.buttons.create',
   BUTTON_BACK_TO_LIST: 'apps.buttons.back',
-  BUTTON_SUBMIT: 'apps.buttons.save',
+  BUTTON_SUBMIT: 'apps.buttons.save'
 }
 
 const _keys = {

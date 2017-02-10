@@ -5,7 +5,6 @@ export default class Api extends Record({
   technical_name: '',
   name: '',
   context: 'Clearstream Xact',
-  version: '',
   visibility: 'Public',
   thumbnail: null,
   description: '',
@@ -27,9 +26,6 @@ export default class Api extends Record({
 
   getContext() { return this.get('context'); }
   setContext(context) { return this.set('context', context); }
-
-  getVersion() { return this.get('version'); }
-  setVersion(version) { return this.set('version', version); }
 
   getVisibility() { return this.get('visibility'); }
   setVisibility(visibility) { return this.set('visibility', visibility); }

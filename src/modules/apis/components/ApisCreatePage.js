@@ -16,7 +16,7 @@ class ApisCreatePage extends Component {
     super(props);
 
     this.state = {
-      localApi: this.props.initialValues,
+      //localApi: this.props.initialValues,
       generalPanelExpanded: true,
       definitionPanelExpanded: true,
       policiesPanelExpanded: true,
@@ -28,7 +28,6 @@ class ApisCreatePage extends Component {
     this.togglePoliciesPanel = this.togglePoliciesPanel.bind(this);
     this.renderField = this.renderField.bind(this);
     this.renderActualComponent = this.renderActualComponent.bind(this);
-    this.syncFrom = this.syncFrom.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.renderErrors = this.renderErrors.bind(this);
   }
@@ -38,15 +37,6 @@ class ApisCreatePage extends Component {
   // There is no guarantee of synchronous operation of calls to setState and calls may be batched
   // for performance gains.
   componentWillReceiveProps(nextProps) {
-    // Here is where "initialvalues" name is misleading it actually returns what came out from
-    // the redux-form reducer
-    if (!nextProps || !nextProps.submitSucceeded) {
-      this.setState({
-        localApi: this.syncFrom(nextProps.initialValues)
-      }, function () {
-        //console.log("New values (componentWillReceiveProps): ", this.state.localApi);
-      });
-    }
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors
@@ -54,35 +44,8 @@ class ApisCreatePage extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({
-      localApi: this.syncFrom(this.props.initialValues)
-    }, function () {
-      //console.log("Current values (componentDidMount)", this.state.localApi);
-    });
-  }
-
-  syncFrom(datasource) {
-    //console.log("Datasource: ", datasource);
-    if (datasource) {
-      // update local state with new object built from source
-      return new Api().setName(datasource.name || this.props.initialValues.name)
-        .setContext(datasource.context || this.props.initialValues.context)
-        .setVersion(datasource.version || this.props.initialValues.version)
-        .setVisibility(datasource.visibility || this.props.initialValues.visibility)
-        .setDescription(datasource.description || this.props.initialValues.description)
-        .setTags(datasource.tags || this.props.initialValues.tags)
-        .setApiEndpoint(datasource.api_endpoint || this.props.initialValues.api_endpoint)
-        .setDocEndpoint(datasource.doc_endpoint || this.props.initialValues.doc_endpoint);
-    } else {
-      //console.log("ERROR: datasource for sync. is null");
-    }
-  }
-
   onSubmit(values) {
-    // Sync local state from form values
-    const api = this.syncFrom(values);
-    this.props.submitNewApi(api);
+    this.props.submitNewApi(new Api(values));
   }
 
   renderErrors() {
@@ -159,33 +122,39 @@ class ApisCreatePage extends Component {
               <Row className="form-group">
                 <Field
                   type='text'
-                  name='name'
-                  label='Name'
-                  placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
-                  component={this.renderField} />
-                <Field
-                  type='text'
                   name='context'
                   label='Context'
-                  staticValue={this.state.localApi.getContext()}
+                  size={2}
+                  staticValue={this.props.initialValues.getContext()}
+                  component={this.renderField}
+                  disabled />
+                <Field
+                  type='text'
+                  name='visibility'
+                  label='Visibility'
+                  size={2}
+                  staticValue={this.props.initialValues.getVisibility()}
                   component={this.renderField}
                   disabled />
               </Row>
               <Row className="form-group">
                 <Field
                   type='text'
-                  name='version'
-                  label='Version'
-                  placeholder='e.g. 1.0.0'
-                  component={this.renderField}
-                />
+                  name='name'
+                  label='Name'
+                  size={8}
+                  placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
+                  component={this.renderField} />
+              </Row>
+              <Row className="form-group">
                 <Field
                   type='text'
-                  name='visibility'
-                  label='Visibility'
-                  staticValue={this.state.localApi.getVisibility()}
+                  name='technical_name'
+                  label='Technical name'
+                  size={8}
+                  placeholder='e.g. share-prices (lowercase and hyphens are recommended)'
                   component={this.renderField}
-                  disabled />
+                />
               </Row>
               <Row className="form-group">
                 <Field
@@ -246,7 +215,7 @@ class ApisCreatePage extends Component {
                 </Button>
                 <Button
                   className='query-reset'
-                  type='button'
+                  type='reset'
                   onClick={this.props.reset}
                   disabled={this.props.pristine || this.props.submitting}>
                   <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
@@ -255,7 +224,7 @@ class ApisCreatePage extends Component {
             </div>
           </Form>
         </div >
-      </div>
+      </div >
     );
   }
 
@@ -296,7 +265,6 @@ export const validate = (values) => {
 
 const mapStateToProps = (state) => {
   return {
-    // this is REALLY misleading, it should be called valuesFromState or something similar
     initialValues: state.apis.api,
     isSuccessful: state.apis.isSuccessful,
     errors: state.apis.errors
@@ -304,7 +272,9 @@ const mapStateToProps = (state) => {
 };
 
 export const ApisCreateForm = reduxForm({
-  form: 'addApiForm'
+  form: 'addApiForm',
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
   //validate
 })(ApisCreatePage);
 

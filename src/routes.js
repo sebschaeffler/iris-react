@@ -19,6 +19,7 @@ const getRoutes = (store) => {
       <Route component={apps.components.AppsPage}>
         <Route path="appslist" component={apps.components.AppsListPage} />
         <Route path="newapp" component={apps.components.AppsCreatePage} />
+        <Route path="app/:id" component={apps.components.AppsCreatePage} />
       </Route>
       <Route component={subscriptions.components.SubscriptionsPage}>
         <Route path="subscriptionslist" component={subscriptions.components.SubscriptionsListPage} />

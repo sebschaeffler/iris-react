@@ -3,6 +3,8 @@ import { Record } from 'immutable';
 export class App extends Record({
   id: '',
   name: '',
+  description: '',
+  callback_url: ''
 })
 {
   getId() { return this.get('id'); }
@@ -10,6 +12,12 @@ export class App extends Record({
 
   getName() { return this.get('name'); }
   setName(name) { return this.set('name', name); }
+
+  getDescription() { return this.get('description'); }
+  setDescription(description) { return this.set('description', description); }
+
+  getCallbackUrl() { return this.get('callback_url'); }
+  setCallbackUrl(callback_url) { return this.set('callback_url', callback_url); }
 };
 
 export class Apps extends Record({
