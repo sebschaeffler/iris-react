@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
+import { reducer as formReducer } from 'redux-form/immutable';
 import errors from './modules/errors';
 import i18n from './modules/i18n';
 import appsReducer from './modules/apps/reducer';

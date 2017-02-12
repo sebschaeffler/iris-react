@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form/immutable';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Panel, Form, FormGroup, Col, ControlLabel, Button, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
@@ -57,6 +57,8 @@ class ApisCreatePage extends Component {
       // Explicitely reset state api values (redux-form only reset initialValues property)
       this.props.resetApi();
     }
+
+    this.props.reset();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -351,10 +353,10 @@ export const validate = (values) => {
     errors.name = 'Name is required';
   }
 
-  if (!values.version || values.version.trim() === '') {
-    errors.version = 'Version is required';
-  } else if (!values.version.match(/^\d+\.\d+$/)) {
-    errors.version = 'Version should respect the following pattern: {major_version}.{minor_version}, e.g. 1.0';
+  if (!values.technical_name || values.technical_name.trim() === '') {
+    errors.technical_name = 'Technical name is required';
+  } else if (!values.technical_name.match(/[a-z]/)) {
+    errors.technical_name = 'Technical name should be in lower case (and use hyphens if need be)';
   }
 
   if (!values.description || values.description.trim() === '') {
@@ -389,8 +391,8 @@ const mapStateToProps = (state) => {
 export const ApisCreateForm = reduxForm({
   form: 'apiForm',
   enableReinitialize: true,
-  keepDirtyOnReinitialize: true
-  //validate
+  keepDirtyOnReinitialize: true,
+  validate
 })(ApisCreatePage);
 
 export default connect(mapStateToProps, { submitNewApi, loadApi, resetApi, updateApi, deleteApi })(injectIntl(ApisCreateForm));
