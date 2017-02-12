@@ -355,7 +355,7 @@ export const validate = (values) => {
 
   if (!values.technical_name || values.technical_name.trim() === '') {
     errors.technical_name = 'Technical name is required';
-  } else if (!values.technical_name.match(/[a-z]/)) {
+  } else if (!values.technical_name.match(/[a-z0-9]/)) {
     errors.technical_name = 'Technical name should be in lower case (and use hyphens if need be)';
   }
 
