@@ -7,7 +7,7 @@ import FontAwesome from 'react-fontawesome';
 import ApiWidget from '../../../components/library/ApiWidget';
 import { Keys } from './ApisPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
-import { load } from '../actions';
+import { loadApi } from '../actions';
 
 class ApisListPage extends Component {
 
@@ -38,7 +38,7 @@ class ApisListPage extends Component {
 
   refresh(params) {
     const queryParams = this.buildParams();
-    this.props.load(queryParams);
+    this.props.loadApi(queryParams);
   }
 
   buildParams() {
@@ -56,7 +56,7 @@ class ApisListPage extends Component {
             <ApiWidget
               widgetStyle='info'
               icon='line-chart'
-              count={item.getNumberOfUsers() + ' consumers'}
+              count={item.getNumberOfUsers()}
               headerText={item.getName()}
               rating={item.getRating()}
               linkTo={'/api/' + item.getId()}
@@ -141,4 +141,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps, { load })(injectIntl(ApisListPage));
+export default connect(mapStateToProps, { loadApi })(injectIntl(ApisListPage));

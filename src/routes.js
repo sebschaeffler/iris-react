@@ -15,6 +15,7 @@ const getRoutes = (store) => {
       <Route component={apis.components.ApisPage}>
         <Route path="apislist" component={apis.components.ApisListPage} />
         <Route path="newapi" component={apis.components.ApisCreatePage} />
+        <Route path="api/:id" component={apis.components.ApisCreatePage} />
       </Route>
       <Route component={apps.components.AppsPage}>
         <Route path="appslist" component={apps.components.AppsListPage} />

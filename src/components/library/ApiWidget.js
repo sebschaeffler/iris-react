@@ -26,7 +26,7 @@ const ApiWidget = (props) => {
           </div>
           <div className='col-xs-9 text-right'>
             <div className='huge'>{props.headerText}</div>
-            <div className='huge'>{props.count}</div>
+            <div className='huge'>{props.count} <FontAwesome name="user" /></div>
           </div>
         </div>
       }

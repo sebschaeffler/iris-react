@@ -5,12 +5,17 @@ import { Schemas } from '../../normalizer';
 
 const API_URL = 'api';
 
-export function load(params) {
+export function loadApi(params) {
   return dispatch => {
+    var url = API_URL;
+    if (params) {
+      url += `/${params.id}`;
+    }
+    console.log("Call: ", url)
     dispatch(apiMiddleware.createAction({
-      endpoint: API_URL,
+      endpoint: url,
       actionTypes: [a.LOAD, a.LOAD_SUCCESS, a.LOAD_ERROR],
-      parameters: params,
+      parameters: null,
       schema: Schemas.API_ARRAY,
       httpRequestType: RequestType.GET
     }));
@@ -28,12 +33,36 @@ export function submitNewApi(params) {
   };
 };
 
-export function deleteApi(params) {
+export function resetApi() {
+  return {
+    type: a.RESET
+  };
+};
+
+export function updateApi(params) {
+  if (params === null || params.id === '') {
+    throw new Error("ERROR while updating 'id' is mandatory");
+  }
   return dispatch => {
     dispatch(apiMiddleware.createAction({
-      endpoint: API_URL,
-      actionTypes: [a.DELETE, a.DELETE_SUCCESS, a.DELETE_ERROR],
+      endpoint: `${API_URL}/${params.id}`,
+      actionTypes: [a.UPDATE, a.UPDATE_SUCCESS, a.UPDATE_ERROR],
       parameters: params,
+      httpRequestType: RequestType.PATCH
+    }));
+  };
+}
+
+export function deleteApi(params) {
+  console.log(params);
+  if (params === null || (!params.id && params.id !== 0) || params.id === '') {
+    throw new Error("ERROR while deleting: 'id' is mandatory ", params);
+  }
+  return dispatch => {
+    dispatch(apiMiddleware.createAction({
+      endpoint: `${API_URL}/${params.id}`,
+      actionTypes: [a.DELETE, a.DELETE_SUCCESS, a.DELETE_ERROR],
+      parameters: null,
       httpRequestType: RequestType.DELETE
     }));
   };

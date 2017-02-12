@@ -81,8 +81,6 @@ class AppsCreatePage extends Component {
     });
   }
 
-
-
   renderErrors() {
     if (this.state.errors) {
       return (
