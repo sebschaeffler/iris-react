@@ -1,13 +1,14 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form/immutable';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { Panel, Form, FormGroup, Col, ControlLabel, Button, Row } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome';
+import { injectIntl } from 'react-intl';
+import { Panel, Col, ControlLabel, Row } from 'react-bootstrap';
 import msg, { Keys } from './ApisPage_messages';
-import { Keys as AppKeys } from '../../../i18n/keys';
 import Api from '../../../model/api';
 import * as actions from '../actionTypes';
+import GenericLayout from '../../../components/library/GenericLayout';
+import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import SField from '../../../components/library/SField';
 import { submitNewApi, loadApi, resetApi, updateApi, deleteApi } from '../actions';
 
@@ -25,18 +26,29 @@ class ApisCreatePage extends Component {
       errors: null
     };
 
+    this.getConfig = this.getConfig.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
     this.toggleGeneralPanel = this.toggleGeneralPanel.bind(this);
     this.toggleDefinitionPanel = this.toggleDefinitionPanel.bind(this);
     this.togglePoliciesPanel = this.togglePoliciesPanel.bind(this);
-    this.renderCreateActions = this.renderCreateActions.bind(this);
-    this.renderDetailActions = this.renderDetailActions.bind(this);
-    this.renderBackAction = this.renderBackAction.bind(this);
-    this.onApiSubmit = this.onApiSubmit.bind(this);
-    this.toggleEdit = this.toggleEdit.bind(this);
-    this.deleteApi = this.deleteApi.bind(this);
     this.redirectUser = this.redirectUser.bind(this);
-    this.renderTechnicalId = this.renderTechnicalId.bind(this);
-    this.renderErrors = this.renderErrors.bind(this);
+    this.onApiSubmit = this.onApiSubmit.bind(this);
+    this.deleteApi = this.deleteApi.bind(this);
+  }
+
+  getConfig() {
+    return ({
+      backLabel: Keys.BUTTON_BACK_TO_LIST,
+      submitLabel: Keys.BUTTON_SUBMIT,
+      isDetailPage: this.state.isDetailPage,
+      isEditEnabled: this.state.isEditEnabled,
+      remoteProps: this.props,
+      errors: this.state.errors,
+      onSubmit: this.props.handleSubmit(this.onApiSubmit),
+      backAction: this.redirectUser,
+      toggleEditAction: this.toggleEdit,
+      deleteAction: this.deleteApi
+    });
   }
 
   // setState() does not immediately mutate this.state but creates a pending state transition.
@@ -44,10 +56,9 @@ class ApisCreatePage extends Component {
   // There is no guarantee of synchronous operation of calls to setState and calls may be batched
   // for performance gains.
   componentDidMount() {
-    console.log('Is detail page?', this.state.isDetailPage, " Param: ", this.props.params.id)
     if (this.state.isDetailPage) {
       this.setState({
-        isEditEnabled: false
+        isEditEnabled: false,
       });
       // Load content
       this.props.loadApi({
@@ -94,15 +105,6 @@ class ApisCreatePage extends Component {
     }
   }
 
-  renderErrors() {
-    if (this.state.errors) {
-      return (<div>
-        {this.state.errors}
-      </div>
-      );
-    }
-  }
-
   deleteApi() {
     this.props.deleteApi(this.props.initialValues);
   }
@@ -125,222 +127,110 @@ class ApisCreatePage extends Component {
     this.setState({ policiesPanelExpanded: !this.state.policiesPanelExpanded });
   }
 
-  renderCreateActions() {
-    if (!this.state.isDetailPage || this.state.isEditEnabled) {
-      return (
-        <div className='button-left'>
-          <Col>
-            <Button
-              className='default-submit-button'
-              type='submit'
-              disabled={this.props.pristine || this.props.submitting}>
-              <FormattedMessage id={Keys.BUTTON_SUBMIT} />
-            </Button>
-            <Button
-              className='query-reset'
-              type='reset'
-              onClick={this.props.reset}
-              disabled={this.props.pristine || this.props.submitting}>
-              <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
-            </Button>
-          </Col>
-        </div>
-      );
-    }
-  }
-
-  renderDetailActions() {
-    if (this.state.isDetailPage && !this.state.isEditEnabled) {
-      return (
-        <div className='button-left'>
-          <Col>
-            <Button
-              className='default-submit-button'
-              type='button'
-              onClick={this.toggleEdit}>
-              <FormattedMessage id={AppKeys.VIEWS_BUTTONS_EDIT} />
-            </Button>
-            <Button
-              className='default-submit-button'
-              type='button'
-              onClick={this.deleteApi}>
-              <FormattedMessage id={AppKeys.VIEWS_BUTTONS_DELETE} />
-            </Button>
-          </Col>
-        </div>
-      );
-    }
-  }
-
-  renderBackAction() {
-    if (!this.state.isDetailPage || !this.state.isEditEnabled) {
-      return (
-        <div className='button-left'>
-          <FormGroup>
-            <Col>
-              <Button
-                className='default-submit-button'
-                type='reset'
-                onClick={this.redirectUser}>
-                <FontAwesome name='arrow-left' />
-                <span className="button-text">
-                  <FormattedMessage id={Keys.BUTTON_BACK_TO_LIST} />
-                </span>
-              </Button>
-            </Col>
-          </FormGroup>
-        </div>
-      );
-    } else if (this.state.isEditEnabled) {
-      return (
-        <div className='button-left'>
-          <FormGroup>
-            <Col>
-              <Button
-                className='default-submit-button'
-                type='reset'
-                onClick={this.toggleEdit}>
-                <FontAwesome name='arrow-left' />
-                <span className="button-text">
-                  <FormattedMessage id={AppKeys.VIEWS_BUTTONS_CANCEL} />
-                </span>
-              </Button>
-            </Col>
-          </FormGroup>
-        </div>
-      );
-    }
-  }
-
-  renderTechnicalId() {
-    if (this.state.isDetailPage) {
-      return (
-        <Row className="form-group">
-          <Field
-            type='text'
-            name='id'
-            label='Technical identifier'
-            size={8}
-            component={SField}
-            staticValue={this.props.initialValues.getId()}
-            disabled />
-        </Row>
-      );
-    }
-  }
-
   render() {
     return (
-      <div>
-        {this.renderBackAction()}
-        <div className="workarea">
-          <Form horizontal onSubmit={this.props.handleSubmit(this.onApiSubmit)}>
-            {this.renderTechnicalId()}
-            <Panel collapsible defaultExpanded header='General details' onSelect={this.toggleGeneralPanel} expanded={this.state.generalPanelExpanded} >
-              <Row className="form-group">
-                <Field
-                  type='text'
-                  name='context'
-                  label='Context'
-                  size={2}
-                  staticValue={this.props.initialValues.getContext()}
-                  component={SField}
-                  disabled />
-                <Field
-                  type='text'
-                  name='visibility'
-                  label='Visibility'
-                  size={2}
-                  staticValue={this.props.initialValues.getVisibility()}
-                  component={SField}
-                  disabled />
-              </Row>
-              <Row className="form-group">
-                <Field
-                  type='text'
-                  name='name'
-                  label='Name'
-                  size={8}
-                  placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
-                  component={SField}
-                  staticValue={this.props.initialValues.getName()}
-                  disabled={this.state.isDetailPage && !this.state.isEditEnabled}
-                />
-              </Row>
-              <Row className="form-group">
-                <Field
-                  type='text'
-                  name='technical_name'
-                  label='Technical name'
-                  size={8}
-                  placeholder='e.g. share-prices (lowercase and hyphens are recommended)'
-                  component={SField}
-                  staticValue={this.props.initialValues.getTechnicalName()}
-                  disabled={this.state.isDetailPage && !this.state.isEditEnabled}
-                />
-              </Row>
-              <Row className="form-group">
-                <Field
-                  type='textarea'
-                  name='description'
-                  label='Description'
-                  size={8}
-                  component={SField}
-                  staticValue={this.props.initialValues.getDescription()}
-                  placeholder='High level description of the API'
-                  disabled={this.state.isDetailPage && !this.state.isEditEnabled}
-                />
-              </Row>
-              <Row className="form-group">
-                <Field
-                  type='text'
-                  name='tags'
-                  label='Tags'
-                  size={8}
-                  component={SField}
-                  staticValue={this.props.initialValues.getTags()}
-                  placeholder='e.g. share prices, options, futures'
-                  disabled={this.state.isDetailPage && !this.state.isEditEnabled}
-                />
-              </Row>
-            </Panel>
-            <Panel collapsible defaultExpanded header='API definition' onSelect={this.toggleDefinitionPanel} expanded={this.state.definitionPanelExpanded} >
-              <Row className="form-group">
-                <Field
-                  type='text'
-                  name='api_endpoint'
-                  label='Api endpoint'
-                  size={8}
-                  component={SField}
-                  staticValue={this.props.initialValues.getApiEndpoint()}
-                  placeholder='e.g. http://www.example.com/sharePrices'
-                  disabled={this.state.isDetailPage && !this.state.isEditEnabled}
-                />
-              </Row>
-              <Row className="form-group">
-                <Field
-                  type='text'
-                  name='doc_endpoint'
-                  label='Documentation enpoint'
-                  size={8}
-                  component={SField}
-                  staticValue={this.props.initialValues.getDocEndpoint()}
-                  placeholder='e.g. http://www.example.com/sharePrices/swagger-ui'
-                  disabled={this.state.isDetailPage && !this.state.isEditEnabled}
-                />
-              </Row>
-            </Panel>
-            <Panel collapsible defaultExpanded header='Policies' onSelect={this.togglePoliciesPanel} expanded={this.state.policiesPanelExpanded} >
-              <Col componentClass={ControlLabel} sm={14}>
-                Default policies will be enabled.
-                </Col>
-            </Panel>
-            {this.renderErrors()}
-            {this.renderCreateActions()}
-            {this.renderDetailActions()}
-          </Form>
-        </div >
-      </div >
+      <GenericLayout config={this.getConfig()}>
+        <Panel collapsible defaultExpanded header='General details' onSelect={this.toggleGeneralPanel} expanded={this.state.generalPanelExpanded} >
+          <Row className="form-group">
+            <Field
+              type='text'
+              name='context'
+              label='Context'
+              size={2}
+              staticValue={this.props.initialValues.getContext()}
+              component={SField}
+              disabled />
+            <Field
+              type='text'
+              name='visibility'
+              label='Visibility'
+              size={2}
+              staticValue={this.props.initialValues.getVisibility()}
+              component={SField}
+              disabled />
+          </Row>
+          <Row className="form-group">
+            <Field
+              type='text'
+              name='name'
+              label='Name'
+              size={8}
+              placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
+              component={SField}
+              staticValue={this.props.initialValues.getName()}
+              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+            />
+          </Row>
+          <Row className="form-group">
+            <Field
+              type='text'
+              name='technical_name'
+              label='Technical name'
+              size={8}
+              placeholder='e.g. share-prices (lowercase and hyphens are recommended)'
+              component={SField}
+              staticValue={this.props.initialValues.getTechnicalName()}
+              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+            />
+          </Row>
+          <Row className="form-group">
+            <Field
+              type='textarea'
+              name='description'
+              label='Description'
+              size={8}
+              component={SField}
+              staticValue={this.props.initialValues.getDescription()}
+              placeholder='High level description of the API'
+              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+            />
+          </Row>
+          <Row className="form-group">
+            <Field
+              type='text'
+              name='tags'
+              label='Tags'
+              size={8}
+              component={SField}
+              staticValue={this.props.initialValues.getTags()}
+              placeholder='e.g. share prices, options, futures'
+              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+            />
+          </Row>
+        </Panel>
+        <Panel collapsible defaultExpanded header='API definition' onSelect={this.toggleDefinitionPanel} expanded={this.state.definitionPanelExpanded} >
+          <Row className="form-group">
+            <Field
+              type='text'
+              name='api_endpoint'
+              label='Api endpoint'
+              size={8}
+              component={SField}
+              staticValue={this.props.initialValues.getApiEndpoint()}
+              placeholder='e.g. http://www.example.com/sharePrices'
+              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+            />
+          </Row>
+          <Row className="form-group">
+            <Field
+              type='text'
+              name='doc_endpoint'
+              label='Documentation enpoint'
+              size={8}
+              component={SField}
+              staticValue={this.props.initialValues.getDocEndpoint()}
+              placeholder='e.g. http://www.example.com/sharePrices/swagger-ui'
+              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+            />
+          </Row>
+        </Panel>
+        <Panel collapsible defaultExpanded header='Policies' onSelect={this.togglePoliciesPanel} expanded={this.state.policiesPanelExpanded} >
+          <Col componentClass={ControlLabel} sm={14}>
+            Default policies will be enabled.
+          </Col>
+        </Panel>
+        {LayoutHelper.renderActions(this.getConfig())}
+      </GenericLayout>
     );
   }
 
@@ -382,8 +272,6 @@ export const validate = (values) => {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.apis.api,
-    isSuccessful: state.apis.isSuccessful,
-    errors: state.apis.errors,
     currentAction: state.apis.currentAction
   }
 };
