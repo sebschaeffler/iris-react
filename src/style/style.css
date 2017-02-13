@@ -886,3 +886,25 @@ table.dataTable thead .sorting:after {
 .button-text {
   padding-left: 15px;
 }
+
+.apislist-enter {
+  opacity: 0.01;
+  right: 50px
+}
+
+.apislist-enter.apislist-enter-active {
+  opacity: 1;
+  transition: 700ms;
+  right: 0;
+}
+
+.apislist-leave {
+  opacity: 1;
+  right: 0;
+}
+
+.apislist-leave.apislist-leave-active {
+  opacity: 0.01;
+  right:-50px;
+  transition: 700ms;
+}

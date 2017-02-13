@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router';
 import { FormGroup, Col, Button } from 'react-bootstrap';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import FontAwesome from 'react-fontawesome';
 import ApiWidget from '../../../components/library/ApiWidget';
 import { Keys } from './ApisPage_messages';
@@ -52,7 +53,7 @@ class ApisListPage extends Component {
       // Do not forget to return the list, not only the items inside that list
       return listapis.getList().map((item) => {
         return (
-          <div className='col-lg-4 col-md-8' key={item.getId()}>
+          <div className='apilist-item col-lg-4 col-md-8' key={item.getId()}>
             <ApiWidget
               widgetStyle='info'
               icon='line-chart'
@@ -87,6 +88,11 @@ class ApisListPage extends Component {
   }
 
   render() {
+    const transitionOptions = {
+      transitionName: "apislist",
+      transitionEnterTimeout: 700,
+      transitionLeaveTimeout: 700
+    };
     return (
       <div>
         <div>
@@ -121,7 +127,9 @@ class ApisListPage extends Component {
           </div>
         </div>
         <div className="workarea">
-          {this.renderList()}
+          <ReactCSSTransitionGroup {...transitionOptions}>
+            {this.renderList()}
+          </ReactCSSTransitionGroup>
           <div className='col-lg-12 col-md-8 explore-footer'>
             {this.getCount()}
           </div>
