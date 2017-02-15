@@ -8,7 +8,8 @@ import FontAwesome from 'react-fontawesome';
 import ApiWidget from '../../../components/library/ApiWidget';
 import { Keys } from './ApisPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
-import { loadApi } from '../actions';
+import { loadApi, deleteApi } from '../actions';
+import * as actions from '../actionTypes';
 
 class ApisListPage extends Component {
 
@@ -22,6 +23,7 @@ class ApisListPage extends Component {
     this.renderList = this.renderList.bind(this);
     this.buildParams = this.buildParams.bind(this);
     this.refresh = this.refresh.bind(this);
+    this.deleteApi = this.deleteApi.bind(this);
   }
 
   componentDidMount() {
@@ -30,12 +32,18 @@ class ApisListPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("New props: ", nextProps);
+    //console.log("New props: ", nextProps.list);
     this.setState({
       localList: nextProps.list
     });
+    if (nextProps.currentAction === actions.DELETE_SUCCESS) {
+      this.refresh();
+    }
   }
 
+  deleteApi(id) {
+    this.props.deleteApi(id);
+  }
 
   refresh(params) {
     const queryParams = this.buildParams();
@@ -46,9 +54,8 @@ class ApisListPage extends Component {
     return null;
   }
 
-
   renderList() {
-    const listapis = this.props.list;
+    const listapis = this.state.localList;
     if (listapis && listapis.getList()) {
       // Do not forget to return the list, not only the items inside that list
       return listapis.getList().map((item) => {
@@ -61,6 +68,8 @@ class ApisListPage extends Component {
               headerText={item.getName()}
               rating={item.getRating()}
               linkTo={'/api/' + item.getId()}
+              deleteAction={this.deleteApi}
+              id={item.getId()}
               css='default-dark'
             />
           </div>
@@ -70,7 +79,7 @@ class ApisListPage extends Component {
   }
 
   getCount() {
-    const listapis = this.props.list;
+    const listapis = this.state.localList;
     if (listapis && listapis.getList() && listapis.getList().length > 0) {
       return (
         <div>
@@ -89,7 +98,7 @@ class ApisListPage extends Component {
 
   render() {
     const transitionOptions = {
-      transitionName: "apislist",
+      transitionName: "widgetlist",
       transitionEnterTimeout: 700,
       transitionLeaveTimeout: 700
     };
@@ -145,8 +154,9 @@ const mapStateToProps = (state) => {
     list: state.apis.list,
     isProcessing: state.apis.isProcessing,
     isSuccessful: state.apis.isSuccessful,
+    currentAction: state.apis.currentAction,
     errors: state.apis.errors
   }
 };
 
-export default connect(mapStateToProps, { loadApi })(injectIntl(ApisListPage));
+export default connect(mapStateToProps, { loadApi, deleteApi })(injectIntl(ApisListPage));

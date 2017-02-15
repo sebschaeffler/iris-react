@@ -126,10 +126,6 @@ body {
   color: #8a6d3b;
 }
 
-.stat-panel-heading {
-  min-height: 100px;
-}
-
 .query-button, .default-submit-button {
   margin-right: 20px;
 }
@@ -694,7 +690,13 @@ table.dataTable thead .sorting:after {
 }
 
 .stat .panel-body {
-    display:none;
+  display: block;
+  background-color: #1d2939;
+  color: #fff;
+}
+
+.stat-panel-heading {
+  min-height: 100px;
 }
 
 .currency-table {
@@ -887,24 +889,36 @@ table.dataTable thead .sorting:after {
   padding-left: 15px;
 }
 
-.apislist-enter {
+.widgetlist-enter {
   opacity: 0.01;
   right: 50px
 }
 
-.apislist-enter.apislist-enter-active {
+.widgetlist-enter.widgetlist-enter-active {
   opacity: 1;
   transition: 700ms;
   right: 0;
 }
 
-.apislist-leave {
+.widgetlist-leave {
   opacity: 1;
   right: 0;
 }
 
-.apislist-leave.apislist-leave-active {
+.widgetlist-leave.widgetlist-leave-active {
   opacity: 0.01;
   right:-50px;
   transition: 700ms;
+}
+
+.widget-action {
+  padding: 0 15px 0 0;
+}
+
+.default-action:hover {
+  color: #1caf9a;
+}
+
+.trash:hover {
+  color: red;
 }

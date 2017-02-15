@@ -1,10 +1,12 @@
 import { Record } from 'immutable';
 
 export class Subscription extends Record({
-  id: '',
+  id: null,
   name: '',
   description: '',
-  callback_url: ''
+  status: '',
+  app_id: null,
+  apis: []
 })
 {
   getId() { return this.get('id'); }
@@ -16,8 +18,14 @@ export class Subscription extends Record({
   getDescription() { return this.get('description'); }
   setDescription(description) { return this.set('description', description); }
 
-  getCallbackUrl() { return this.get('callback_url'); }
-  setCallbackUrl(callback_url) { return this.set('callback_url', callback_url); }
+  getStatus() { return this.get('status'); }
+  setStatus(status) { return this.set('status', status); }
+
+  getAppId() { return this.get('app_id'); }
+  setAppId(app_id) { return this.set('app_id', app_id); }
+
+  getApis() { return this.get('apis'); }
+  setApis(apis) { return this.set('apis', apis); }
 };
 
 export class Subscriptions extends Record({

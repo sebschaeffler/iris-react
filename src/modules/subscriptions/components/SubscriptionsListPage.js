@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { Link } from 'react-router';
 import { FormGroup, Col, Button } from 'react-bootstrap';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import FontAwesome from 'react-fontawesome';
-import AppWidget from '../../../components/library/AppWidget';
+import SubscriptionWidget from '../../../components/library/SubscriptionWidget';
 import { Keys } from './SubscriptionsPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
-import { Link } from 'react-router';
-import { load } from '../actions';
+import { loadSubscription, deleteSubscription } from '../actions';
+import * as actions from '../actionTypes';
 
 class SubscriptionsListPage extends Component {
 
@@ -15,12 +17,13 @@ class SubscriptionsListPage extends Component {
     super(props);
 
     this.state = {
-      list: []
-    }
+      localList: this.props.list
+    };
 
     this.renderList = this.renderList.bind(this);
     this.buildParams = this.buildParams.bind(this);
     this.refresh = this.refresh.bind(this);
+    this.deleteSubscription = this.deleteSubscription.bind(this);
   }
 
   componentDidMount() {
@@ -29,36 +32,44 @@ class SubscriptionsListPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("New props: ", nextProps);
+    //console.log("New props: ", nextProps.list);
     this.setState({
       localList: nextProps.list
     });
+    if (nextProps.currentAction === actions.DELETE_SUCCESS) {
+      this.refresh();
+    }
   }
 
+  deleteSubscription(id) {
+    this.props.deleteSubscription(id);
+  }
 
   refresh(params) {
     const queryParams = this.buildParams();
-    this.props.load(queryParams);
+    this.props.loadSubscription(queryParams);
   }
 
   buildParams() {
     return null;
   }
 
-
   renderList() {
-    const listapis = this.props.list;
-    if (listapis && listapis.getList()) {
+    const list = this.state.localList;
+    if (list && list.getList()) {
       // Do not forget to return the list, not only the items inside that list
-      return listapis.getList().map((item) => {
+      return list.getList().map((item) => {
         return (
-          <div className='col-lg-4 col-md-8' key={item.getId()}>
-            <AppWidget
+          <div className='apilist-item col-lg-4 col-md-8' key={item.getId()}>
+            <SubscriptionWidget
               widgetStyle='info'
               icon='line-chart'
-              count=''
+              secondaryText=''
               headerText={item.getName()}
-              linkTo={'/subscriptions/' + item.getId()}
+              rating={0}
+              linkTo={'/subscription/' + item.getId()}
+              deleteAction={this.deleteSubscription}
+              id={item.getId()}
               css='default-dark'
             />
           </div>
@@ -68,24 +79,29 @@ class SubscriptionsListPage extends Component {
   }
 
   getCount() {
-    const listapps = this.props.list;
-    if (listapps && listapps.getList() && listapps.getList().length > 0) {
+    const list = this.state.localList;
+    if (list && list.getList() && list.getList().length > 0) {
       return (
         <div>
-          <span>There {listapps.getList().length > 1 ? 'are' : 'is'} currently </span>
-          <span className='teal'>{listapps.getList().length}</span>
-          <span> subscription{listapps.getList().length > 1 ? 's' : ''} available.</span>
+          <span>There {list.getList().length > 1 ? 'are' : 'is'} currently </span>
+          <span className='teal'>{list.getList().length}</span>
+          <span> subscription{list.getList().length > 1 ? 's' : ''} available.</span>
         </div>
       );
     }
     return (
       <div>
-        No subscriptions for now...
+        No subscriptions are currently available.
       </div>
     );
   }
 
   render() {
+    const transitionOptions = {
+      transitionName: "widgetlist",
+      transitionEnterTimeout: 700,
+      transitionLeaveTimeout: 700
+    };
     return (
       <div>
         <div>
@@ -120,7 +136,9 @@ class SubscriptionsListPage extends Component {
           </div>
         </div>
         <div className="workarea">
-          {this.renderList()}
+          <ReactCSSTransitionGroup {...transitionOptions}>
+            {this.renderList()}
+          </ReactCSSTransitionGroup>
           <div className='col-lg-12 col-md-8 explore-footer'>
             {this.getCount()}
           </div>
@@ -128,14 +146,17 @@ class SubscriptionsListPage extends Component {
       </div>
     );
   }
+
 }
 
 const mapStateToProps = (state) => {
   return {
     list: state.subscriptions.list,
     isProcessing: state.subscriptions.isProcessing,
+    isSuccessful: state.subscriptions.isSuccessful,
+    currentAction: state.subscriptions.currentAction,
     errors: state.subscriptions.errors
   }
 };
 
-export default connect(mapStateToProps, { load })(injectIntl(SubscriptionsListPage));
+export default connect(mapStateToProps, { loadSubscription, deleteSubscription })(injectIntl(SubscriptionsListPage));

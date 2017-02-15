@@ -49,8 +49,6 @@ export default function (state = INITIAL_STATE, action) {
         .set('isSuccessful', false)
         .set('errors', errorMessage);
     case types.SUBMIT:
-      // Clear last results
-      state.get('list').clear();
       return state
         .set('isProcessing', true)
         .set('errors', null)
@@ -69,14 +67,11 @@ export default function (state = INITIAL_STATE, action) {
         .set('isSuccessful', false)
         .set('errors', errorMessage);
     case types.RESET:
-      console.log("RESET");
       return state
         .set('isProcessing', false)
         .set('isSuccessful', false)
         .set('app', new App());
     case types.UPDATE:
-      // Clear last results
-      state.get('list').clear();
       return state
         .set('isProcessing', true)
         .set('errors', null)
@@ -95,8 +90,6 @@ export default function (state = INITIAL_STATE, action) {
         .set('isSuccessful', false)
         .set('errors', errorMessage);
     case types.DELETE:
-      // Clear last results
-      state.get('list').clear();
       return state
         .set('isProcessing', true)
         .set('errors', null);
