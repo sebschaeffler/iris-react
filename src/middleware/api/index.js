@@ -101,7 +101,7 @@ function executeRequest(httpRequestType, endpoint, parameters, schema) {
 // Middleware that interprets actions with callInfo property specified
 const middleware = (store) => (next) => (action) => {
 
-  console.log("Action: ", action)
+  //console.log("Action: ", action)
 
   // Don't do anything if the action is not for us, i.e. call next dispatch method
   if (action.type !== API_CALL || action.callInfo == null) {

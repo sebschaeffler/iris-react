@@ -22,7 +22,7 @@ const SubscriptionWidget = (props) => {
             </div>
             <div className='col-xs-9 text-right'>
               <div className='huge'>{props.headerText}</div>
-              <div className='huge'>{props.secondaryText} <FontAwesome name="user" /></div>
+              <div className='huge'>{props.secondaryText}</div>
             </div>
           </div>
         </Link>

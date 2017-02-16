@@ -83,7 +83,6 @@ export function renderActions(props) {
   } = props;
 
   if (!isDetailPage || isEditEnabled) {
-    console.log("Pristine: ", remoteProps.pristine);
     return (
       <div className='button-left'>
         <Col>

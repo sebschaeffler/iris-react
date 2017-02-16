@@ -11,6 +11,8 @@ import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import SField from '../../../components/library/SField';
 import { submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription } from '../actions';
+import { loadApi } from '../../apis/actions';
+import { load } from '../../apps/actions';
 
 class SubscriptionsCreatePage extends Component {
 
@@ -19,6 +21,8 @@ class SubscriptionsCreatePage extends Component {
 
     this.state = {
       isEditEnabled: true,
+      apis: this.props.apis ? this.props.apis.list : null,
+      apps: this.props.apps ? this.props.apps.list : null,
       isDetailPage: this.props.params.id, // needs to parse window location to detect if an id is present, i.e. detail page
       errors: null
     };
@@ -63,6 +67,11 @@ class SubscriptionsCreatePage extends Component {
       this.props.resetSubscription();
     }
 
+    // Load apis
+    this.props.loadApi();
+    // Load apps
+    this.props.load();
+
     this.props.reset();
   }
 
@@ -70,9 +79,19 @@ class SubscriptionsCreatePage extends Component {
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors
-      })
+      });
     } else if (nextProps.currentAction === actions.UPDATE_SUCCESS || nextProps.currentAction === actions.DELETE_SUCCESS || nextProps.currentAction === actions.SUBMIT_SUCCESS) {
       this.redirectUser();
+    }
+    if (nextProps && nextProps.apis && nextProps.apis.list) {
+      this.setState({
+        apis: nextProps.apis.list
+      });
+    }
+    if (nextProps && nextProps.apps && nextProps.apps.list) {
+      this.setState({
+        apps: nextProps.apps.list
+      });
     }
   }
 
@@ -105,9 +124,46 @@ class SubscriptionsCreatePage extends Component {
     });
   }
 
+  renderDynamicFields() {
+    if (this.state.apis !== null && this.state.apis.length > 0
+      && this.state.apps !== null && this.state.apps.length > 0) {
+      console.log("Apis: ", this.state.apis, " Apps: ", this.state.apps)
+      return (
+        <div><Row className="form-group">
+          <Field
+            type='select'
+            name='apis'
+            label='Apis'
+            size={8}
+            multiple
+            placeholder='Select api(s)...'
+            component={SField}
+            staticValue={this.state.apis}
+            disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+          />
+        </Row>
+          <Row className="form-group">
+            <Field
+              type='select'
+              name='apps'
+              label='Applications'
+              size={8}
+              multiple
+              placeholder='Select application...'
+              component={SField}
+              staticValue={this.state.apps}
+              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+            />
+          </Row>
+        </div>
+      );
+    }
+  }
+
   render() {
     return (
       <GenericLayout config={this.getConfig()}>
+        {this.renderDynamicFields()}
         <Row className="form-group">
           <Field
             type='text'
@@ -126,7 +182,7 @@ class SubscriptionsCreatePage extends Component {
             name='description'
             label='Description'
             size={8}
-            placeholder='e.g. Apis subscription for my project'
+            placeholder='e.g. Description for your project Apis subscription'
             component={SField}
             staticValue={this.props.initialValues.getDescription()}
             disabled={this.state.isDetailPage && !this.state.isEditEnabled}
@@ -153,14 +209,16 @@ class SubscriptionsCreatePage extends Component {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.subscriptions.subscription,
+    apis: state.apis.list,
+    apps: state.apps.list,
     currentAction: state.subscriptions.currentAction
   }
 };
 
 export const SubscriptionsCreateForm = reduxForm({
-  form: 'SubscriptionForm',
+  form: 'subscriptionForm',
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
 })(SubscriptionsCreatePage);
 
-export default connect(mapStateToProps, { submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription })(injectIntl(SubscriptionsCreateForm));
+export default connect(mapStateToProps, { loadApi, load, submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription })(injectIntl(SubscriptionsCreateForm));
