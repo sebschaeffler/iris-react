@@ -8,13 +8,13 @@ const SUBSCRIPTION_URL = 'subscription';
 export function loadSubscription(params) {
   return dispatch => {
     var url = SUBSCRIPTION_URL;
-    if (params) {
+    if (params && params.id) {
       url += `/${params.id}`;
     }
     dispatch(apiMiddleware.createAction({
       endpoint: url,
       actionTypes: [a.LOAD, a.LOAD_SUCCESS, a.LOAD_ERROR],
-      parameters: null,
+      parameters: params,
       schema: Schemas.SUBSCRIPTION_ARRAY,
       httpRequestType: RequestType.GET
     }));
@@ -53,7 +53,6 @@ export function updateSubscription(params) {
 }
 
 export function deleteSubscription(params) {
-  console.log(params);
   if (params === null || (!params.id && params.id !== 0) || params.id === '') {
     throw new Error("ERROR while deleting: 'id' is mandatory ", params);
   }

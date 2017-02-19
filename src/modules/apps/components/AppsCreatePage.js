@@ -8,7 +8,6 @@ import SField from '../../../components/library/SField';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import { submitNewApp, load, resetApp, updateApp, deleteApp } from '../actions';
-import * as actions from '../actionTypes';
 import { App } from '../model';
 
 class AppsCreatePage extends Component {
@@ -59,7 +58,7 @@ class AppsCreatePage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentAction === actions.UPDATE_SUCCESS || nextProps.currentAction === actions.DELETE_SUCCESS || nextProps.currentAction === actions.SUBMIT_SUCCESS) {
+    if (nextProps.isSubmitSuccessful || nextProps.isDeleteSuccessful || nextProps.isUpdateSuccessful) {
       this.redirectUser();
     }
   }
@@ -137,8 +136,10 @@ class AppsCreatePage extends Component {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.apps.app,
-    errors: state.apps.errors,
-    currentAction: state.apps.currentAction
+    isLoadSuccessful: state.apps.isLoadSuccessful,
+    isSubmitSuccessful: state.apps.isSubmitSuccessful,
+    isUpdateSuccessful: state.apps.isUpdateSuccessful,
+    isDeleteSuccessful: state.apps.isDeleteSuccessful
   }
 };
 

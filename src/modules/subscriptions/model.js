@@ -5,8 +5,8 @@ export class Subscription extends Record({
   name: '',
   description: '',
   status: '',
-  app_id: null,
-  apis: []
+  apis: [],
+  app_id: null
 })
 {
   getId() { return this.get('id'); }
@@ -21,11 +21,11 @@ export class Subscription extends Record({
   getStatus() { return this.get('status'); }
   setStatus(status) { return this.set('status', status); }
 
-  getAppId() { return this.get('app_id'); }
-  setAppId(app_id) { return this.set('app_id', app_id); }
-
   getApis() { return this.get('apis'); }
   setApis(apis) { return this.set('apis', apis); }
+
+  getAppId() { return this.get('app_id'); }
+  setAppId(app_id) { return this.set('app_id', app_id); }
 };
 
 export class Subscriptions extends Record({

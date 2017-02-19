@@ -6,7 +6,6 @@ import { injectIntl } from 'react-intl';
 import { Panel, Col, ControlLabel, Row } from 'react-bootstrap';
 import msg, { Keys } from './ApisPage_messages';
 import Api from '../../../model/api';
-import * as actions from '../actionTypes';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import SField from '../../../components/library/SField';
@@ -77,7 +76,8 @@ class ApisCreatePage extends Component {
       this.setState({
         errors: nextProps.errors
       })
-    } else if (nextProps.currentAction === actions.UPDATE_SUCCESS || nextProps.currentAction === actions.DELETE_SUCCESS || nextProps.currentAction === actions.SUBMIT_SUCCESS) {
+    } else if (nextProps.isSubmitSuccessful || nextProps.isDeleteSuccessful || nextProps.isUpdateSuccessful) {
+      console.log("Redirect ", nextProps)
       this.redirectUser();
     }
   }
@@ -272,7 +272,10 @@ export const validate = (values) => {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.apis.api,
-    currentAction: state.apis.currentAction
+    isLoadSuccessful: state.apis.isLoadSuccessful,
+    isSubmitSuccessful: state.apis.isSubmitSuccessful,
+    isUpdateSuccessful: state.apis.isUpdateSuccessful,
+    isDeleteSuccessful: state.apis.isDeleteSuccessful
   }
 };
 

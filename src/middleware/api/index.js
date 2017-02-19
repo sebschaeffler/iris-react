@@ -35,8 +35,6 @@ function filterNil(jsonObject) {
 function executeRequest(httpRequestType, endpoint, parameters, schema) {
   const params = parameters === null ? null : filterNil(parameters);
 
-  //console.log("Params: ", httpRequestType, parameters);
-
   let url = `${ROOT_URL}/${endpoint}`;
 
   // If http request is not set try GET
@@ -50,6 +48,7 @@ function executeRequest(httpRequestType, endpoint, parameters, schema) {
       if (params === null) {
         request = axios.get(url);
       } else {
+        //console.log("Params: ", params);
         request = axios.get(url, {
           params
         });

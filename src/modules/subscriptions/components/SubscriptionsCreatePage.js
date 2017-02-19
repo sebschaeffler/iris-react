@@ -6,10 +6,10 @@ import { injectIntl } from 'react-intl';
 import { Row } from 'react-bootstrap';
 import { Keys } from './SubscriptionsPage_messages';
 import Subscription from '../model';
-import * as actions from '../actionTypes';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import SField from '../../../components/library/SField';
+import SFieldSelect from '../../../components/library/SFieldSelect';
 import { submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription } from '../actions';
 import { loadApi } from '../../apis/actions';
 import { load } from '../../apps/actions';
@@ -21,8 +21,11 @@ class SubscriptionsCreatePage extends Component {
 
     this.state = {
       isEditEnabled: true,
-      apis: this.props.apis ? this.props.apis.list : null,
-      apps: this.props.apps ? this.props.apps.list : null,
+      isLoadingAsyncContent: false,
+      isApisLoaded: false,
+      isAppsLoaded: false,
+      apis: this.props.apis ? this.props.apis.list : [],
+      apps: this.props.apps ? this.props.apps.list : [],
       isDetailPage: this.props.params.id, // needs to parse window location to detect if an id is present, i.e. detail page
       errors: null
     };
@@ -67,10 +70,12 @@ class SubscriptionsCreatePage extends Component {
       this.props.resetSubscription();
     }
 
-    // Load apis
-    this.props.loadApi();
-    // Load apps
-    this.props.load();
+    if (!this.state.isDetailPage) {
+      // Load apis
+      this.props.loadApi();
+      // Load apps
+      this.props.load();
+    }
 
     this.props.reset();
   }
@@ -80,20 +85,63 @@ class SubscriptionsCreatePage extends Component {
       this.setState({
         errors: nextProps.errors
       });
-    } else if (nextProps.currentAction === actions.UPDATE_SUCCESS || nextProps.currentAction === actions.DELETE_SUCCESS || nextProps.currentAction === actions.SUBMIT_SUCCESS) {
+    } else if (nextProps.isUpdateSuccessful || nextProps.isDeleteSuccessful || nextProps.isSubmitSuccessful) {
       this.redirectUser();
     }
-    if (nextProps && nextProps.apis && nextProps.apis.list) {
-      this.setState({
-        apis: nextProps.apis.list
-      });
+
+    // Dropdowns
+
+    // All APIs and apps
+    if (!this.state.isDetailPage) {
+      // Get the apis
+      if (nextProps && nextProps.apis && nextProps.apis.list) {
+        this.setState({
+          apis: nextProps.apis.list,
+          isApisLoaded: true
+        });
+      }
+      // Get app
+      if (nextProps && nextProps.apps && nextProps.apps.list) {
+        this.setState({
+          apps: nextProps.apps.list,
+          isAppsLoaded: true
+        });
+      }
     }
-    if (nextProps && nextProps.apps && nextProps.apps.list) {
-      this.setState({
-        apps: nextProps.apps.list
-      });
+    // Only lookup current values (detail)
+    else {
+      // Lookups
+      if (nextProps.isLoadSuccessful && !this.state.isLoadingAsyncContent) {
+        this.setState({
+          isLoadingAsyncContent: true
+        });
+        // Lookup apis
+        this.props.loadApi({
+          apis: Object.keys(nextProps.initialValues.getApis())
+        });
+        // Lookup apps
+        this.props.load({
+          apps: [nextProps.initialValues.getAppId()]
+        });
+      } // Get the loaded apis
+      if (nextProps.apisIsLoadSuccessful) {
+        this.setState({
+          apis: nextProps.apis.list,
+          isApisLoaded: true
+        });
+      }
+      // Get the loaded apps
+      if (nextProps.appsIsLoadSuccessful) {
+        this.setState({
+          apps: nextProps.apps.list,
+          isAppsLoaded: true
+        });
+      }
+      // TODO: Handle errors
+      // TODO: Set isLoading to false
     }
   }
+
 
   redirectUser() {
     this.props.router.replace('/subscriptionslist');
@@ -124,38 +172,20 @@ class SubscriptionsCreatePage extends Component {
     });
   }
 
-  renderDynamicFields() {
-    if (this.state.apis !== null && this.state.apis.length > 0
-      && this.state.apps !== null && this.state.apps.length > 0) {
-      console.log("Apis: ", this.state.apis, " Apps: ", this.state.apps)
+  renderStatus() {
+    if (this.state.isDetailPage) {
       return (
-        <div><Row className="form-group">
+        <Row className="form-group">
           <Field
-            type='select'
-            name='apis'
-            label='Apis'
+            type='text'
+            name='status'
+            label='Status'
             size={8}
-            multiple
-            placeholder='Select api(s)...'
             component={SField}
-            staticValue={this.state.apis}
-            disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+            staticValue={this.props.initialValues.getStatus()}
+            disabled
           />
         </Row>
-          <Row className="form-group">
-            <Field
-              type='select'
-              name='apps'
-              label='Applications'
-              size={8}
-              multiple
-              placeholder='Select application...'
-              component={SField}
-              staticValue={this.state.apps}
-              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
-            />
-          </Row>
-        </div>
       );
     }
   }
@@ -163,7 +193,35 @@ class SubscriptionsCreatePage extends Component {
   render() {
     return (
       <GenericLayout config={this.getConfig()}>
-        {this.renderDynamicFields()}
+        <Row className="form-group">
+          <Field
+            name='apis'
+            label='Apis'
+            placeholder='Please your APIs...'
+            component={SFieldSelect}
+            values={this.state.apis}
+            multiple
+            size={8}
+            isProcessing={!this.state.isApisLoaded || this.props.apisIsProcessing}
+            disabled={(this.state.isDetailPage && !this.state.isEditEnabled) || !this.state.apps.length}
+          >
+            {this.state.apis.map((item) => (<option key={item.id} value={item.id}>{item.name}</option>))}
+          </Field>
+        </Row>
+        <Row className="form-group">
+          <Field
+            name='apps'
+            label='Application'
+            placeholder='Select your application...'
+            component={SFieldSelect}
+            values={this.state.apps}
+            size={8}
+            isProcessing={this.props.appsIsProcessing}
+            disabled={(this.state.isDetailPage && !this.state.isEditEnabled) || !this.state.apps.length}
+          >
+            {this.state.apps.map((item) => (<option key={item.id} value={item.id}>{item.name}</option>))}
+          </Field>
+        </Row>
         <Row className="form-group">
           <Field
             type='text'
@@ -188,17 +246,7 @@ class SubscriptionsCreatePage extends Component {
             disabled={this.state.isDetailPage && !this.state.isEditEnabled}
           />
         </Row>
-        <Row className="form-group">
-          <Field
-            type='text'
-            name='status'
-            label='Status'
-            size={8}
-            component={SField}
-            staticValue={this.props.initialValues.getStatus()}
-            disabled
-          />
-        </Row>
+        {this.renderStatus()}
         {LayoutHelper.renderActions(this.getConfig())}
       </GenericLayout >
     );
@@ -209,9 +257,18 @@ class SubscriptionsCreatePage extends Component {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.subscriptions.subscription,
+    isLoadSuccessful: state.subscriptions.isLoadSuccessful,
+    isSubmitSuccessful: state.subscriptions.isSubmitSuccessful,
+    isUpdateSuccessful: state.subscriptions.isUpdateSuccessful,
+    isDeleteSuccessful: state.subscriptions.isDeleteSuccessful,
     apis: state.apis.list,
+    apisIsProcessing: state.apis.isProcessing,
+    apisIsLoadSuccessful: state.apis.isLoadSuccessful,
+    apisErrors: state.apis.errors,
     apps: state.apps.list,
-    currentAction: state.subscriptions.currentAction
+    appsIsProcessing: state.apps.isProcessing,
+    appsIsLoadSuccessful: state.apps.isLoadSuccessful,
+    appsErrors: state.apps.errors
   }
 };
 

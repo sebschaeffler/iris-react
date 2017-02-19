@@ -8,13 +8,13 @@ const APP_URL = 'app';
 export function load(params) {
   return dispatch => {
     var url = APP_URL;
-    if (params) {
+    if (params && params.id) {
       url += `/${params.id}`;
     }
     dispatch(apiMiddleware.createAction({
       endpoint: url,
       actionTypes: [a.LOAD, a.LOAD_SUCCESS, a.LOAD_ERROR],
-      parameters: null,
+      parameters: params,
       schema: Schemas.APP_ARRAY,
       httpRequestType: RequestType.GET
     }));
