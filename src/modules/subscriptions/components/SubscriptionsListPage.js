@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Link } from 'react-router';
-import { FormGroup, Col, Button } from 'react-bootstrap';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import FontAwesome from 'react-fontawesome';
 import SubscriptionWidget from '../../../components/library/SubscriptionWidget';
 import { Keys } from './SubscriptionsPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
 import { loadSubscription, deleteSubscription } from '../actions';
 import * as actions from '../actionTypes';
+import GenericListLayout from '../../../components/library/GenericListLayout';
 
 class SubscriptionsListPage extends Component {
 
@@ -20,7 +17,9 @@ class SubscriptionsListPage extends Component {
       localList: this.props.list
     };
 
+    this.getConfig = this.getConfig.bind(this);
     this.renderList = this.renderList.bind(this);
+    this.getCount = this.getCount.bind(this);
     this.buildParams = this.buildParams.bind(this);
     this.refresh = this.refresh.bind(this);
     this.deleteSubscription = this.deleteSubscription.bind(this);
@@ -32,13 +31,23 @@ class SubscriptionsListPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("New props: ", nextProps.list);
     this.setState({
       localList: nextProps.list
     });
     if (nextProps.currentAction === actions.DELETE_SUCCESS) {
       this.refresh();
     }
+  }
+
+  getConfig() {
+    return ({
+      createLink: '/newsubscription',
+      createLabel: <FormattedMessage id={Keys.BUTTON_CREATE} />,
+      refresh: this.refresh,
+      refreshLabel: <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />,
+      renderList: this.renderList,
+      getCount: this.getCount
+    });
   }
 
   deleteSubscription(id) {
@@ -97,53 +106,8 @@ class SubscriptionsListPage extends Component {
   }
 
   render() {
-    const transitionOptions = {
-      transitionName: "widgetlist",
-      transitionEnterTimeout: 700,
-      transitionLeaveTimeout: 700
-    };
     return (
-      <div>
-        <div>
-          <div className='button-left'>
-            <FormGroup>
-              <Col>
-                <Link to='/newsubscription'>
-                  <Button
-                    className='default-submit-button'
-                    type='submit'>
-                    <FontAwesome name='plus' />
-                    <span className="button-text">
-                      <FormattedMessage id={Keys.BUTTON_CREATE} />
-                    </span>
-                  </Button>
-                </Link>
-              </Col>
-            </FormGroup>
-          </div>
-          <div className='button-right'>
-            <Col>
-              <Button
-                className='default-submit-button'
-                type='submit'
-                onClick={this.refresh}>
-                <FontAwesome name='refresh' />
-                <span className="button-text">
-                  <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />
-                </span>
-              </Button>
-            </Col>
-          </div>
-        </div>
-        <div className="workarea">
-          <ReactCSSTransitionGroup {...transitionOptions}>
-            {this.renderList()}
-          </ReactCSSTransitionGroup>
-          <div className='col-lg-12 col-md-8 explore-footer'>
-            {this.getCount()}
-          </div>
-        </div>
-      </div>
+      <GenericListLayout config={this.getConfig()} />
     );
   }
 

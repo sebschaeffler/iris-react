@@ -21,7 +21,7 @@ const SField = (props) => {
   const { meta, label, size, type, disabled, staticValue } = props;
   return (
     <div className={(meta.touched && meta.error ? 'has-error' : '')}>
-      <Col componentClass={ControlLabel} sm={2}>
+      <Col componentClass={ControlLabel} className="default-label" sm={2}>
         {label}
       </Col>
       <Col sm={size || 3} className={disabled ? 'form-control-static' : ''}>

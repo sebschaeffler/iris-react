@@ -1,20 +1,23 @@
 body {
   width: 100%;
   height: 100vh;
-  background: #1d2939;
+  background: #fff;
   background-size: cover;
+  color: #747474;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
 }
 
 .teal, a, a:hover {
-  color: #1caf9a;
+  color: #009;
 }
 
 .default-dark {
-  color: #1d2939;
+  color: #009;
 }
 
 .modal-header {
-  background-color: #1d2939;
+  background-color: #009;
   color: #fff;
 }
 
@@ -22,12 +25,8 @@ body {
     color: #fff;
 }
 
-.select-favorite-table {
-  margin-bottom: 10px;
-}
-
 .selected-cell, .btn-success {
-  background-color: #1caf9a !important;
+  background-color: #009 !important;
   color: #ffffff;
   background-image: none;
 }
@@ -65,7 +64,7 @@ body {
     padding: 0;
     margin-bottom: 0;
     list-style: none;
-    background-color: #f5f5f5;
+    /*background-color: #f5f5f5;*/
 }
 
 .breadcrumb li {
@@ -124,10 +123,6 @@ body {
 
 .ref_data_primary_color{
   color: #8a6d3b;
-}
-
-.query-button, .default-submit-button {
-  margin-right: 20px;
 }
 
 .switch-account--button {
@@ -193,7 +188,7 @@ body {
     padding: 0px 0px 5px 15px;
     border-bottom: 1px solid #d3d7db;
     border-top: 1px solid #eee;
-    background: #f7f7f7;
+    color: #747474;
 }
 
 .breadcrumb-wrapper {
@@ -202,9 +197,10 @@ body {
 }
 
 .page-wrapper {
-    padding: 2px;
+    /*padding: 2px;*/
     min-height: 1600px;
-    background-color: #e4e7ea;
+    /*background-color: #e4e7ea;*/
+    background-color: #fff;
 }
 
 @media(min-width:768px) {
@@ -245,6 +241,12 @@ body {
   background-color: #fff;
   background-image: none;
   min-height: 50px;
+}
+
+.navbar-default {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  background: none;
 }
 
 .navbar-top-links {
@@ -318,43 +320,37 @@ body {
     vertical-align: middle;
 }
 
+.nav>li>a:focus, .nav>li>a:hover {
+  text-decoration: underline;
+  background: none;
+}
+
 .sidebar .sidebar-nav.navbar-collapse {
     padding-right: 0;
     padding-left: 0;
-    background-color: #1d2939;
-    color: #fff;
+    color: #009;
 }
 
 .sidebar .sidebar-search {
-    padding: 15px;
+    padding: 18px 45px 15px 15px;
 }
 
 .sidebar .sidebar-locale {
   padding: 18px 15px;
-    height: 60px;
+  height: 60px;
 }
 
 .sidebar-locale .locale-widget-separator {
   margin-left: 5px;
   margin-right: 5px;
-  color: #fff;
 }
 
 .sidebar a {
-  color: #fff;
+  color: #009;
 }
 
-.sidebar .nav>li>a:focus, .nav>li>a:hover {
-    text-decoration: none;
-    background-color: #1caf9a;
-}
-
-.sidebar ul li {
-    /*border-bottom: 1px solid #e7e7e7;*/
-}
-
-.sidebar ul li a.active {
-    background-color: #eee;
+.sidebar-text {
+  margin-left: 5px;
 }
 
 .sidebar .arrow {
@@ -595,9 +591,9 @@ table.dataTable thead .sorting:after {
 }
 
 .panel-default>.panel-heading, .panel-heading {
-    border-color: #1d2939;
+    border-color: #009;
     color: #fff;
-    background-color: #1d2939;
+    background-color: #009;
     background-image: none;
 }
 
@@ -613,13 +609,13 @@ table.dataTable thead .sorting:after {
 }
 
 .panel-info {
-    border-color: #1d2939;
+    border-color: #009;
 }
 
 .panel-info .panel-heading {
-    border-color: #1d2939;
+    border-color: #009;
     color: #fff;
-    background-color: #1d2939;
+    background-color: #009;
     background-image: none;
 }
 
@@ -691,7 +687,7 @@ table.dataTable thead .sorting:after {
 
 .stat .panel-body {
   display: block;
-  background-color: #1d2939;
+  background-color: #009;
   color: #fff;
 }
 
@@ -709,28 +705,25 @@ table.dataTable thead .sorting:after {
 }
 
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>span, .pagination>.active>span:focus {
-    z-index: 3;
-    color: #fff;
-    cursor: default;
-    background-color: #1d2939;
-    border-color: #1d2939;
+  z-index: 3;
+  color: #fff;
+  cursor: default;
+  background-color: #009;
+  border-color: #009;
 }
 
 .pagination>.active>a:hover, .pagination>.active>span:hover {
-    background-color: #1caf9a;
-    border-color: #1caf9a;
+  background-color: #009;
+  border-color: #009;
 }
 
-
-
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 #root {
   width: 100%;
   min-height:100%;
-  background: rgba(4, 40, 68, 0.65);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -739,7 +732,7 @@ table.dataTable thead .sorting:after {
 }
 
 .app_layout {
-  background: #1d2939;
+  background-color: #fff;
 }
 
 .app_main_layout {
@@ -775,6 +768,7 @@ table.dataTable thead .sorting:after {
   border-bottom: 1px solid #eee;
   padding-bottom: 20px;
 }
+
 .auth button {
   width: 100%;
   height: 100%;
@@ -815,42 +809,46 @@ table.dataTable thead .sorting:after {
   font-size: 1.2em;
 }
 
+.default-label, .default-label-table {
+  color: #009;
+  font-weight: normal;
+}
+
+.default-label-table{
+  margin-top: 5%;
+}
+
+.default-button {
+  margin: 0 10px 0 0;
+}
+
 .button-center {
   text-align: center;
 }
 
 .button-left {
-  margin-left: 13px ;
+  margin-left: 20px ;
   float: left;
 }
 
 .button-right {
+  margin-right: 20px;
   float: right;
+}
+
+.button-bottom {
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.button-top {
+  margin-bottom: 15px;
 }
 
 .workarea {
   width: 100%;
   height: 100%;
   float: right;
-}
-
-.default-submit-button[disabled], .default-submit-button[disabled]:hover {
-  background-color: none;
-  color:#333;
-}
-
-.default-submit-button {
-  background-color: #1d2939;
-  background-image: none;
-  text-shadow: none;
-  color: #fff;
-}
-
-.default-submit-button:hover {
-  background-color: #1caf9a;
-  background-image: none;
-  text-shadow: none;
-  color: #fff;
 }
 
 .center-aligned-light-label {
@@ -886,7 +884,7 @@ table.dataTable thead .sorting:after {
 }
 
 .button-text {
-  padding-left: 15px;
+  padding: 15px;
 }
 
 .widgetlist-enter {
@@ -916,9 +914,40 @@ table.dataTable thead .sorting:after {
 }
 
 .default-action:hover {
-  color: #1caf9a;
+  color: #009;
 }
 
 .trash:hover {
   color: red;
+}
+
+.multiselect {
+  border-right: none;
+  border-left: none;
+  box-shadow: none;
+  border-radius: 0;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.multiselect > option {
+  color: #000;
+  font-size: 15px;
+}
+
+.form-control[disabled] > option {
+  color: #747474;
+  background-color: transparent;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: transparent;
+    opacity: 1;
+}
+
+.form-control:focus {
+    border-color: #009;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }

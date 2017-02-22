@@ -1,25 +1,26 @@
 import React from 'react';
 import { Col, ControlLabel } from 'react-bootstrap';
-import SelectField from 'material-ui/SelectField'
+import MultiSelect from './MultiSelect';
 
 function _renderActualComponent(props) {
   const {input, placeholder, meta: {touched, error}, children, custom} = props;
+
   return (
-    <SelectField
+    <MultiSelect
       floatingLabelText={placeholder}
       errorText={touched && error}
       {...input}
-      onChange={(event, index, value) => input.onChange(value)}
-      onBlur={(event, index, value) => input.onBlur(value)}
+      onChange={(e, v) => input.onChange(v)}
+      onBlur={(e, v) => input.onBlur(v)}
       children={children}
       fullWidth
       {...custom} />
   );
 }
 
-const SFieldSelect = (props) => {
+const SFieldMultiSelect = (props) => {
   const { meta, label, size, disabled, staticValue } = props;
-  const value = staticValue && staticValue.length > 0 ? staticValue[0].getName() : '';
+  const value = staticValue && staticValue.length > 0 ? staticValue.map(item => item.getName()).join(', ') : '';
   return (
     <div className={(meta.touched && meta.error ? 'has-error' : '')}>
       <Col componentClass={ControlLabel} className='default-label' sm={2}>
@@ -32,4 +33,4 @@ const SFieldSelect = (props) => {
   );
 }
 
-export default SFieldSelect;
+export default SFieldMultiSelect;

@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { injectIntl } from 'react-intl';
 import { Row } from 'react-bootstrap';
+import MenuItem from 'material-ui/MenuItem';
+import { ListItem } from 'material-ui/List'
 import { Keys } from './SubscriptionsPage_messages';
-import Subscription from '../model';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
-import SField from '../../../components/library/SField';
+import SFieldMultiSelect from '../../../components/library/SFieldMultiSelect';
 import SFieldSelect from '../../../components/library/SFieldSelect';
+import SFieldText from '../../../components/library/SFieldText';
 import { submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription } from '../actions';
 import { loadApi } from '../../apis/actions';
 import { load } from '../../apps/actions';
@@ -25,6 +27,7 @@ class SubscriptionsCreatePage extends Component {
       isApisLoaded: false,
       isAppsLoaded: false,
       apis: this.props.apis ? this.props.apis.list : [],
+      selectedApis: [],
       apps: this.props.apps ? this.props.apps.list : [],
       isDetailPage: this.props.params.id, // needs to parse window location to detect if an id is present, i.e. detail page
       errors: null
@@ -56,6 +59,7 @@ class SubscriptionsCreatePage extends Component {
   // Accessing this.state after calling this method can potentially return the existing value.
   // There is no guarantee of synchronous operation of calls to setState and calls may be batched
   // for performance gains.
+  // In other words: do not use console.log here to check the state has been properly set :)
   componentDidMount() {
     if (this.state.isDetailPage) {
       this.setState({
@@ -127,6 +131,7 @@ class SubscriptionsCreatePage extends Component {
       if (nextProps.apisIsLoadSuccessful) {
         this.setState({
           apis: nextProps.apis.list,
+          selectedApis: nextProps.apis.list,
           isApisLoaded: true
         });
       }
@@ -148,17 +153,10 @@ class SubscriptionsCreatePage extends Component {
   }
 
   onSubscriptionSubmit(newValues) {
-    var newSubscription = new Subscription();
-    newSubscription = newSubscription
-      .setId(newValues.id ? newValues.id : this.props.initialValues.getId())
-      .setName(newValues.name ? newValues.name : this.props.initialValues.getName())
-      .setDescription(newValues.description ? newValues.description : this.props.initialValues.getDescription())
-      .setAppId(newValues.app_id ? newValues.app_id : this.props.initialValues.getAppId())
-      .setApis(newValues.apis ? newValues.apis : this.props.initialValues.getApis())
     if (this.state.isDetailPage) {
-      return this.props.updateSubscription(newSubscription);
+      return this.props.updateSubscription(newValues);
     } else {
-      return this.props.submitNewSubscription(newSubscription);
+      return this.props.submitNewSubscription(newValues);
     }
   }
 
@@ -181,7 +179,7 @@ class SubscriptionsCreatePage extends Component {
             name='status'
             label='Status'
             size={8}
-            component={SField}
+            component={SFieldText}
             staticValue={this.props.initialValues.getStatus()}
             disabled
           />
@@ -193,13 +191,28 @@ class SubscriptionsCreatePage extends Component {
   render() {
     return (
       <GenericLayout config={this.getConfig()}>
-        <Row className="form-group">
+        {/*<Row className="form-group">
           <Field
             name='apis'
             label='Apis'
             placeholder='Please your APIs...'
-            component={SFieldSelect}
+            component={SFieldTable}
+            data={this.state.apis.map((item) => item.id)}
+            multiple
+            size={8}
+            displayHeader={false}
+            isProcessing={!this.state.isApisLoaded || this.props.apisIsProcessing}
+            disabled={(this.state.isDetailPage && !this.state.isEditEnabled) || !this.state.apps.length}
+          />
+        </Row>*/}
+        {/*<Row className="form-group">
+          <Field
+            name='apis'
+            label='Apis'
+            placeholder='Please your APIs...'
+            component={SFieldMultiSelect}
             values={this.state.apis}
+            onChangeAction={this.onApiChangeAction}
             multiple
             size={8}
             isProcessing={!this.state.isApisLoaded || this.props.apisIsProcessing}
@@ -207,19 +220,37 @@ class SubscriptionsCreatePage extends Component {
           >
             {this.state.apis.map((item) => (<option key={item.id} value={item.id}>{item.name}</option>))}
           </Field>
+        </Row>*/}
+        <Row className="form-group">
+          <Field
+            name='apis'
+            label='Apis'
+            placeholder='Select your APIs...'
+            component={SFieldMultiSelect}
+            staticValue={this.state.apis}
+            onChange={(event, value) => { this.setState({ selectedApis: value }) }}
+            fullWidth={true}
+            size={8}
+            isProcessing={!this.state.isApisLoaded || this.props.apisIsProcessing}
+            disabled={(this.state.isDetailPage && !this.state.isEditEnabled) ||
+              !this.state.apis ||
+              (this.state.apis && !this.state.apis.length)}
+          >
+            {this.state.apis.map((item) => (<ListItem key={item.id} value={item.id} primaryText={item.name} />))}
+          </Field>
         </Row>
         <Row className="form-group">
           <Field
-            name='apps'
+            name='app_id'
             label='Application'
             placeholder='Select your application...'
             component={SFieldSelect}
-            values={this.state.apps}
+            staticValue={this.state.apps}
             size={8}
             isProcessing={this.props.appsIsProcessing}
             disabled={(this.state.isDetailPage && !this.state.isEditEnabled) || !this.state.apps.length}
           >
-            {this.state.apps.map((item) => (<option key={item.id} value={item.id}>{item.name}</option>))}
+            {this.state.apps.map((item) => (<MenuItem key={item.id} value={item.id} primaryText={item.name} />))}
           </Field>
         </Row>
         <Row className="form-group">
@@ -229,7 +260,7 @@ class SubscriptionsCreatePage extends Component {
             label='Name'
             size={8}
             placeholder='e.g. Apis subscription for my project'
-            component={SField}
+            component={SFieldText}
             staticValue={this.props.initialValues.getName()}
             disabled={this.state.isDetailPage && !this.state.isEditEnabled}
           />
@@ -241,7 +272,7 @@ class SubscriptionsCreatePage extends Component {
             label='Description'
             size={8}
             placeholder='e.g. Description for your project Apis subscription'
-            component={SField}
+            component={SFieldText}
             staticValue={this.props.initialValues.getDescription()}
             disabled={this.state.isDetailPage && !this.state.isEditEnabled}
           />

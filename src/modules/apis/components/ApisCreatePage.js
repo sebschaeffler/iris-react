@@ -5,10 +5,9 @@ import { Field, reduxForm } from 'redux-form/immutable';
 import { injectIntl } from 'react-intl';
 import { Panel, Col, ControlLabel, Row } from 'react-bootstrap';
 import msg, { Keys } from './ApisPage_messages';
-import Api from '../../../model/api';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
-import SField from '../../../components/library/SField';
+import SFieldText from '../../../components/library//SFieldText';
 import { submitNewApi, loadApi, resetApi, updateApi, deleteApi } from '../actions';
 
 class ApisCreatePage extends Component {
@@ -57,7 +56,7 @@ class ApisCreatePage extends Component {
   componentDidMount() {
     if (this.state.isDetailPage) {
       this.setState({
-        isEditEnabled: false,
+        isEditEnabled: false
       });
       // Load content
       this.props.loadApi({
@@ -87,21 +86,10 @@ class ApisCreatePage extends Component {
   }
 
   onApiSubmit(newValues) {
-    var newApi = new Api();
-    newApi = newApi
-      .setId(newValues.id ? newValues.id : this.props.initialValues.getId())
-      .setTechnicalName(newValues.technical_name ? newValues.technical_name : this.props.initialValues.getTechnicalName())
-      .setName(newValues.name ? newValues.name : this.props.initialValues.getName())
-      .setContext(newValues.context ? newValues.context : this.props.initialValues.getContext())
-      .setVisibility(newValues.visibility ? newValues.visibility : this.props.initialValues.getVisibility())
-      .setDescription(newValues.description ? newValues.description : this.props.initialValues.getDescription())
-      .setTags(newValues.tags ? newValues.tags : this.props.initialValues.getTags())
-      .setApiEndpoint(newValues.api_endpoint ? newValues.api_endpoint : this.props.initialValues.getApiEndpoint())
-      .setDocEndpoint(newValues.doc_endpoint ? newValues.doc_endpoint : this.props.initialValues.getDocEndpoint())
     if (this.state.isDetailPage) {
-      return this.props.updateApi(newApi);
+      return this.props.updateApi(newValues);
     } else {
-      return this.props.submitNewApi(newApi);
+      return this.props.submitNewApi(newValues);
     }
   }
 
@@ -138,7 +126,7 @@ class ApisCreatePage extends Component {
               label='Context'
               size={2}
               staticValue={this.props.initialValues.getContext()}
-              component={SField}
+              component={SFieldText}
               disabled />
             <Field
               type='text'
@@ -146,81 +134,83 @@ class ApisCreatePage extends Component {
               label='Visibility'
               size={2}
               staticValue={this.props.initialValues.getVisibility()}
-              component={SField}
+              component={SFieldText}
               disabled />
           </Row>
-          <Row className="form-group">
+          <Row className={this.state.isEditEnabled ? '' : 'form-group'}>
             <Field
               type='text'
               name='name'
               label='Name'
               size={8}
               placeholder={this.props.intl.formatMessage(msg(Keys.SHARE_PRICES_PLACEHOLDER))}
-              component={SField}
+              component={SFieldText}
               staticValue={this.props.initialValues.getName()}
-              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+              disabled={!this.state.isEditEnabled}
             />
           </Row>
-          <Row className="form-group">
+          <Row className={this.state.isEditEnabled ? '' : 'form-group'}>
             <Field
               type='text'
               name='technical_name'
               label='Technical name'
               size={8}
               placeholder='e.g. share-prices (lowercase and hyphens are recommended)'
-              component={SField}
+              component={SFieldText}
               staticValue={this.props.initialValues.getTechnicalName()}
-              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+              disabled={!this.state.isEditEnabled}
             />
           </Row>
-          <Row className="form-group">
+          <Row className={this.state.isEditEnabled ? '' : 'form-group'}>
             <Field
               type='textarea'
               name='description'
               label='Description'
               size={8}
-              component={SField}
+              multiLine={true}
+              rows={2}
+              component={SFieldText}
               staticValue={this.props.initialValues.getDescription()}
               placeholder='High level description of the API'
-              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+              disabled={!this.state.isEditEnabled}
             />
           </Row>
-          <Row className="form-group">
+          <Row className={this.state.isEditEnabled ? '' : 'form-group'}>
             <Field
               type='text'
               name='tags'
               label='Tags'
               size={8}
-              component={SField}
+              component={SFieldText}
               staticValue={this.props.initialValues.getTags()}
               placeholder='e.g. share prices, options, futures'
-              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+              disabled={!this.state.isEditEnabled}
             />
           </Row>
         </Panel>
         <Panel collapsible defaultExpanded header='API definition' onSelect={this.toggleDefinitionPanel} expanded={this.state.definitionPanelExpanded} >
-          <Row className="form-group">
+          <Row className={this.state.isEditEnabled ? '' : 'form-group'}>
             <Field
               type='text'
               name='api_endpoint'
               label='Api endpoint'
               size={8}
-              component={SField}
+              component={SFieldText}
               staticValue={this.props.initialValues.getApiEndpoint()}
               placeholder='e.g. http://www.example.com/sharePrices'
-              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+              disabled={!this.state.isEditEnabled}
             />
           </Row>
-          <Row className="form-group">
+          <Row className={this.state.isEditEnabled ? '' : 'form-group'}>
             <Field
               type='text'
               name='doc_endpoint'
               label='Documentation enpoint'
               size={8}
-              component={SField}
+              component={SFieldText}
               staticValue={this.props.initialValues.getDocEndpoint()}
               placeholder='e.g. http://www.example.com/sharePrices/swagger-ui'
-              disabled={this.state.isDetailPage && !this.state.isEditEnabled}
+              disabled={!this.state.isEditEnabled}
             />
           </Row>
         </Panel>

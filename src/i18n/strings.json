@@ -38,14 +38,14 @@
     "apis.shareprices.placeholder": "e.g. Share Prices",
     "apis.buttons.save": "Save",
     "apis.buttons.create": "New API",
-    "apis.buttons.back": "Back to APIs list",
+    "apis.buttons.back": "Back",
     "apps.sections.title": "My applications",
     "apps.buttons.create": "New application",
-    "apps.buttons.back": "Back to application list",
+    "apps.buttons.back": "Back",
     "apps.buttons.save": "Save",
     "subscriptions.sections.title": "My subscriptions",
     "subscriptions.buttons.create": "New subscription",
-    "subscriptions.buttons.back": "Back to subscriptions list",
+    "subscriptions.buttons.back": "Back",
     "subscriptions.buttons.save": "Save"
   },
   "fr": {
@@ -87,14 +87,14 @@
     "apis.shareprices.placeholder": "e.g. Cours des actions",
     "apis.buttons.save": "Enregistrer",
     "apis.buttons.create": "Nouvelle API",
-    "apis.buttons.back": "Retour à la liste d'APIs",
+    "apis.buttons.back": "Retour",
     "apps.sections.title": "Mes applications",
     "apps.buttons.create": "Nouvelle application",
-    "apps.buttons.back": "Retour à la liste d'applications",
+    "apps.buttons.back": "Retour",
     "apps.buttons.save": "Enregistrer",
     "subscriptions.sections.title": "Mes abonnements",
     "subscriptions.buttons.create": "New subscription",
-    "subscriptions.buttons.back": "Retour à la liste d'abonnements",
+    "subscriptions.buttons.back": "Retour",
     "subscriptions.buttons.save": "Enregistrer"
   }
 }

@@ -4,11 +4,10 @@ import { Field, reduxForm } from 'redux-form/immutable';
 import { injectIntl } from 'react-intl';
 import { Row } from 'react-bootstrap';
 import { Keys } from './AppsPage_messages';
-import SField from '../../../components/library/SField';
+import SFieldText from '../../../components/library/SFieldText';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import { submitNewApp, load, resetApp, updateApp, deleteApp } from '../actions';
-import { App } from '../model';
 
 class AppsCreatePage extends Component {
 
@@ -64,16 +63,10 @@ class AppsCreatePage extends Component {
   }
 
   onAppSubmit(newValues) {
-    var newApp = new App();
-    newApp = newApp
-      .setId(newValues.id ? newValues.id : this.props.initialValues.getId())
-      .setName(newValues.name ? newValues.name : this.props.initialValues.getName())
-      .setDescription(newValues.description ? newValues.description : this.props.initialValues.getDescription())
-      .setCallbackUrl(newValues.callback_url ? newValues.callback_url : this.props.initialValues.getCallbackUrl());
     if (this.state.isDetailPage) {
-      return this.props.updateApp(newApp);
+      return this.props.updateApp(newValues);
     } else {
-      return this.props.submitNewApp(newApp);
+      return this.props.submitNewApp(newValues);
     }
   }
 
@@ -101,7 +94,7 @@ class AppsCreatePage extends Component {
             label='Name'
             placeholder='Name'
             size={8}
-            component={SField}
+            component={SFieldText}
             staticValue={this.props.initialValues.getName()}
             disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
         </Row>
@@ -111,7 +104,7 @@ class AppsCreatePage extends Component {
             name='description'
             label='Description'
             size={8}
-            component={SField}
+            component={SFieldText}
             placeholder='Description of the application'
             staticValue={this.props.initialValues.getDescription()}
             disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
@@ -123,7 +116,7 @@ class AppsCreatePage extends Component {
             label='Callback URL'
             size={8}
             placeholder='http://www.yourapi.com'
-            component={SField}
+            component={SFieldText}
             staticValue={this.props.initialValues.getCallbackUrl()}
             disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
         </Row>

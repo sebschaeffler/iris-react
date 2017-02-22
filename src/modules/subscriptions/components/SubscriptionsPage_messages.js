@@ -10,7 +10,7 @@ export const Keys = {
 const _keys = {
   [Keys.SECTIONS_SUBSCRIPTIONS_TITLE]: { defaultMessage: 'My subscriptions' },
   [Keys.BUTTON_CREATE]: { defaultMessage: 'New subscription' },
-  [Keys.BUTTON_BACK_TO_LIST]: { defaultMessage: 'Back to the subscriptions list' },
+  [Keys.BUTTON_BACK_TO_LIST]: { defaultMessage: 'Back' },
   [Keys.BUTTON_SUBMIT]: { defaultMessage: 'Save' }
 };
 

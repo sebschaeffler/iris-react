@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { FormGroup, Col, Button } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome';
 import AppWidget from '../../../components/library/AppWidget';
 import { Keys } from './AppsPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
-import { Link } from 'react-router';
 import { load } from '../actions';
+import GenericListLayout from '../../../components/library/GenericListLayout';
 
 class AppsListPage extends Component {
 
@@ -18,7 +16,9 @@ class AppsListPage extends Component {
       list: []
     }
 
+    this.getConfig = this.getConfig.bind(this);
     this.renderList = this.renderList.bind(this);
+    this.getCount = this.getCount.bind(this);
     this.buildParams = this.buildParams.bind(this);
     this.refresh = this.refresh.bind(this);
   }
@@ -29,12 +29,21 @@ class AppsListPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("New props: ", nextProps);
     this.setState({
       localList: nextProps.list
     });
   }
 
+  getConfig() {
+    return ({
+      createLink: '/newapp',
+      createLabel: <FormattedMessage id={Keys.BUTTON_CREATE} />,
+      refresh: this.refresh,
+      refreshLabel: <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />,
+      renderList: this.renderList,
+      getCount: this.getCount
+    });
+  }
 
   refresh(params) {
     const queryParams = this.buildParams();
@@ -87,45 +96,7 @@ class AppsListPage extends Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <div className='button-left'>
-            <FormGroup>
-              <Col>
-                <Link to='/newapp'>
-                  <Button
-                    className='default-submit-button'
-                    type='submit'>
-                    <FontAwesome name='plus' />
-                    <span className="button-text">
-                      <FormattedMessage id={Keys.BUTTON_CREATE} />
-                    </span>
-                  </Button>
-                </Link>
-              </Col>
-            </FormGroup>
-          </div>
-          <div className='button-right'>
-            <Col>
-              <Button
-                className='default-submit-button'
-                type='submit'
-                onClick={this.refresh}>
-                <FontAwesome name='refresh' />
-                <span className="button-text">
-                  <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />
-                </span>
-              </Button>
-            </Col>
-          </div>
-        </div>
-        <div className="workarea">
-          {this.renderList()}
-          <div className='col-lg-12 col-md-8 explore-footer'>
-            {this.getCount()}
-          </div>
-        </div>
-      </div>
+      <GenericListLayout config={this.getConfig()} />
     );
   }
 }

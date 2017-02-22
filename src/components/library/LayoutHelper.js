@@ -1,9 +1,10 @@
 import React from 'react';
-import { FormGroup, Col, Button, Row } from 'react-bootstrap';
+import { FormGroup, Col, Row } from 'react-bootstrap';
 import { Field } from 'redux-form/immutable';
-import SField from './SField';
+import RaisedButton from 'material-ui/RaisedButton';
+import NavigationChevronleft from 'material-ui/svg-icons/navigation/chevron-left';
+import SFieldText from './SFieldText';
 import { FormattedMessage } from 'react-intl';
-import FontAwesome from 'react-fontawesome';
 import { Keys as AppKeys } from '../../i18n/keys';
 
 export function renderTechnicalId(props) {
@@ -16,7 +17,7 @@ export function renderTechnicalId(props) {
           name='id'
           label='Technical identifier'
           size={8}
-          component={SField}
+          component={SFieldText}
           staticValue={remoteProps.initialValues.getId()}
           disabled />
       </Row>
@@ -40,18 +41,15 @@ export function renderBackAction(props) {
   } = props;
   if (!isDetailPage || !isEditEnabled) {
     return (
-      <div className='button-left'>
+      <div className='button-left button-top'>
         <FormGroup>
           <Col>
-            <Button
-              className='default-submit-button'
-              type='reset'
-              onClick={backAction}>
-              <FontAwesome name='arrow-left' />
-              <span className="button-text">
-                <FormattedMessage id={backLabel} />
-              </span>
-            </Button>
+            <RaisedButton
+              primary={true}
+              className='default-button'
+              label={<FormattedMessage id={backLabel} />}
+              onClick={backAction}
+              icon={<NavigationChevronleft />} />
           </Col>
         </FormGroup>
       </div>
@@ -61,15 +59,12 @@ export function renderBackAction(props) {
       <div className='button-left'>
         <FormGroup>
           <Col>
-            <Button
-              className='default-submit-button'
-              type='reset'
-              onClick={toggleEditAction}>
-              <FontAwesome name='arrow-left' />
-              <span className="button-text">
-                <FormattedMessage id={AppKeys.VIEWS_BUTTONS_CANCEL} />
-              </span>
-            </Button>
+            <RaisedButton
+              primary={true}
+              className='default-button'
+              label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_CANCEL} />}
+              onClick={toggleEditAction}
+              icon={<NavigationChevronleft />} />
           </Col>
         </FormGroup>
       </div>
@@ -84,40 +79,38 @@ export function renderActions(props) {
 
   if (!isDetailPage || isEditEnabled) {
     return (
-      <div className='button-left'>
+      <div className='button-left button-bottom'>
         <Col>
-          <Button
-            className='default-submit-button'
+          <RaisedButton
+            primary={true}
+            className='default-button'
+            label={<FormattedMessage id={submitLabel} />}
             type='submit'
-            disabled={remoteProps.pristine || remoteProps.submitting}>
-            <FormattedMessage id={submitLabel} />
-          </Button>
-          <Button
-            className='query-reset'
+            disabled={remoteProps.pristine || remoteProps.submitting} />
+          <RaisedButton
+            className='default-button'
+            label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />}
             type='reset'
             onClick={remoteProps.reset}
-            disabled={remoteProps.pristine || remoteProps.submitting}>
-            <FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />
-          </Button>
+            disabled={remoteProps.pristine || remoteProps.submitting} />
         </Col>
       </div>
     );
   } else if (isDetailPage && !isEditEnabled) {
     return (
-      <div className='button-left'>
+      <div className='button-left button-bottom'>
         <Col>
-          <Button
-            className='default-submit-button'
+          <RaisedButton
+            primary={true}
+            className='default-button'
+            label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_EDIT} />}
             type='button'
-            onClick={toggleEditAction}>
-            <FormattedMessage id={AppKeys.VIEWS_BUTTONS_EDIT} />
-          </Button>
-          <Button
-            className='default-submit-button'
+            onClick={toggleEditAction} />
+          <RaisedButton
+            className='default-button'
+            label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_DELETE} />}
             type='button'
-            onClick={deleteAction}>
-            <FormattedMessage id={AppKeys.VIEWS_BUTTONS_DELETE} />
-          </Button>
+            onClick={deleteAction} />
         </Col>
       </div>
     );

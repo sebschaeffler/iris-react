@@ -7,15 +7,6 @@ import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
 
 class AppsPage extends Component {
 
-  constructor(props) {
-    super(props);
-    this.createNewApp = this.createNewApp.bind(this);
-  }
-
-  createNewApp() {
-
-  }
-
   render() {
     return (
       <div className='page-wrapper content'>
@@ -30,9 +21,4 @@ class AppsPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-  }
-};
-
-export default connect(mapStateToProps, {})(injectIntl(AppsPage));
+export default connect()(injectIntl(AppsPage));
