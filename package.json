@@ -34,6 +34,7 @@
     "react-clock": "^1.0.5",
     "react-dom": "^15.4.2",
     "react-fontawesome": "^1.2.0",
+    "react-iframe": "0.0.4",
     "react-intl": "^2.1.5",
     "react-popup": "^0.4.2",
     "react-redux": "^4.4.5",

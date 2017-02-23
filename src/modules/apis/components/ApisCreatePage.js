@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { injectIntl } from 'react-intl';
 import { Panel, Col, ControlLabel, Row } from 'react-bootstrap';
+import IFrame from 'react-iframe';
 import msg, { Keys } from './ApisPage_messages';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
-import SFieldText from '../../../components/library//SFieldText';
+import SFieldText from '../../../components/library/SFieldText';
 import { submitNewApi, loadApi, resetApi, updateApi, deleteApi } from '../actions';
 
 class ApisCreatePage extends Component {
@@ -25,6 +26,7 @@ class ApisCreatePage extends Component {
     };
 
     this.getConfig = this.getConfig.bind(this);
+    this.getSecondaryTabContent = this.getSecondaryTabContent.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.toggleGeneralPanel = this.toggleGeneralPanel.bind(this);
     this.toggleDefinitionPanel = this.toggleDefinitionPanel.bind(this);
@@ -36,6 +38,10 @@ class ApisCreatePage extends Component {
 
   getConfig() {
     return ({
+      tabs: this.state.isDetailPage,
+      getSecondaryTabContent: this.getSecondaryTabContent,
+      secondaryTabIcon: 'import_contacts',
+      secondaryTabLabel: 'Documentation',
       backLabel: Keys.BUTTON_BACK_TO_LIST,
       submitLabel: Keys.BUTTON_SUBMIT,
       isDetailPage: this.state.isDetailPage,
@@ -45,7 +51,15 @@ class ApisCreatePage extends Component {
       onSubmit: this.props.handleSubmit(this.onApiSubmit),
       backAction: this.redirectUser,
       toggleEditAction: this.toggleEdit,
-      deleteAction: this.deleteApi
+      deleteAction: this.deleteApi,
+      // action: {
+      //   href: this.props.initialValues.doc_endpoint,
+      //   target: '#workarea',
+      //   alignment: 'right',
+      //   primary: true,
+      //   label: 'Go to documentation',
+      //   icon: <FontIcon className="material-icons">import_contacts</FontIcon>
+      // }
     });
   }
 
@@ -113,6 +127,22 @@ class ApisCreatePage extends Component {
 
   togglePoliciesPanel() {
     this.setState({ policiesPanelExpanded: !this.state.policiesPanelExpanded });
+  }
+
+
+  getSecondaryTabContent() {
+    const url = this.props.initialValues.doc_endpoint;
+    if (url) {
+      return (
+        <IFrame url={url} width='100%' height='100%' />
+      );
+    } else {
+      return (
+        <span>
+          There is no documentation available yet.
+        </span>
+      );
+    }
   }
 
   render() {

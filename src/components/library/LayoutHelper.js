@@ -2,6 +2,7 @@ import React from 'react';
 import { FormGroup, Col, Row } from 'react-bootstrap';
 import { Field } from 'redux-form/immutable';
 import RaisedButton from 'material-ui/RaisedButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigationChevronleft from 'material-ui/svg-icons/navigation/chevron-left';
 import SFieldText from './SFieldText';
 import { FormattedMessage } from 'react-intl';
@@ -45,7 +46,6 @@ export function renderBackAction(props) {
         <FormGroup>
           <Col>
             <RaisedButton
-              primary={true}
               className='default-button'
               label={<FormattedMessage id={backLabel} />}
               onClick={backAction}
@@ -60,7 +60,7 @@ export function renderBackAction(props) {
         <FormGroup>
           <Col>
             <RaisedButton
-              primary={true}
+              primary
               className='default-button'
               label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_CANCEL} />}
               onClick={toggleEditAction}
@@ -72,6 +72,46 @@ export function renderBackAction(props) {
   }
 };
 
+// Displays a floating action button
+// Props expects the action to be triggered when clicking on the button
+// Icon should match material-ui component e.g. <ContentAdd /> for + icon
+export function renderFloatingActionButton(props) {
+  return (
+    <FloatingActionButton
+      className='floating-button'
+      onClick={props.action}>
+      {props.icon}
+    </FloatingActionButton>
+  );
+}
+
+// Displays a floating action button
+// Props expects the action to be triggered when clicking on the button
+// Icon should match material-ui component e.g. <ContentAdd /> for + icon
+// TODO: accept list of actions
+export function renderActionButton(props) {
+  if (props.action) {
+    return (
+      <div className={!props.action.alignment || props.action.alignment === 'right' ? 'button-right' : 'button-left'}>
+        <FormGroup>
+          <Col>
+            <RaisedButton
+              href={props.action.url}
+              target={props.action.target}
+              primary={props.action.primary || false}
+              secondary={props.action.secondary || false}
+              label={props.action.label || ''}
+              className='default-button'
+              style={props.action.style}
+              icon={props.action.icon}
+            />
+          </Col>
+        </FormGroup>
+      </div>
+    );
+  }
+}
+
 export function renderActions(props) {
   const {
     submitLabel, isDetailPage, isEditEnabled, toggleEditAction, deleteAction, remoteProps
@@ -82,7 +122,7 @@ export function renderActions(props) {
       <div className='button-left button-bottom'>
         <Col>
           <RaisedButton
-            primary={true}
+            primary
             className='default-button'
             label={<FormattedMessage id={submitLabel} />}
             type='submit'
@@ -101,7 +141,7 @@ export function renderActions(props) {
       <div className='button-left button-bottom'>
         <Col>
           <RaisedButton
-            primary={true}
+            primary
             className='default-button'
             label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_EDIT} />}
             type='button'
