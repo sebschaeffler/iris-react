@@ -47,7 +47,8 @@
     "redux-auth-wrapper": "^0.9.0",
     "redux-form": "^6.5.0",
     "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.3"
+    "reselect": "^2.5.3",
+    "respinner": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

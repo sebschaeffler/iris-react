@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
-import Spinner from 'react-spinkit';
+//import CircularLoader from 'respinner/lib/CircularLoader';
+import SpinLoader from 'respinner/lib/SpinLoader';
 import * as LayoutHelper from './LayoutHelper';
 
 export default class GenericLayout extends Component {
@@ -38,10 +39,13 @@ export default class GenericLayout extends Component {
       return (
         <div className='spinner-container'>
           <div className='inner-spinner-container'>
-            <Spinner spinnerName="cube-grid" />
-            <span className='spinner-label'>Loading...</span>
+            {/*<CircularLoader size={40} duration={1.5} stroke="#009" />*/}
+            <SpinLoader fill="#009" borderRadius={2} count={12} />
+            <div className='spinner-label'>
+              Please wait...
+            </div>
           </div>
-        </div>
+        </div >
       );
     }
 

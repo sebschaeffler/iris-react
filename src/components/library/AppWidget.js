@@ -9,15 +9,17 @@ const AppWidget = (props) => {
   return (
     <Panel className='stat' bsStyle={props.widgetStyle}
       header={
-        <div className='stat-panel-heading row'>
-          <div className='col-xs-3'>
-            <span className='big_icon'><FontAwesome name={props.icon} /></span>
+        <Link to={props.linkTo}>
+          <div className='stat-panel-heading row'>
+            <div className='col-xs-3'>
+              <span className='big_icon'><FontAwesome name={props.icon} /></span>
+            </div>
+            <div className='col-xs-9 text-right'>
+              <div className='huge'>{props.headerText}</div>
+              <div className='huge'>{props.count}</div>
+            </div>
           </div>
-          <div className='col-xs-9 text-right'>
-            <div className='huge'>{props.headerText}</div>
-            <div className='huge'>{props.count}</div>
-          </div>
-        </div>
+        </Link>
       }
       footer={
         <Link to={props.linkTo}>
@@ -26,7 +28,7 @@ const AppWidget = (props) => {
           <div className='clearfix'></div>
         </Link>
       }
-      />
+    />
   );
 
 }
