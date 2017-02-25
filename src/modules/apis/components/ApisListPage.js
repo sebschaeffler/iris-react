@@ -5,7 +5,6 @@ import ApiWidget from '../../../components/library/ApiWidget';
 import { Keys } from './ApisPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
 import { loadApi, deleteApi } from '../actions';
-import * as actions from '../actionTypes';
 import GenericListLayout from '../../../components/library/GenericListLayout';
 
 class ApisListPage extends Component {
@@ -30,11 +29,11 @@ class ApisListPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("New props: ", nextProps.list);
+    console.log("New props: ", nextProps);
     this.setState({
       localList: nextProps.list
     });
-    if (nextProps.currentAction === actions.DELETE_SUCCESS) {
+    if (nextProps.isDeleteSuccessful) {
       this.refresh();
     }
   }
@@ -46,7 +45,8 @@ class ApisListPage extends Component {
       refresh: this.refresh,
       refreshLabel: <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />,
       renderList: this.renderList,
-      getCount: this.getCount
+      getCount: this.getCount,
+      isProcessing: this.props.isProcessing
     });
   }
 
@@ -117,8 +117,7 @@ const mapStateToProps = (state) => {
   return {
     list: state.apis.list,
     isProcessing: state.apis.isProcessing,
-    isSuccessful: state.apis.isSuccessful,
-    currentAction: state.apis.currentAction,
+    isDeleteSuccessful: state.apis.CRUDState.isDeleteSuccessful(),
     errors: state.apis.errors
   }
 };

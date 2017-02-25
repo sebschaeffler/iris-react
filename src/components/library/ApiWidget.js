@@ -21,7 +21,7 @@ const ApiWidget = (props) => {
   const deleteTip = <Tooltip id="deletetip">Delete <strong>{props.headerText}</strong>?</Tooltip>;
 
   function _delete(e) {
-    props.deleteAction({ id: props.id });
+    props.deleteAction(props.id);
   }
 
   return (

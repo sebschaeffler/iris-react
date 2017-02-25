@@ -52,13 +52,13 @@ export function updateSubscription(params) {
   };
 }
 
-export function deleteSubscription(params) {
-  if (params === null || (!params.id && params.id !== 0) || params.id === '') {
-    throw new Error("ERROR while deleting: 'id' is mandatory ", params);
+export function deleteSubscription(id) {
+  if (id === null || !Number.isInteger(id)) {
+    throw new Error("ERROR while deleting: 'id' is mandatory and needs to be an integer, instead id = ", id);
   }
   return dispatch => {
     dispatch(apiMiddleware.createAction({
-      endpoint: `${SUBSCRIPTION_URL}/${params.id}`,
+      endpoint: `${SUBSCRIPTION_URL}/${id}`,
       actionTypes: [a.DELETE, a.DELETE_SUCCESS, a.DELETE_ERROR],
       parameters: null,
       httpRequestType: RequestType.DELETE

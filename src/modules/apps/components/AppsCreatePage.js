@@ -37,7 +37,8 @@ class AppsCreatePage extends Component {
       onSubmit: this.props.handleSubmit(this.onAppSubmit),
       backAction: this.redirectUser,
       toggleEditAction: this.toggleEdit,
-      deleteAction: this.deleteApp
+      deleteAction: this.deleteApp,
+      isProcessing: this.props.isProcessing
     });
   }
 
@@ -57,7 +58,10 @@ class AppsCreatePage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isSubmitSuccessful || nextProps.isDeleteSuccessful || nextProps.isUpdateSuccessful) {
+    if (nextProps.lastCRUDState &&
+      (nextProps.lastCRUDState.isUpdateSuccessful() ||
+        nextProps.lastCRUDState.isDeleteSuccessful() ||
+        nextProps.lastCRUDState.isSubmitSuccessful())) {
       this.redirectUser();
     }
   }
@@ -71,7 +75,7 @@ class AppsCreatePage extends Component {
   }
 
   deleteApp() {
-    this.props.deleteApp(this.props.initialValues);
+    this.props.deleteApp(this.props.initialValues.getId());
   }
 
   toggleEdit() {
@@ -129,10 +133,8 @@ class AppsCreatePage extends Component {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.apps.app,
-    isLoadSuccessful: state.apps.isLoadSuccessful,
-    isSubmitSuccessful: state.apps.isSubmitSuccessful,
-    isUpdateSuccessful: state.apps.isUpdateSuccessful,
-    isDeleteSuccessful: state.apps.isDeleteSuccessful
+    lastCRUDState: state.apps.CRUDStateisLoadSuccessful,
+    isProcessing: state.apps.isProcessing
   }
 };
 

@@ -41,7 +41,8 @@ class AppsListPage extends Component {
       refresh: this.refresh,
       refreshLabel: <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />,
       renderList: this.renderList,
-      getCount: this.getCount
+      getCount: this.getCount,
+      isProcessing: this.props.isProcessing
     });
   }
 

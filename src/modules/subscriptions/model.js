@@ -5,7 +5,7 @@ export class Subscription extends Record({
   name: '',
   description: '',
   status: '',
-  apis: [],
+  apis: null,
   app_id: null
 })
 {

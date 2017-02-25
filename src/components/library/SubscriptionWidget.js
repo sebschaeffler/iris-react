@@ -8,8 +8,8 @@ const SubscriptionWidget = (props) => {
   const openTip = <Tooltip id="opentip">Open <strong>{props.headerText}</strong> details</Tooltip>;
   const deleteTip = <Tooltip id="deletetip">Delete <strong>{props.headerText}</strong>?</Tooltip>;
 
-  function _delete(e) {
-    props.deleteAction({ id: props.id });
+  function _delete() {
+    props.deleteAction(props.id);
   }
 
   return (

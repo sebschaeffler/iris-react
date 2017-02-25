@@ -52,6 +52,7 @@ class ApisCreatePage extends Component {
       backAction: this.redirectUser,
       toggleEditAction: this.toggleEdit,
       deleteAction: this.deleteApi,
+      isProcessing: this.props.isProcessing
       // action: {
       //   href: this.props.initialValues.doc_endpoint,
       //   target: '#workarea',
@@ -89,8 +90,10 @@ class ApisCreatePage extends Component {
       this.setState({
         errors: nextProps.errors
       })
-    } else if (nextProps.isSubmitSuccessful || nextProps.isDeleteSuccessful || nextProps.isUpdateSuccessful) {
-      console.log("Redirect ", nextProps)
+    } else if (nextProps.lastCRUDState &&
+      (nextProps.lastCRUDState.isUpdateSuccessful() ||
+        nextProps.lastCRUDState.isDeleteSuccessful() ||
+        nextProps.lastCRUDState.isSubmitSuccessful())) {
       this.redirectUser();
     }
   }
@@ -108,7 +111,7 @@ class ApisCreatePage extends Component {
   }
 
   deleteApi() {
-    this.props.deleteApi(this.props.initialValues);
+    this.props.deleteApi(this.props.initialValues.getId());
   }
 
   toggleEdit() {
@@ -292,10 +295,8 @@ export const validate = (values) => {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.apis.api,
-    isLoadSuccessful: state.apis.isLoadSuccessful,
-    isSubmitSuccessful: state.apis.isSubmitSuccessful,
-    isUpdateSuccessful: state.apis.isUpdateSuccessful,
-    isDeleteSuccessful: state.apis.isDeleteSuccessful
+    isProcessing: state.apis.isProcessing,
+    lastCRUDState: state.apis.CRUDState
   }
 };
 

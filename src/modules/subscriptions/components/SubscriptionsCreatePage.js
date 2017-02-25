@@ -1,4 +1,4 @@
-import _ from 'lodash';
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form/immutable';
@@ -35,6 +35,7 @@ class SubscriptionsCreatePage extends Component {
 
     this.getConfig = this.getConfig.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.isProcessing = this.isProcessing.bind(this);
     this.redirectUser = this.redirectUser.bind(this);
     this.onSubscriptionSubmit = this.onSubscriptionSubmit.bind(this);
     this.deleteSubscription = this.deleteSubscription.bind(this);
@@ -51,7 +52,8 @@ class SubscriptionsCreatePage extends Component {
       onSubmit: this.props.handleSubmit(this.onSubscriptionSubmit),
       backAction: this.redirectUser,
       toggleEditAction: this.toggleEdit,
-      deleteAction: this.deleteSubscription
+      deleteAction: this.deleteSubscription,
+      isProcessingAction: this.isProcessing
     });
   }
 
@@ -89,7 +91,10 @@ class SubscriptionsCreatePage extends Component {
       this.setState({
         errors: nextProps.errors
       });
-    } else if (nextProps.isUpdateSuccessful || nextProps.isDeleteSuccessful || nextProps.isSubmitSuccessful) {
+    } else if (nextProps.lastCRUDState &&
+      (nextProps.lastCRUDState.isUpdateSuccessful() ||
+        nextProps.lastCRUDState.isDeleteSuccessful() ||
+        nextProps.lastCRUDState.isSubmitSuccessful())) {
       this.redirectUser();
     }
 
@@ -115,20 +120,20 @@ class SubscriptionsCreatePage extends Component {
     // Only lookup current values (detail)
     else {
       // Lookups
-      if (nextProps.isLoadSuccessful && !this.state.isLoadingAsyncContent) {
+      if (nextProps.lastCRUDState.isLoadSuccessful() && !this.state.isLoadingAsyncContent) {
         this.setState({
           isLoadingAsyncContent: true
         });
         // Lookup apis
         this.props.loadApi({
-          apis: Object.keys(nextProps.initialValues.getApis())
+          apis: Object.values(nextProps.initialValues.getApis())
         });
         // Lookup apps
         this.props.load({
           apps: [nextProps.initialValues.getAppId()]
         });
       } // Get the loaded apis
-      if (nextProps.apisIsLoadSuccessful) {
+      if (nextProps.apisCRUDState && nextProps.apisCRUDState.isLoadSuccessful()) {
         this.setState({
           apis: nextProps.apis.list,
           selectedApis: nextProps.apis.list,
@@ -136,7 +141,7 @@ class SubscriptionsCreatePage extends Component {
         });
       }
       // Get the loaded apps
-      if (nextProps.appsIsLoadSuccessful) {
+      if (nextProps.appsCRUDState && nextProps.appsCRUDState.isLoadSuccessful()) {
         this.setState({
           apps: nextProps.apps.list,
           isAppsLoaded: true
@@ -147,6 +152,9 @@ class SubscriptionsCreatePage extends Component {
     }
   }
 
+  isProcessing() {
+    return (!this.state.isApisLoaded && !this.state.isAppsLoaded);
+  }
 
   redirectUser() {
     this.props.router.replace('/subscriptionslist');
@@ -161,7 +169,7 @@ class SubscriptionsCreatePage extends Component {
   }
 
   deleteSubscription() {
-    this.props.deleteSubscription(this.props.initialValues);
+    this.props.deleteSubscription(this.props.initialValues.id);
   }
 
   toggleEdit() {
@@ -191,36 +199,6 @@ class SubscriptionsCreatePage extends Component {
   render() {
     return (
       <GenericLayout config={this.getConfig()}>
-        {/*<Row className="form-group">
-          <Field
-            name='apis'
-            label='Apis'
-            placeholder='Please your APIs...'
-            component={SFieldTable}
-            data={this.state.apis.map((item) => item.id)}
-            multiple
-            size={8}
-            displayHeader={false}
-            isProcessing={!this.state.isApisLoaded || this.props.apisIsProcessing}
-            disabled={(this.state.isDetailPage && !this.state.isEditEnabled) || !this.state.apps.length}
-          />
-        </Row>*/}
-        {/*<Row className="form-group">
-          <Field
-            name='apis'
-            label='Apis'
-            placeholder='Please your APIs...'
-            component={SFieldMultiSelect}
-            values={this.state.apis}
-            onChangeAction={this.onApiChangeAction}
-            multiple
-            size={8}
-            isProcessing={!this.state.isApisLoaded || this.props.apisIsProcessing}
-            disabled={(this.state.isDetailPage && !this.state.isEditEnabled) || !this.state.apps.length}
-          >
-            {this.state.apis.map((item) => (<option key={item.id} value={item.id}>{item.name}</option>))}
-          </Field>
-        </Row>*/}
         <Row className="form-group">
           <Field
             name='apis'
@@ -231,7 +209,6 @@ class SubscriptionsCreatePage extends Component {
             onChange={(event, value) => { this.setState({ selectedApis: value }) }}
             fullWidth={true}
             size={8}
-            isProcessing={!this.state.isApisLoaded || this.props.apisIsProcessing}
             disabled={(this.state.isDetailPage && !this.state.isEditEnabled) ||
               !this.state.apis ||
               (this.state.apis && !this.state.apis.length)}
@@ -247,7 +224,6 @@ class SubscriptionsCreatePage extends Component {
             component={SFieldSelect}
             staticValue={this.state.apps}
             size={8}
-            isProcessing={this.props.appsIsProcessing}
             disabled={(this.state.isDetailPage && !this.state.isEditEnabled) || !this.state.apps.length}
           >
             {this.state.apps.map((item) => (<MenuItem key={item.id} value={item.id} primaryText={item.name} />))}
@@ -288,17 +264,14 @@ class SubscriptionsCreatePage extends Component {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.subscriptions.subscription,
-    isLoadSuccessful: state.subscriptions.isLoadSuccessful,
-    isSubmitSuccessful: state.subscriptions.isSubmitSuccessful,
-    isUpdateSuccessful: state.subscriptions.isUpdateSuccessful,
-    isDeleteSuccessful: state.subscriptions.isDeleteSuccessful,
+    lastCRUDState: state.subscriptions.CRUDState,
     apis: state.apis.list,
     apisIsProcessing: state.apis.isProcessing,
-    apisIsLoadSuccessful: state.apis.isLoadSuccessful,
+    apisCRUDState: state.apis.CRUDState,
     apisErrors: state.apis.errors,
     apps: state.apps.list,
     appsIsProcessing: state.apps.isProcessing,
-    appsIsLoadSuccessful: state.apps.isLoadSuccessful,
+    appsCRUDState: state.apps.CRUDState,
     appsErrors: state.apps.errors
   }
 };

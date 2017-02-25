@@ -112,22 +112,23 @@ class MultiSelect extends Component {
           onChange={onChange}
         >
           {children.map(item => {
+            const actualValue = value === "" ? [] : value;
             let checkbox = <Checkbox
-              checked={(value || []).indexOf(item.props.value) >= 0}
+              checked={(actualValue || []).indexOf(item.props.value) >= 0}
               onCheck={(e, v) => {
-                const index = value.indexOf(item.props.value);
+                const index = actualValue.indexOf(item.props.value);
                 if (v === true) {
                   if (index < 0) {
-                    value.push(item.props.value);
+                    actualValue.push(item.props.value);
                     if (this.props.onChange) {
-                      this.props.onChange(e, value);
+                      this.props.onChange(e, actualValue);
                     }
                   }
                 } else {
                   if (index >= 0) {
-                    value.splice(index, 1);
+                    actualValue.splice(index, 1);
                     if (this.props.onChange) {
-                      this.props.onChange(e, value);
+                      this.props.onChange(e, actualValue);
                     }
                   }
                 }
@@ -135,7 +136,8 @@ class MultiSelect extends Component {
             return React.cloneElement(item, {
               leftCheckbox: checkbox
             });
-          })}
+          })
+          }
         </DropDownMenu>
       </TextField>
     );

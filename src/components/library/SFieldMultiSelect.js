@@ -3,7 +3,15 @@ import { Col, ControlLabel } from 'react-bootstrap';
 import MultiSelect from './MultiSelect';
 
 function _renderActualComponent(props) {
-  const {input, placeholder, meta: {touched, error}, children, custom} = props;
+  const {input, placeholder, meta: {touched, error}, children, custom, isProcessing} = props;
+
+  if (isProcessing) {
+    return (
+      <div>
+        Loading......
+      </div>
+    );
+  }
 
   return (
     <MultiSelect

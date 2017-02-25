@@ -52,14 +52,13 @@ export function updateApp(params) {
   };
 }
 
-export function deleteApp(params) {
-  console.log(params);
-  if (params === null || (!params.id && params.id !== 0) || params.id === '') {
-    throw new Error("ERROR while deleting: 'id' is mandatory ", params);
+export function deleteApp(id) {
+  if (id === null || !Number.isInteger(id)) {
+    throw new Error("ERROR while deleting: 'id' is mandatory and needs to be an integer, instead id = ", id);
   }
   return dispatch => {
     dispatch(apiMiddleware.createAction({
-      endpoint: `${APP_URL}/${params.id}`,
+      endpoint: `${APP_URL}/${id}`,
       actionTypes: [a.DELETE, a.DELETE_SUCCESS, a.DELETE_ERROR],
       parameters: null,
       httpRequestType: RequestType.DELETE

@@ -1,43 +1,42 @@
-import { Record } from 'immutable';
-import * as types from './actionTypes';
+import { Record } from "immutable";
+import * as types from "./actionTypes";
 import { Subscription, Subscriptions } from './model';
+import { CRUDState } from "../../model";
 
 const StateRecord = new Record({
   subscription: new Subscription(), // for create or detail
   list: new Subscriptions(), // for retrieving list of subscriptions
-  currentAction: null,
+  CRUDState: new CRUDState(),
   isProcessing: false,
-  isLoadSuccessful: false,
-  isResetSuccessful: false,
-  isSubmitSuccessful: false,
-  isUpdateSuccessful: false,
-  isDeleteSuccessful: false,
   errors: null
 });
 
 class State extends StateRecord {
+  reset() {
+    return this.set('errors', null)
+      .set('isProcessing', false)
+      .set('CRUDState', new CRUDState())
+      .set('subscription', new Subscription());
+  }
 }
 
 const INITIAL_STATE = new State();
 
 export default function (state = INITIAL_STATE, action) {
-  const { parameters, response, errorMessage } = action;
-  // Current action
-  state = state.set('currentAction', action.type);
+  const {parameters, response, errorMessage} = action;
+
   switch (action.type) {
+    // ===================
+    // LOAD
+    // ===================
     case types.LOAD:
       return state
-        .set('isProcessing', true)
-        .set('isLoadSuccessful', false)
-        .set('isResetSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('errors', null);
+        .reset()
+        .set('isProcessing', true);
     case types.LOAD_SUCCESS:
-      // Clear list
+      state.reset();
+      // Clear api list
       state.get('list').clear();
-      //console.log("Response: ", response)
       // Load expects either a list of results or a single result (which is not a singletonlist)
       if (response.entities !== null && response.entities.subscriptions) {
         // Convert entities into an subscription
@@ -49,89 +48,75 @@ export default function (state = INITIAL_STATE, action) {
           state.get('list').add(new Subscription(response.entities.subscriptions[key]))
         );
       }
-      // Return state
+      // Set loadsuccessful
       return state
         .set('isProcessing', false)
-        .set('isLoadSuccessful', true)
-        .set('errors', null);
+        .set('CRUDState', new CRUDState().setLoadSuccessful(true));
     case types.LOAD_ERROR:
+      state.reset();
       return state
-        .set('isProcessing', false)
-        .set('isLoadSuccessful', false)
         .set('errors', errorMessage);
+
+    // ===================
+    // SUBMIT
+    // ===================
     case types.SUBMIT:
       return state
+        .reset()
         .set('isProcessing', true)
-        .set('isLoadSuccessful', false)
-        .set('isResetSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('errors', null)
         .update('subscription', (values) =>
           parameters
         );
     case types.SUBMIT_SUCCESS:
       return state
-        .set('isProcessing', false)
-        .set('isSubmitSuccessful', true)
-        .set('errors', null);
+        .reset()
+        .set('CRUDState', new CRUDState().setSubmitSuccessful(true));
     case types.SUBMIT_ERROR:
       return state
-        .set('isProcessing', false)
-        .set('isSubmitSuccessful', false)
+        .reset()
         .set('errors', errorMessage);
+
+    // ===================
+    // RESET
+    // ===================
     case types.RESET:
       return state
-        .set('isProcessing', false)
-        .set('isResetSuccessful', true)
-        .set('isLoadSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('subscription', new Subscription());
+        .reset()
+        .set('CRUDState', new CRUDState().setResetSuccessful(true));
+
+    // ===================
+    // UPDATE
+    // ===================
     case types.UPDATE:
       return state
+        .reset()
         .set('isProcessing', true)
-        .set('isLoadSuccessful', false)
-        .set('isResetSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('errors', null)
         .update('subscription', (values) =>
           parameters
         );
     case types.UPDATE_SUCCESS:
       return state
-        .set('isProcessing', false)
-        .set('isUpdateSuccessful', true)
-        .set('subscription', new Subscription())
-        .set('errors', null);
+        .reset()
+        .set('CRUDState', new CRUDState().setUpdateSuccessful(true));
     case types.UPDATE_ERROR:
       return state
-        .set('isProcessing', false)
-        .set('isUpdateSuccessful', false)
+        .reset()
         .set('errors', errorMessage);
+
+    // ===================
+    // DELETE
+    // ===================
     case types.DELETE:
       return state
-        .set('isProcessing', true)
-        .set('isLoadSuccessful', false)
-        .set('isResetSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('errors', null);
+        .reset()
+        .set('isProcessing', true);
     case types.DELETE_SUCCESS:
       return state
-        .set('isProcessing', false)
-        .set('isDeleteSuccessful', true)
-        .set('subscription', new Subscription())
-        .set('errors', null);
+        .reset()
+        .set('CRUDState', new CRUDState().setDeleteSuccessful(true));
     case types.DELETE_ERROR:
       return state
-        .set('isProcessing', false)
-        .set('isDeleteSuccessful', false)
+        .reset()
         .set('errors', errorMessage);
     default:
       return state;

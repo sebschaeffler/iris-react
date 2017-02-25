@@ -1,44 +1,42 @@
-import { Record } from 'immutable';
-import * as types from './actionTypes';
-import { Api, Apis } from '../../model';
+import { Record } from "immutable";
+import * as types from "./actionTypes";
+import { Api, Apis, CRUDState } from "../../model";
 
 const StateRecord = new Record({
   api: new Api(), // for create or detail
-  list: new Apis(), // for retrieving list of apis
-  currentAction: null,
+  list: new Apis(), // for retrieving list of apis,
+  CRUDState: new CRUDState(),
   isProcessing: false,
-  isLoadSuccessful: false,
-  isResetSuccessful: false,
-  isSubmitSuccessful: false,
-  isUpdateSuccessful: false,
-  isDeleteSuccessful: false,
   errors: null
 });
 
 class State extends StateRecord {
+  reset() {
+    return this.set('errors', null)
+      .set('isProcessing', false)
+      .set('CRUDState', new CRUDState())
+      .set('api', new Api());
+  }
 }
 
 const INITIAL_STATE = new State();
 
 export default function (state = INITIAL_STATE, action) {
-  const { parameters, response, errorMessage } = action;
-  // Current action
-  state = state.set('currentAction', action.type);
+  const {parameters, response, errorMessage} = action;
+
   switch (action.type) {
+    // ===================
+    // LOAD
+    // ===================
     case types.LOAD:
       return state
-        .set('isProcessing', true)
-        .set('isLoadSuccessful', false)
-        .set('isResetSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('errors', null);
+        .reset()
+        .set('isProcessing', true);
     case types.LOAD_SUCCESS:
+      state.reset();
       // Clear api list
       state.get('list').clear();
       // Load expects either a list of results or a single result (which is not a singletonlist)
-      //console.log("Reducer: ", response)
       if (response.entities !== null && response.entities.apis) {
         // Convert entities into an API
         const keys = Object.keys(response.entities.apis);
@@ -49,89 +47,75 @@ export default function (state = INITIAL_STATE, action) {
           state.get('list').add(new Api(response.entities.apis[key]))
         );
       }
-      // Return state
+      // Set loadsuccessful
       return state
         .set('isProcessing', false)
-        .set('isLoadSuccessful', true)
-        .set('errors', null);
+        .set('CRUDState', new CRUDState().setLoadSuccessful(true));
     case types.LOAD_ERROR:
+      state.reset();
       return state
-        .set('isProcessing', false)
-        .set('isLoadSuccessful', false)
         .set('errors', errorMessage);
+
+    // ===================
+    // SUBMIT
+    // ===================
     case types.SUBMIT:
       return state
+        .reset()
         .set('isProcessing', true)
-        .set('isLoadSuccessful', false)
-        .set('isResetSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('errors', null)
         .update('api', (values) =>
           parameters
         );
     case types.SUBMIT_SUCCESS:
       return state
-        .set('isProcessing', false)
-        .set('isSubmitSuccessful', true)
-        .set('errors', null);
+        .reset()
+        .set('CRUDState', new CRUDState().setSubmitSuccessful(true));
     case types.SUBMIT_ERROR:
       return state
-        .set('isProcessing', false)
-        .set('isSubmitSuccessful', false)
+        .reset()
         .set('errors', errorMessage);
+
+    // ===================
+    // RESET
+    // ===================
     case types.RESET:
       return state
-        .set('isProcessing', false)
-        .set('isLoadSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('isResetSuccessful', true)
-        .set('api', new Api());
+        .reset()
+        .set('CRUDState', new CRUDState().setResetSuccessful(true));
+
+    // ===================
+    // UPDATE
+    // ===================
     case types.UPDATE:
       return state
+        .reset()
         .set('isProcessing', true)
-        .set('isLoadSuccessful', false)
-        .set('isResetSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('errors', null)
         .update('api', (values) =>
           parameters
         );
     case types.UPDATE_SUCCESS:
       return state
-        .set('isProcessing', false)
-        .set('isUpdateSuccessful', true)
-        .set('api', new Api())
-        .set('errors', null);
+        .reset()
+        .set('CRUDState', new CRUDState().setUpdateSuccessful(true));
     case types.UPDATE_ERROR:
       return state
-        .set('isProcessing', false)
-        .set('isUpdateSuccessful', false)
+        .reset()
         .set('errors', errorMessage);
+
+    // ===================
+    // DELETE
+    // ===================
     case types.DELETE:
       return state
-        .set('isProcessing', true)
-        .set('isLoadSuccessful', false)
-        .set('isResetSuccessful', false)
-        .set('isSubmitSuccessful', false)
-        .set('isUpdateSuccessful', false)
-        .set('isDeleteSuccessful', false)
-        .set('errors', null);
+        .reset()
+        .set('isProcessing', true);
     case types.DELETE_SUCCESS:
       return state
-        .set('isProcessing', false)
-        .set('isDeleteSuccessful', true)
-        .set('api', new Api())
-        .set('errors', null);
+        .reset()
+        .set('CRUDState', new CRUDState().setDeleteSuccessful(true));
     case types.DELETE_ERROR:
       return state
-        .set('isProcessing', false)
-        .set('isDeleteSuccessful', false)
+        .reset()
         .set('errors', errorMessage);
     default:
       return state;

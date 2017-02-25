@@ -5,7 +5,6 @@ import SubscriptionWidget from '../../../components/library/SubscriptionWidget';
 import { Keys } from './SubscriptionsPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
 import { loadSubscription, deleteSubscription } from '../actions';
-import * as actions from '../actionTypes';
 import GenericListLayout from '../../../components/library/GenericListLayout';
 
 class SubscriptionsListPage extends Component {
@@ -34,7 +33,7 @@ class SubscriptionsListPage extends Component {
     this.setState({
       localList: nextProps.list
     });
-    if (nextProps.currentAction === actions.DELETE_SUCCESS) {
+    if (nextProps.isDeleteSuccessful) {
       this.refresh();
     }
   }
@@ -117,8 +116,7 @@ const mapStateToProps = (state) => {
   return {
     list: state.subscriptions.list,
     isProcessing: state.subscriptions.isProcessing,
-    isSuccessful: state.subscriptions.isSuccessful,
-    currentAction: state.subscriptions.currentAction,
+    isDeleteSuccessful: state.subscriptions.isDeleteSuccessful,
     errors: state.subscriptions.errors
   }
 };

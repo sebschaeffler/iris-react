@@ -11,7 +11,7 @@ export function loadApi(params) {
     if (params && params.id) {
       url += `/${params.id}`;
     }
-    //console.log("Load: ", url, " with: ", params)
+    console.log("Load: ", url, " with: ", params)
     dispatch(apiMiddleware.createAction({
       endpoint: url,
       actionTypes: [a.LOAD, a.LOAD_SUCCESS, a.LOAD_ERROR],
@@ -53,13 +53,13 @@ export function updateApi(params) {
   };
 }
 
-export function deleteApi(params) {
-  if (params === null || (!params.id && params.id !== 0) || params.id === '') {
-    throw new Error("ERROR while deleting: 'id' is mandatory ", params);
+export function deleteApi(id) {
+  if (id === null || !Number.isInteger(id)) {
+    throw new Error("ERROR while deleting: 'id' is mandatory and needs to be an integer, instead id = ", id);
   }
   return dispatch => {
     dispatch(apiMiddleware.createAction({
-      endpoint: `${API_URL}/${params.id}`,
+      endpoint: `${API_URL}/${id}`,
       actionTypes: [a.DELETE, a.DELETE_SUCCESS, a.DELETE_ERROR],
       parameters: null,
       httpRequestType: RequestType.DELETE
