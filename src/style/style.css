@@ -812,26 +812,38 @@ table.dataTable thead .sorting:after {
   padding: 15px;
 }
 
-.widgetlist-enter {
-  opacity: 0.01;
-  right: 30px
+.widgetlist-enter, .widgetlist-appear {
+  opacity: 0;
+  right: 10px
 }
 
-.widgetlist-enter.widgetlist-enter-active {
+.widgetlist-enter-active, .widgetlist-appear-active {
   opacity: 1;
   transition: 500ms;
   right: 0;
 }
 
 .widgetlist-leave {
-  opacity: 1;
-  right: 0;
+  /*opacity: 1;*/
+  /*right: 0;*/
+  transform: rotateY(0deg);
 }
 
-.widgetlist-leave.widgetlist-leave-active {
-  opacity: 0.01;
-  right: -30px;
-  transition: 500ms;
+.widgetlist-leave-active {
+  /*opacity: 0;*/
+  /*right: -30px;*/
+  /*transition: 500ms;*/
+  animation: flip-out 500ms ease-out forwards;
+}
+
+@keyframes flip-out {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(90deg);
+  }
+
 }
 
 .widget-action {

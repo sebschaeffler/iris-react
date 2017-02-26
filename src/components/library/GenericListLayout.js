@@ -10,7 +10,9 @@ import SpinLoader from "respinner/lib/SpinLoader";
 const transitionOptions = {
   transitionName: "widgetlist",
   transitionEnterTimeout: 500,
-  transitionLeaveTimeout: 500
+  transitionLeaveTimeout: 500,
+  transitionAppear: true,
+  transitionAppearTimeout: 500
 };
 
 function _renderSpinner(config) {
