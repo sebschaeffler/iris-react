@@ -60,6 +60,10 @@ a:focus, a:hover {
   font-size: 4.3em;
 }
 
+.huge_icon {
+  font-size: 10em;
+}
+
 .welcome {
   margin-left: 28px;
 }
@@ -531,6 +535,12 @@ table.dataTable thead .sorting:after {
 
 .huge {
   font-size: 24px;
+}
+
+.secondary-text {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #ccc;
 }
 
 .sidebar-icon {

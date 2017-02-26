@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import AppWidget from '../../../components/library/AppWidget';
+import PackWidget from '../../../components/library/PackWidget';
 import { Keys } from './PacksPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
 import { loadPack, deletePack } from '../actions';
@@ -39,7 +39,7 @@ class PacksListPage extends Component {
 
   getConfig() {
     return ({
-      createLink: '/newpack',
+      createLink: '/newpackage',
       createLabel: <FormattedMessage id={Keys.BUTTON_CREATE} />,
       refresh: this.refresh,
       refreshLabel: <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />,
@@ -68,13 +68,14 @@ class PacksListPage extends Component {
       // Do not forget to return the list, not only the items inside that list
       return list.getList().map((item) => {
         return (
-          <div className='col-lg-4 col-md-8' key={item.getId()}>
-            <AppWidget
+          <div className='col-lg-6 col-md-10' key={item.getId()}>
+            <PackWidget
               widgetStyle='info'
               icon='line-chart'
-              count=''
+              rating={item.getRating()}
               headerText={item.getName()}
-              linkTo={'/pack/' + item.getId()}
+              secondaryText={item.getDescription()}
+              linkTo={'/package/' + item.getId()}
               css='default-dark'
             />
           </div>
@@ -90,13 +91,13 @@ class PacksListPage extends Component {
         <div>
           <span>There {list.getList().length > 1 ? 'are' : 'is'} currently </span>
           <span className='teal'>{list.getList().length}</span>
-          <span> pack{list.getList().length > 1 ? 's' : ''} available.</span>
+          <span> package{list.getList().length > 1 ? 's' : ''} available.</span>
         </div>
       );
     }
     return (
       <div>
-        No packs are currently available.
+        No packages are currently available.
       </div>
     );
   }

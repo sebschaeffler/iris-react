@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { injectIntl } from 'react-intl';
-import msg, { Keys } from './PacksPage_messages';
+import { Row } from 'react-bootstrap';
+import { Keys } from './PacksPage_messages';
+import SFieldText from '../../../components/library/SFieldText';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import { submitNewPack, loadPack, resetPack, updatePack, deletePack } from '../actions';
@@ -76,7 +78,7 @@ class PacksCreatePage extends Component {
   }
 
   redirectUser() {
-    this.props.router.replace('/packslist');
+    this.props.router.replace('/packageslist');
   }
 
   onPackSubmit(newValues) {
@@ -100,6 +102,39 @@ class PacksCreatePage extends Component {
   render() {
     return (
       <GenericLayout config={this.getConfig()}>
+        <Row className="form-group">
+          <Field
+            type='text'
+            name='name'
+            label='Name'
+            placeholder='Name'
+            size={8}
+            component={SFieldText}
+            staticValue={this.props.initialValues.getName()}
+            disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
+        </Row>
+        <Row className="form-group">
+          <Field
+            type='textarea'
+            name='description'
+            label='Description'
+            size={8}
+            component={SFieldText}
+            placeholder='Description of the application'
+            staticValue={this.props.initialValues.getDescription()}
+            disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
+        </Row>
+        <Row className="form-group">
+          <Field
+            type='text'
+            name='callback_url'
+            label='Callback URL'
+            size={8}
+            placeholder='http://www.yourpackage.com'
+            component={SFieldText}
+            staticValue={this.props.initialValues.getCallbackUrl()}
+            disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
+        </Row>
         {LayoutHelper.renderActions(this.getConfig())}
       </GenericLayout>
     );

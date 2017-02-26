@@ -4,7 +4,8 @@ export class Pack extends Record({
   id: '',
   name: '',
   description: '',
-  callback_url: ''
+  callback_url: '',
+  rating: 0
 })
 {
   getId() { return this.get('id'); }
@@ -18,6 +19,9 @@ export class Pack extends Record({
 
   getCallbackUrl() { return this.get('callback_url'); }
   setCallbackUrl(callback_url) { return this.set('callback_url', callback_url); }
+
+  getRating() { return this.get('rating'); }
+  setRating(rating) { return this.set('rating', rating); }
 };
 
 export class Packs extends Record({

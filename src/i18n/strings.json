@@ -1,6 +1,6 @@
 {
   "en": {
-    "app.title": "Developer portal",
+    "app.title": "Digital Business Platform",
     "app.pages.dashboard": "Dashboard",
     "app.pages.apilist": "Explore APIs",
     "app.pages.packageslist": "My Packages",
@@ -54,7 +54,7 @@
     "subscriptions.buttons.save": "Save"
   },
   "fr": {
-    "app.title": "Portail développeur",
+    "app.title": "Plateforme financière numérique",
     "app.pages.dashboard": "Dashboard",
     "app.pages.apilist": "Parcourir les APIs",
     "app.pages.packageslist": "Mes packs",
