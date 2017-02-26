@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
-import { Tabs, Tab } from 'material-ui/Tabs';
-import FontIcon from 'material-ui/FontIcon';
+import React, {Component} from "react";
+import {Form} from "react-bootstrap";
+import {Tabs, Tab} from "material-ui/Tabs";
+import FontIcon from "material-ui/FontIcon";
 //import CircularLoader from 'respinner/lib/CircularLoader';
-import SpinLoader from 'respinner/lib/SpinLoader';
-import * as LayoutHelper from './LayoutHelper';
+import SpinLoader from "respinner/lib/SpinLoader";
+import * as LayoutHelper from "./LayoutHelper";
 
 export default class GenericLayout extends Component {
 
@@ -32,21 +32,24 @@ export default class GenericLayout extends Component {
     });
   }
 
+  renderSpinner() {
+    return (
+      <div className='spinner-container'>
+        <div className='inner-spinner-container'>
+          <SpinLoader fill="#009" borderRadius={2} count={12}/>
+          {/*<div className='spinner-label'>
+           Please wait...
+           </div>*/}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const isProcessing = (this.props.config.isProcessingAction ? this.props.config.isProcessingAction() :
       this.props.config.isProcessing ? this.props.config.isProcessing : false);
     if (isProcessing) {
-      return (
-        <div className='spinner-container'>
-          <div className='inner-spinner-container'>
-            {/*<CircularLoader size={40} duration={1.5} stroke="#009" />*/}
-            <SpinLoader fill="#009" borderRadius={2} count={12} />
-            <div className='spinner-label'>
-              Please wait...
-            </div>
-          </div>
-        </div >
-      );
+      return this.renderSpinner();
     }
 
     if (this.props.config.tabs) {
@@ -85,7 +88,7 @@ export default class GenericLayout extends Component {
       <div>
         {LayoutHelper.renderBackAction(this.props.config)}
         {LayoutHelper.renderActionButton(this.props.config)}
-        <div id='workarea' className="workarea" >
+        <div id='workarea' className="workarea">
           <Form horizontal onSubmit={this.props.config.onSubmit}>
             {LayoutHelper.renderTechnicalId(this.props.config)}
             {this.props.children}

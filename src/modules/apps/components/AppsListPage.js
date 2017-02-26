@@ -4,7 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import AppWidget from '../../../components/library/AppWidget';
 import { Keys } from './AppsPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
-import { load } from '../actions';
+import { loadApp, deleteApp } from '../actions';
 import GenericListLayout from '../../../components/library/GenericListLayout';
 
 class AppsListPage extends Component {
@@ -20,6 +20,7 @@ class AppsListPage extends Component {
     this.renderList = this.renderList.bind(this);
     this.getCount = this.getCount.bind(this);
     this.buildParams = this.buildParams.bind(this);
+    this.deleteApp = this.deleteApp.bind(this);
     this.refresh = this.refresh.bind(this);
   }
 
@@ -32,6 +33,9 @@ class AppsListPage extends Component {
     this.setState({
       localList: nextProps.list
     });
+    if (nextProps.isDeleteSuccessful) {
+      this.refresh();
+    }
   }
 
   getConfig() {
@@ -48,19 +52,22 @@ class AppsListPage extends Component {
 
   refresh(params) {
     const queryParams = this.buildParams();
-    this.props.load(queryParams);
+    this.props.loadApp(queryParams);
   }
 
   buildParams() {
     return null;
   }
 
+  deleteApp(id) {
+    this.props.deleteApp(id);
+  }
 
   renderList() {
-    const listapis = this.props.list;
-    if (listapis && listapis.getList()) {
+    const list = this.props.list;
+    if (list && list.getList()) {
       // Do not forget to return the list, not only the items inside that list
-      return listapis.getList().map((item) => {
+      return list.getList().map((item) => {
         return (
           <div className='col-lg-4 col-md-8' key={item.getId()}>
             <AppWidget
@@ -69,6 +76,8 @@ class AppsListPage extends Component {
               count=''
               headerText={item.getName()}
               linkTo={'/app/' + item.getId()}
+              deleteAction={this.deleteApp}
+              id={item.getId()}
               css='default-dark'
             />
           </div>
@@ -78,13 +87,13 @@ class AppsListPage extends Component {
   }
 
   getCount() {
-    const listapps = this.props.list;
-    if (listapps && listapps.getList() && listapps.getList().length > 0) {
+    const list = this.props.list;
+    if (list && list.getList() && list.getList().length > 0) {
       return (
         <div>
-          <span>There {listapps.getList().length > 1 ? 'are' : 'is'} currently </span>
-          <span className='teal'>{listapps.getList().length}</span>
-          <span> application{listapps.getList().length > 1 ? 's' : ''} available.</span>
+          <span>There {list.getList().length > 1 ? 'are' : 'is'} currently </span>
+          <span className='teal'>{list.getList().length}</span>
+          <span> application{list.getList().length > 1 ? 's' : ''} available.</span>
         </div>
       );
     }
@@ -106,8 +115,9 @@ const mapStateToProps = (state) => {
   return {
     list: state.apps.list,
     isProcessing: state.apps.isProcessing,
+    isDeleteSuccessful: state.apps.CRUDState.isDeleteSuccessful(),
     errors: state.apps.errors
   }
 };
 
-export default connect(mapStateToProps, { load })(injectIntl(AppsListPage));
+export default connect(mapStateToProps, { loadApp, deleteApp })(injectIntl(AppsListPage));

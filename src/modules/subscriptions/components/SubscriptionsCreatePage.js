@@ -14,7 +14,7 @@ import SFieldSelect from '../../../components/library/SFieldSelect';
 import SFieldText from '../../../components/library/SFieldText';
 import { submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription } from '../actions';
 import { loadApi } from '../../apis/actions';
-import { load } from '../../apps/actions';
+import { loadApp } from '../../apps/actions';
 
 class SubscriptionsCreatePage extends Component {
 
@@ -80,7 +80,7 @@ class SubscriptionsCreatePage extends Component {
       // Load apis
       this.props.loadApi();
       // Load apps
-      this.props.load();
+      this.props.loadApp();
     }
 
     this.props.reset();
@@ -129,7 +129,7 @@ class SubscriptionsCreatePage extends Component {
           apis: Object.values(nextProps.initialValues.getApis())
         });
         // Lookup apps
-        this.props.load({
+        this.props.loadApp({
           apps: [nextProps.initialValues.getAppId()]
         });
       } // Get the loaded apis
@@ -282,4 +282,4 @@ export const SubscriptionsCreateForm = reduxForm({
   keepDirtyOnReinitialize: true,
 })(SubscriptionsCreatePage);
 
-export default connect(mapStateToProps, { loadApi, load, submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription })(injectIntl(SubscriptionsCreateForm));
+export default connect(mapStateToProps, { loadApi, loadApp, submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription })(injectIntl(SubscriptionsCreateForm));

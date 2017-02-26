@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import ApiWidget from '../../../components/library/ApiWidget';
-import { Keys } from './ApisPage_messages';
+import AppWidget from '../../../components/library/AppWidget';
+import { Keys } from './PacksPage_messages';
 import { Keys as AppKeys } from '../../../i18n/keys';
-import { loadApi, deleteApi } from '../actions';
+import { loadPack, deletePack } from '../actions';
 import GenericListLayout from '../../../components/library/GenericListLayout';
 
-class ApisListPage extends Component {
+class PacksListPage extends Component {
 
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ class ApisListPage extends Component {
     this.getCount = this.getCount.bind(this);
     this.buildParams = this.buildParams.bind(this);
     this.refresh = this.refresh.bind(this);
-    this.deleteApi = this.deleteApi.bind(this);
+    this.deletePack = this.deletePack.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +29,6 @@ class ApisListPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("New props: ", nextProps);
     this.setState({
       localList: nextProps.list
     });
@@ -40,7 +39,7 @@ class ApisListPage extends Component {
 
   getConfig() {
     return ({
-      createLink: '/newapi',
+      createLink: '/newpack',
       createLabel: <FormattedMessage id={Keys.BUTTON_CREATE} />,
       refresh: this.refresh,
       refreshLabel: <FormattedMessage id={AppKeys.VIEWS_QUERY_BUTTONS_REFRESH} />,
@@ -50,13 +49,13 @@ class ApisListPage extends Component {
     });
   }
 
-  deleteApi(id) {
-    this.props.deleteApi(id);
+  deletePack(id) {
+    this.props.deletePack(id);
   }
 
   refresh(params) {
     const queryParams = this.buildParams();
-    this.props.loadApi(queryParams);
+    this.props.loadPack(queryParams);
   }
 
   buildParams() {
@@ -70,15 +69,12 @@ class ApisListPage extends Component {
       return list.getList().map((item) => {
         return (
           <div className='col-lg-4 col-md-8' key={item.getId()}>
-            <ApiWidget
+            <AppWidget
               widgetStyle='info'
               icon='line-chart'
-              count={item.getNumberOfUsers()}
+              count=''
               headerText={item.getName()}
-              rating={item.getRating()}
-              linkTo={'/api/' + item.getId()}
-              deleteAction={this.deleteApi}
-              id={item.getId()}
+              linkTo={'/pack/' + item.getId()}
               css='default-dark'
             />
           </div>
@@ -94,13 +90,13 @@ class ApisListPage extends Component {
         <div>
           <span>There {list.getList().length > 1 ? 'are' : 'is'} currently </span>
           <span className='teal'>{list.getList().length}</span>
-          <span> api{list.getList().length > 1 ? 's' : ''} available.</span>
+          <span> pack{list.getList().length > 1 ? 's' : ''} available.</span>
         </div>
       );
     }
     return (
       <div>
-        No apis are currently available.
+        No packs are currently available.
       </div>
     );
   }
@@ -115,11 +111,11 @@ class ApisListPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    list: state.apis.list,
-    isProcessing: state.apis.isProcessing,
-    isDeleteSuccessful: state.apis.CRUDState.isDeleteSuccessful(),
-    errors: state.apis.errors
+    list: state.packs.list,
+    isProcessing: state.packs.isProcessing,
+    isDeleteSuccessful: state.packs.CRUDState.isDeleteSuccessful(),
+    errors: state.packs.errors
   }
 };
 
-export default connect(mapStateToProps, { loadApi, deleteApi })(injectIntl(ApisListPage));
+export default connect(mapStateToProps, { loadPack, deletePack })(injectIntl(PacksListPage));
