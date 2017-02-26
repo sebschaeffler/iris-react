@@ -9,6 +9,10 @@ This is a web front-end written in React/Redux which is used as part of the Digi
 
 This developer portal is intended to manage (publication and consumption of) APIs and respective users (publishers/consumers).
 
+![Alt text](./docs/packages.png "Packages screen")
+
+![Alt text](./docs/swagger.png "Documentation screen")
+
 # Installation
 
 Execute the following command to install all dependencies:
