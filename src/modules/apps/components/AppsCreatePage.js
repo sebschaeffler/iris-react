@@ -92,6 +92,17 @@ class AppsCreatePage extends Component {
     return (
       <GenericLayout config={this.getConfig()}>
         <Row className="form-group">
+          <SFieldText
+            type='text'
+            name='API_KEY'
+            label='Your project key'
+            size={8}
+            placeholder='65YETH_89P267544-5489900SRTEGKP_A765KFHBUQZY324'
+            component={SFieldText}
+            staticValue='65YETH_89P267544-5489900SRTEGKP_A765KFHBUQZY324'
+            disabled />
+        </Row>
+        <Row className="form-group">
           <Field
             type='text'
             name='name'
@@ -133,7 +144,7 @@ class AppsCreatePage extends Component {
 const mapStateToProps = (state) => {
   return {
     initialValues: state.apps.app,
-    lastCRUDState: state.apps.CRUDStateisLoadSuccessful,
+    lastCRUDState: state.apps.CRUDState,
     isProcessing: state.apps.isProcessing
   }
 };

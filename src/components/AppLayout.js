@@ -109,6 +109,16 @@ export default class AppLayout extends Component {
                     </Link>
                   </li>
                   <li>
+                    <Link to='/ui'>
+                      <div className='sidebar-icon'>
+                        <FontAwesome name='paint-brush' />
+                      </div>
+                      <span className='sidebar-text'>
+                        <FormattedMessage id='UI Guidelines' />
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
                     <div className='sidebar-locale'>
                       <div className='sidebar-icon'><FontAwesome name='flag' /></div>
                       <span className='sidebar-text'>
