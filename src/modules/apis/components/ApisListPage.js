@@ -29,7 +29,7 @@ class ApisListPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("New props: ", nextProps);
+    //console.log("New props: ", nextProps);
     this.setState({
       localList: nextProps.list
     });

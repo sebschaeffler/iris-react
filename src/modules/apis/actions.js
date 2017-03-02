@@ -11,7 +11,7 @@ export function loadApi(params) {
     if (params && params.id) {
       url += `/${params.id}`;
     }
-    console.log("Load: ", url, " with: ", params)
+    //console.log("Load: ", url, " with: ", params)
     dispatch(apiMiddleware.createAction({
       endpoint: url,
       actionTypes: [a.LOAD, a.LOAD_SUCCESS, a.LOAD_ERROR],

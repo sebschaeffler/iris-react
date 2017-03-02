@@ -1,7 +1,7 @@
-import { Record } from "immutable";
+import {Record} from "immutable";
 import * as types from "./actionTypes";
-import { Subscription, Subscriptions } from './model';
-import { CRUDState } from "../../model";
+import {Subscription, Subscriptions} from './model';
+import {CRUDState} from "../../model";
 
 const StateRecord = new Record({
   subscription: new Subscription(), // for create or detail
@@ -34,8 +34,8 @@ export default function (state = INITIAL_STATE, action) {
         .reset()
         .set('isProcessing', true);
     case types.LOAD_SUCCESS:
-      state.reset();
       // Clear api list
+      state.reset();
       state.get('list').clear();
       // Load expects either a list of results or a single result (which is not a singletonlist)
       if (response.entities !== null && response.entities.subscriptions) {
@@ -53,8 +53,8 @@ export default function (state = INITIAL_STATE, action) {
         .set('isProcessing', false)
         .set('CRUDState', new CRUDState().setLoadSuccessful(true));
     case types.LOAD_ERROR:
-      state.reset();
       return state
+        .reset()
         .set('errors', errorMessage);
 
     // ===================
@@ -95,6 +95,7 @@ export default function (state = INITIAL_STATE, action) {
           parameters
         );
     case types.UPDATE_SUCCESS:
+      console.log("UPDATE: ", response);
       return state
         .reset()
         .set('CRUDState', new CRUDState().setUpdateSuccessful(true));

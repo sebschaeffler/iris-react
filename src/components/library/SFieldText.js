@@ -1,34 +1,35 @@
 import _ from 'lodash';
-import React, { Component } from 'react';
-import { Col, ControlLabel } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Col, ControlLabel} from 'react-bootstrap';
 import TextField from 'material-ui/TextField'
 
 class SFieldText extends Component {
   constructor(props) {
-    super(props)
-    this.state = {value: props.input.value}
-    this.lastPropValue = props.input.value
+    super(props);
+    this.init(props);
 
     this.debouncedOnChange = _.debounce(event => {
       props.input.onChange(event.target.value)
     }, 200);
 
     this.handleChange = event => {
-      event.persist()
-      this.setState({value: event.target.value})
-      this.debouncedOnChange(event)
+      event.persist();
+      this.setState({value: event.target.value});
+      this.debouncedOnChange(event);
     }
 
     this.init = this.init.bind(this);
   }
 
-  init(value) {
-    this.state = {value: value}
-    this.lastPropValue = value
+  init(props) {
+    if (props.input) {
+      this.state = {value: props.input.value};
+      this.lastPropValue = props.input.value;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.init(nextProps.input.value);
+    this.init(nextProps);
   }
 
   _renderActualComponent() {
@@ -46,14 +47,13 @@ class SFieldText extends Component {
   }
 
   getValue() {
-
     const value = this.props.input.value !== this.lastPropValue ?
       this.props.input.value :
-      this.state.value
+      this.state.value;
 
-    this.lastPropValue = this.props.input.value
+    this.lastPropValue = this.props.input.value;
 
-    return value
+    return value;
   }
 
   render() {
@@ -63,7 +63,7 @@ class SFieldText extends Component {
           {this.props.disabled ? this.props.label : ''}
         </Col>
         <Col sm={this.props.size || 3} className={this.props.disabled ? 'form-control-static' : ''}>
-          {this.props.disabled && this.props.type !== 'select' ? this.props.staticValue :this._renderActualComponent()}
+          {this.props.disabled ? this.props.staticValue : this._renderActualComponent()}
         </Col>
       </div>
     )
