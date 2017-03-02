@@ -18,6 +18,17 @@ class SFieldText extends Component {
       this.setState({value: event.target.value})
       this.debouncedOnChange(event)
     }
+
+    this.init = this.init.bind(this);
+  }
+
+  init(value) {
+    this.state = {value: value}
+    this.lastPropValue = value
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.init(nextProps.input.value);
   }
 
   _renderActualComponent() {
@@ -35,6 +46,7 @@ class SFieldText extends Component {
   }
 
   getValue() {
+
     const value = this.props.input.value !== this.lastPropValue ?
       this.props.input.value :
       this.state.value
