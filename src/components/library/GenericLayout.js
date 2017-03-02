@@ -37,9 +37,6 @@ export default class GenericLayout extends Component {
       <div className='spinner-container'>
         <div className='inner-spinner-container'>
           <SpinLoader fill="#009" borderRadius={2} count={12}/>
-          {/*<div className='spinner-label'>
-           Please wait...
-           </div>*/}
         </div>
       </div>
     );

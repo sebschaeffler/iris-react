@@ -7,7 +7,7 @@ import { Keys } from './AppsPage_messages';
 import SFieldText from '../../../components/library/SFieldText';
 import GenericLayout from '../../../components/library/GenericLayout';
 import * as LayoutHelper from '../../../components/library/LayoutHelper';
-import { submitNewApp, load, resetApp, updateApp, deleteApp } from '../actions';
+import { submitNewApp, loadApp, resetApp, updateApp, deleteApp } from '../actions';
 
 class AppsCreatePage extends Component {
 
@@ -48,7 +48,7 @@ class AppsCreatePage extends Component {
         isEditEnabled: false
       });
       // Load content
-      this.props.load({
+      this.props.loadApp({
         id: this.props.params.id
       });
     } else {
@@ -156,4 +156,4 @@ export const AddAppCreateForm = reduxForm({
   //validate
 })(AppsCreatePage);
 
-export default connect(mapStateToProps, { submitNewApp, load, resetApp, updateApp, deleteApp })(injectIntl(AddAppCreateForm));
+export default connect(mapStateToProps, { submitNewApp, loadApp, resetApp, updateApp, deleteApp })(injectIntl(AddAppCreateForm));
