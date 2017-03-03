@@ -944,3 +944,7 @@ table.dataTable thead .sorting:after {
   color: #009;
   margin-top: 10px;
 }
+
+.getting-started-div {
+  margin: 10px;
+}
