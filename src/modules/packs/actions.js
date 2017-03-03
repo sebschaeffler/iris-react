@@ -39,6 +39,12 @@ export function resetPack() {
   };
 };
 
+export function toggleStatus() {
+  return {
+    type: a.TOGGLE_STATUS
+  };
+};
+
 export function updatePack(params) {
   if (params === null || params.id === '') {
     throw new Error("ERROR while updating 'id' is mandatory");

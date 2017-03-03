@@ -1,30 +1,45 @@
 import React from 'react';
-import { FormGroup, Col, Row } from 'react-bootstrap';
-import { Field } from 'redux-form/immutable';
+import {FormGroup, Col} from 'react-bootstrap';
+import {Field} from 'redux-form/immutable';
 import RaisedButton from 'material-ui/RaisedButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigationChevronleft from 'material-ui/svg-icons/navigation/chevron-left';
 import SFieldText from './SFieldText';
-import { FormattedMessage } from 'react-intl';
-import { Keys as AppKeys } from '../../i18n/keys';
+import {FormattedMessage} from 'react-intl';
+import {Keys as AppKeys} from '../../i18n/keys';
 
 export function renderTechnicalId(props) {
-  const { isDetailPage, remoteProps } = props;
+  const {isDetailPage, remoteProps} = props;
   if (isDetailPage) {
     return (
-      <Row className="form-group">
-        <Field
-          type='text'
-          name='id'
-          label='Technical identifier'
-          size={8}
-          component={SFieldText}
-          staticValue={remoteProps.initialValues.getId()}
-          disabled />
-      </Row>
+      <Field
+        type='text'
+        name='id'
+        label='Technical identifier'
+        size={4}
+        component={SFieldText}
+        staticValue={remoteProps.initialValues.getId()}
+        disabled/>
     );
   }
 };
+
+export function renderStatus(props) {
+  const {isDetailPage, remoteProps} = props;
+  if (isDetailPage) {
+    return (
+      <Field
+        type='text'
+        name='status'
+        label='Current status'
+        size={4}
+        component={SFieldText}
+        staticValue={remoteProps.initialValues.getStatus()}
+        disabled
+      />
+    );
+  }
+}
 
 export function renderErrors(errors) {
   if (errors) {
@@ -49,7 +64,7 @@ export function renderBackAction(props) {
               className='default-button'
               label={<FormattedMessage id={backLabel} />}
               onClick={backAction}
-              icon={<NavigationChevronleft />} />
+              icon={<NavigationChevronleft />}/>
           </Col>
         </FormGroup>
       </div>
@@ -64,7 +79,7 @@ export function renderBackAction(props) {
               className='default-button'
               label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_CANCEL} />}
               onClick={toggleEditAction}
-              icon={<NavigationChevronleft />} />
+              icon={<NavigationChevronleft />}/>
           </Col>
         </FormGroup>
       </div>
@@ -114,7 +129,7 @@ export function renderActionButton(props) {
 
 export function renderActions(props) {
   const {
-    submitLabel, isDetailPage, isEditEnabled, toggleEditAction, deleteAction, remoteProps
+    submitLabel, isDetailPage, isEditEnabled, toggleEditAction, deleteAction, toggleStatusAction, remoteProps
   } = props;
 
   if (!isDetailPage || isEditEnabled) {
@@ -126,13 +141,13 @@ export function renderActions(props) {
             className='default-button'
             label={<FormattedMessage id={submitLabel} />}
             type='submit'
-            disabled={remoteProps.pristine || remoteProps.submitting} />
+            disabled={remoteProps.pristine || remoteProps.submitting}/>
           <RaisedButton
             className='default-button'
             label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_RESET} />}
             type='reset'
             onClick={remoteProps.reset}
-            disabled={remoteProps.pristine || remoteProps.submitting} />
+            disabled={remoteProps.pristine || remoteProps.submitting}/>
         </Col>
       </div>
     );
@@ -145,12 +160,17 @@ export function renderActions(props) {
             className='default-button'
             label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_EDIT} />}
             type='button'
-            onClick={toggleEditAction} />
+            onClick={toggleEditAction}/>
           <RaisedButton
             className='default-button'
             label={<FormattedMessage id={AppKeys.VIEWS_BUTTONS_DELETE} />}
             type='button'
-            onClick={deleteAction} />
+            onClick={deleteAction}/>
+          <RaisedButton
+            className='default-button'
+            label={remoteProps.initialValues.getStatus().toUpperCase() === 'Active'.toUpperCase() ? 'Disable' : 'Enable'}
+            type='button'
+            onClick={toggleStatusAction}/>
         </Col>
       </div>
     );

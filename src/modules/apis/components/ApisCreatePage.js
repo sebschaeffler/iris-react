@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form/immutable';
@@ -7,9 +6,8 @@ import { Panel, Col, ControlLabel, Row } from 'react-bootstrap';
 import IFrame from 'react-iframe';
 import msg, { Keys } from './ApisPage_messages';
 import GenericLayout from '../../../components/library/GenericLayout';
-import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import SFieldText from '../../../components/library/SFieldText';
-import { submitNewApi, loadApi, resetApi, updateApi, deleteApi } from '../actions';
+import { submitNewApi, loadApi, resetApi, updateApi, deleteApi, toggleStatus } from '../actions';
 
 class ApisCreatePage extends Component {
 
@@ -34,6 +32,7 @@ class ApisCreatePage extends Component {
     this.redirectUser = this.redirectUser.bind(this);
     this.onApiSubmit = this.onApiSubmit.bind(this);
     this.deleteApi = this.deleteApi.bind(this);
+    this.toggleStatus = this.toggleStatus.bind(this);
   }
 
   getConfig() {
@@ -52,15 +51,8 @@ class ApisCreatePage extends Component {
       backAction: this.redirectUser,
       toggleEditAction: this.toggleEdit,
       deleteAction: this.deleteApi,
+      toggleStatusAction: this.toggleStatus,
       isProcessing: this.props.isProcessing
-      // action: {
-      //   href: this.props.initialValues.doc_endpoint,
-      //   target: '#workarea',
-      //   alignment: 'right',
-      //   primary: true,
-      //   label: 'Go to documentation',
-      //   icon: <FontIcon className="material-icons">import_contacts</FontIcon>
-      // }
     });
   }
 
@@ -96,6 +88,8 @@ class ApisCreatePage extends Component {
         nextProps.lastCRUDState.isSubmitSuccessful())) {
       this.redirectUser();
     }
+    
+    console.log(nextProps.initialValues.getStatus())
   }
 
   redirectUser() {
@@ -112,6 +106,10 @@ class ApisCreatePage extends Component {
 
   deleteApi() {
     this.props.deleteApi(this.props.initialValues.getId());
+  }
+
+  toggleStatus() {
+    this.props.toggleStatus();
   }
 
   toggleEdit() {
@@ -150,25 +148,26 @@ class ApisCreatePage extends Component {
 
   render() {
     return (
-      <GenericLayout config={this.getConfig()}>
+      <GenericLayout config={this.getConfig()} status={this.props.initialValues.getStatus()}>
         <Panel collapsible defaultExpanded header='General details' onSelect={this.toggleGeneralPanel} expanded={this.state.generalPanelExpanded} >
           <Row className="form-group">
             <Field
               type='text'
-              name='context'
-              label='Context'
-              size={2}
-              staticValue={this.props.initialValues.getContext()}
+              name='owner'
+              label='Owner'
+              size={8}
+              staticValue={this.props.initialValues.getOwner()}
               component={SFieldText}
-              disabled />
-            <Field
+              disabled={!this.state.isEditEnabled}
+            />
+            {/*<Field
               type='text'
               name='visibility'
               label='Visibility'
               size={2}
               staticValue={this.props.initialValues.getVisibility()}
               component={SFieldText}
-              disabled />
+              disabled />*/}
           </Row>
           <Row className={this.state.isEditEnabled ? '' : 'form-group'}>
             <Field
@@ -252,7 +251,6 @@ class ApisCreatePage extends Component {
             Default policies will be enabled.
           </Col>
         </Panel>
-        {LayoutHelper.renderActions(this.getConfig())}
       </GenericLayout>
     );
   }
@@ -307,4 +305,4 @@ export const ApisCreateForm = reduxForm({
   validate
 })(ApisCreatePage);
 
-export default connect(mapStateToProps, { submitNewApi, loadApi, resetApi, updateApi, deleteApi })(injectIntl(ApisCreateForm));
+export default connect(mapStateToProps, { submitNewApi, loadApi, resetApi, updateApi, deleteApi, toggleStatus })(injectIntl(ApisCreateForm));

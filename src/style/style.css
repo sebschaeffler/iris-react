@@ -535,6 +535,12 @@ table.dataTable thead .sorting:after {
 
 .huge {
   font-size: 24px;
+  text-shadow: 1px 1px #747474;
+}
+
+.last-item {
+  color: #ccc;
+  font-size: 20px;
 }
 
 .secondary-text {
@@ -584,6 +590,10 @@ table.dataTable thead .sorting:after {
 
 .widget-link:hover .default-dark {
   color: #8BC34A;
+}
+
+.widget-link:hover .last-item {
+  color: #747474;
 }
 
 .panel-info {

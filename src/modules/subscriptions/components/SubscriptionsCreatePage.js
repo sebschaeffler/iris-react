@@ -1,20 +1,24 @@
-
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form/immutable';
-import { injectIntl } from 'react-intl';
-import { Row } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Field, reduxForm} from 'redux-form/immutable';
+import {injectIntl} from 'react-intl';
+import {Row} from 'react-bootstrap';
 import MenuItem from 'material-ui/MenuItem';
-import { ListItem } from 'material-ui/List'
-import { Keys } from './SubscriptionsPage_messages';
+import {ListItem} from 'material-ui/List'
+import {Keys} from './SubscriptionsPage_messages';
 import GenericLayout from '../../../components/library/GenericLayout';
-import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import SFieldMultiSelect from '../../../components/library/SFieldMultiSelect';
 import SFieldSelect from '../../../components/library/SFieldSelect';
 import SFieldText from '../../../components/library/SFieldText';
-import { submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription } from '../actions';
-import { loadApi } from '../../apis/actions';
-import { loadApp } from '../../apps/actions';
+import {
+  submitNewSubscription,
+  loadSubscription,
+  resetSubscription,
+  updateSubscription,
+  deleteSubscription
+} from '../actions';
+import {loadApi} from '../../apis/actions';
+import {loadApp} from '../../apps/actions';
 
 class SubscriptionsCreatePage extends Component {
 
@@ -38,6 +42,7 @@ class SubscriptionsCreatePage extends Component {
     this.isProcessing = this.isProcessing.bind(this);
     this.redirectUser = this.redirectUser.bind(this);
     this.onSubscriptionSubmit = this.onSubscriptionSubmit.bind(this);
+    this.toggleStatus = this.toggleStatus.bind(this);
     this.deleteSubscription = this.deleteSubscription.bind(this);
   }
 
@@ -53,6 +58,7 @@ class SubscriptionsCreatePage extends Component {
       backAction: this.redirectUser,
       toggleEditAction: this.toggleEdit,
       deleteAction: this.deleteSubscription,
+      toggleStatusAction: this.toggleStatus,
       isProcessingAction: this.isProcessing
     });
   }
@@ -93,8 +99,8 @@ class SubscriptionsCreatePage extends Component {
       });
     } else if (nextProps.lastCRUDState &&
       (nextProps.lastCRUDState.isUpdateSuccessful() ||
-        nextProps.lastCRUDState.isDeleteSuccessful() ||
-        nextProps.lastCRUDState.isSubmitSuccessful())) {
+      nextProps.lastCRUDState.isDeleteSuccessful() ||
+      nextProps.lastCRUDState.isSubmitSuccessful())) {
       this.redirectUser();
     }
 
@@ -178,27 +184,14 @@ class SubscriptionsCreatePage extends Component {
     });
   }
 
-  renderStatus() {
-    if (this.state.isDetailPage) {
-      return (
-        <Row className="form-group">
-          <Field
-            type='text'
-            name='status'
-            label='Status'
-            size={8}
-            component={SFieldText}
-            staticValue={this.props.initialValues.getStatus()}
-            disabled
-          />
-        </Row>
-      );
-    }
+  toggleStatus() {
+    console.log("Toggle")
+    //his.props.toggleStatus();
   }
 
   render() {
     return (
-      <GenericLayout config={this.getConfig()}>
+      <GenericLayout config={this.getConfig()} status={this.props.initialValues.getStatus()}>
         <Row className="form-group">
           <Field
             name='apis'
@@ -213,7 +206,7 @@ class SubscriptionsCreatePage extends Component {
               !this.state.apis ||
               (this.state.apis && !this.state.apis.length)}
           >
-            {this.state.apis.map((item) => (<ListItem key={item.id} value={item.id} primaryText={item.name} />))}
+            {this.state.apis.map((item) => (<ListItem key={item.id} value={item.id} primaryText={item.name}/>))}
           </Field>
         </Row>
         <Row className="form-group">
@@ -226,7 +219,7 @@ class SubscriptionsCreatePage extends Component {
             size={8}
             disabled={(this.state.isDetailPage && !this.state.isEditEnabled) || !this.state.apps.length}
           >
-            {this.state.apps.map((item) => (<MenuItem key={item.id} value={item.id} primaryText={item.name} />))}
+            {this.state.apps.map((item) => (<MenuItem key={item.id} value={item.id} primaryText={item.name}/>))}
           </Field>
         </Row>
         <Row className="form-group">
@@ -253,8 +246,6 @@ class SubscriptionsCreatePage extends Component {
             disabled={this.state.isDetailPage && !this.state.isEditEnabled}
           />
         </Row>
-        {this.renderStatus()}
-        {LayoutHelper.renderActions(this.getConfig())}
       </GenericLayout >
     );
   }
@@ -282,4 +273,12 @@ export const SubscriptionsCreateForm = reduxForm({
   keepDirtyOnReinitialize: true,
 })(SubscriptionsCreatePage);
 
-export default connect(mapStateToProps, { loadApi, loadApp, submitNewSubscription, loadSubscription, resetSubscription, updateSubscription, deleteSubscription })(injectIntl(SubscriptionsCreateForm));
+export default connect(mapStateToProps, {
+  loadApi,
+  loadApp,
+  submitNewSubscription,
+  loadSubscription,
+  resetSubscription,
+  updateSubscription,
+  deleteSubscription
+})(injectIntl(SubscriptionsCreateForm));

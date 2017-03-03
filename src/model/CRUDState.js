@@ -8,7 +8,8 @@ export default class CRUDState extends Record({
   isResetSuccessful: false,
   isSubmitSuccessful: false,
   isUpdateSuccessful: false,
-  isDeleteSuccessful: false
+  isDeleteSuccessful: false,
+  isToggleStatusSuccessful: false
 }){
   isLoadSuccessful() { return this.get('isLoadSuccessful'); }
   setLoadSuccessful(isLoadSuccessful) { return this.set('isLoadSuccessful', isLoadSuccessful); }
@@ -24,4 +25,7 @@ export default class CRUDState extends Record({
 
   isDeleteSuccessful() { return this.get('isDeleteSuccessful'); }
   setDeleteSuccessful(isDeleteSuccessful) { return this.set('isDeleteSuccessful', isDeleteSuccessful); }
+
+  isToggleStatusSuccessful() { return this.get('isToggleStatusSuccessful'); }
+  setToggleStatusSuccessful(isToggleStatusSuccessful) { return this.set('isToggleStatusSuccessful', isToggleStatusSuccessful); }
 };

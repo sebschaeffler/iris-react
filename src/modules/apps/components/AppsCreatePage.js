@@ -6,7 +6,6 @@ import { Row } from 'react-bootstrap';
 import { Keys } from './AppsPage_messages';
 import SFieldText from '../../../components/library/SFieldText';
 import GenericLayout from '../../../components/library/GenericLayout';
-import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import { submitNewApp, loadApp, resetApp, updateApp, deleteApp } from '../actions';
 
 class AppsCreatePage extends Component {
@@ -23,6 +22,7 @@ class AppsCreatePage extends Component {
     this.onAppSubmit = this.onAppSubmit.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.deleteApp = this.deleteApp.bind(this);
+    this.toggleStatus = this.toggleStatus.bind(this);
     this.redirectUser = this.redirectUser.bind(this);
   }
 
@@ -38,6 +38,7 @@ class AppsCreatePage extends Component {
       backAction: this.redirectUser,
       toggleEditAction: this.toggleEdit,
       deleteAction: this.deleteApp,
+      toggleStatusAction: this.toggleStatus,
       isProcessing: this.props.isProcessing
     });
   }
@@ -78,6 +79,11 @@ class AppsCreatePage extends Component {
     this.props.deleteApp(this.props.initialValues.getId());
   }
 
+  toggleStatus() {
+    console.log("Toggle")
+    //his.props.toggleStatus();
+  }
+
   toggleEdit() {
     this.setState({
       isEditEnabled: !this.state.isEditEnabled
@@ -90,12 +96,12 @@ class AppsCreatePage extends Component {
 
   render() {
     return (
-      <GenericLayout config={this.getConfig()}>
+      <GenericLayout config={this.getConfig()} status={this.props.initialValues.getStatus()}>
         <Row className="form-group">
           <SFieldText
             type='text'
             name='API_KEY'
-            label='Your project key'
+            label='Your API key'
             size={8}
             placeholder='65YETH_89P267544-5489900SRTEGKP_A765KFHBUQZY324'
             component={SFieldText}
@@ -135,7 +141,6 @@ class AppsCreatePage extends Component {
             staticValue={this.props.initialValues.getCallbackUrl()}
             disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
         </Row>
-        {LayoutHelper.renderActions(this.getConfig())}
       </GenericLayout>
     );
   }

@@ -22,7 +22,9 @@
   },
   "dependencies": {
     "axios": "^0.14.0",
+    "highlight.js": "^9.9.0",
     "immutable": "^3.8.1",
+    "marked": "^0.3.6",
     "material-ui": "^0.17.0",
     "moment": "^2.15.0",
     "normalizr": "^2.2.1",

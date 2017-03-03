@@ -7,6 +7,7 @@ export const SUBMIT_SUCCESS='subscriptions/SUBMIT_SUCCESS';
 export const SUBMIT_ERROR='subscriptions/SUBMIT_ERROR';
 
 export const RESET='subscriptions/RESET';
+export const TOGGLE_STATUS='subscriptions/TOGGLE_STATUS';
 
 export const UPDATE='subscriptions/UPDATE';
 export const UPDATE_SUCCESS='subscriptions/UPDATE_SUCCESS';

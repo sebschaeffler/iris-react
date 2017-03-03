@@ -7,6 +7,7 @@ export const SUBMIT_SUCCESS='apis/SUBMIT_SUCCESS';
 export const SUBMIT_ERROR='apis/SUBMIT_ERROR';
 
 export const RESET='apis/RESET';
+export const TOGGLE_STATUS='apis/TOGGLE_STATUS';
 
 export const UPDATE='apis/UPDATE';
 export const UPDATE_SUCCESS='apis/UPDATE_SUCCESS';

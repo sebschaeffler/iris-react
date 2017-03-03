@@ -4,6 +4,8 @@ import { injectIntl } from 'react-intl';
 import PageHeader from '../../../components/library/PageHeader';
 import msg, { Keys } from './DashboardPage_messages';
 import appMsg, { Keys as AppKeys } from '../../../i18n/keys';
+import MarkdownElement from '../../../utils/MarkdownElement';
+import gettingStartedText from './getting-started.md';
 
 class DashboardPage extends Component {
 
@@ -18,11 +20,11 @@ class DashboardPage extends Component {
           </div>
         </div>
         <div className="spacer" />
-        <PageHeader title={this.props.intl.formatMessage(msg(Keys.SECTIONS_APIS_TITLE))} headerIcon="cogs" display={false} />
+        <PageHeader title={this.props.intl.formatMessage(msg(Keys.SECTIONS_GETTING_STARTED_TITLE))} headerIcon="rocket" display={false} />
         <div className="spacer" />
         <div className="row">
           <div className='col-lg-4 col-md-2'>
-            No apis have been registered yet.
+            <MarkdownElement text={gettingStartedText} />
           </div>
         </div>
       </div>

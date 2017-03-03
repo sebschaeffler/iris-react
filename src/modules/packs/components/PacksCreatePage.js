@@ -6,7 +6,6 @@ import { Row } from 'react-bootstrap';
 import { Keys } from './PacksPage_messages';
 import SFieldText from '../../../components/library/SFieldText';
 import GenericLayout from '../../../components/library/GenericLayout';
-import * as LayoutHelper from '../../../components/library/LayoutHelper';
 import { submitNewPack, loadPack, resetPack, updatePack, deletePack } from '../actions';
 
 class PacksCreatePage extends Component {
@@ -25,6 +24,7 @@ class PacksCreatePage extends Component {
     this.redirectUser = this.redirectUser.bind(this);
     this.onPackSubmit = this.onPackSubmit.bind(this);
     this.deletePack = this.deletePack.bind(this);
+    this.toggleStatus = this.toggleStatus.bind(this);
   }
 
   getConfig() {
@@ -39,6 +39,7 @@ class PacksCreatePage extends Component {
       backAction: this.redirectUser,
       toggleEditAction: this.toggleEdit,
       deleteAction: this.deleteApi,
+      toggleStatusAction: this.toggleStatus,
       isProcessing: this.props.isProcessing
     });
   }
@@ -93,6 +94,11 @@ class PacksCreatePage extends Component {
     this.props.deletePack(this.props.initialValues.getId());
   }
 
+  toggleStatus() {
+    console.log("Toggle")
+    //his.props.toggleStatus();
+  }
+
   toggleEdit() {
     this.setState({
       isEditEnabled: !this.state.isEditEnabled
@@ -101,7 +107,7 @@ class PacksCreatePage extends Component {
 
   render() {
     return (
-      <GenericLayout config={this.getConfig()}>
+      <GenericLayout config={this.getConfig()} status={this.props.initialValues.getStatus()}>
         <Row className="form-group">
           <Field
             type='text'
@@ -135,7 +141,6 @@ class PacksCreatePage extends Component {
             staticValue={this.props.initialValues.getCallbackUrl()}
             disabled={this.state.isDetailPage && !this.state.isEditEnabled} />
         </Row>
-        {LayoutHelper.renderActions(this.getConfig())}
       </GenericLayout>
     );
   }

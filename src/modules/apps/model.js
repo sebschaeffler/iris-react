@@ -4,7 +4,8 @@ export class App extends Record({
   id: '',
   name: '',
   description: '',
-  callback_url: ''
+  callback_url: '',
+  status: 'Active'
 })
 {
   getId() { return this.get('id'); }
@@ -18,6 +19,9 @@ export class App extends Record({
 
   getCallbackUrl() { return this.get('callback_url'); }
   setCallbackUrl(callback_url) { return this.set('callback_url', callback_url); }
+
+  getStatus() { return this.get('status'); }
+  setStatus(status) { return this.set('status', status); }
 };
 
 export class Apps extends Record({

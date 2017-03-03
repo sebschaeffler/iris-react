@@ -7,6 +7,7 @@ export const SUBMIT_SUCCESS='packs/SUBMIT_SUCCESS';
 export const SUBMIT_ERROR='packs/SUBMIT_ERROR';
 
 export const RESET='packs/RESET';
+export const TOGGLE_STATUS='packs/TOGGLE_STATUS';
 
 export const UPDATE='packs/UPDATE';
 export const UPDATE_SUCCESS='packs/UPDATE_SUCCESS';

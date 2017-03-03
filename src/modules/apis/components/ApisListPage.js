@@ -21,6 +21,7 @@ class ApisListPage extends Component {
     this.buildParams = this.buildParams.bind(this);
     this.refresh = this.refresh.bind(this);
     this.deleteApi = this.deleteApi.bind(this);
+    this.disable = this.disable.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +55,10 @@ class ApisListPage extends Component {
     this.props.deleteApi(id);
   }
 
+  disable(id) {
+    this.props.disable(id);
+  }
+
   refresh(params) {
     const queryParams = this.buildParams();
     this.props.loadApi(queryParams);
@@ -75,6 +80,7 @@ class ApisListPage extends Component {
               icon='line-chart'
               count={item.getNumberOfUsers()}
               headerText={item.getName()}
+              owner={item.getOwner()}
               rating={item.getRating()}
               linkTo={'/api/' + item.getId()}
               deleteAction={this.deleteApi}

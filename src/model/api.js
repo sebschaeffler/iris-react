@@ -8,15 +8,20 @@ export default class Api extends Record({
   visibility: 'Public',
   thumbnail: null,
   description: '',
+  owner: '',
   tags: '',
   api_endpoint: '',
   doc_endpoint: '',
   rating: 0,
-  numberOfUsers: 0
+  numberOfUsers: 0,
+  status: 'Active'
 })
 {
   getId() { return this.get('id'); }
   setId(id) { return this.set('id', id); }
+
+  getStatus() { return this.get('status'); }
+  setStatus(status) { return this.set('status', status); }
 
   getTechnicalName() { return this.get('technical_name'); }
   setTechnicalName(technical_name) { return this.set('technical_name', technical_name); }
@@ -36,6 +41,9 @@ export default class Api extends Record({
   getDescription() { return this.get('description'); }
   setDescription(description) { return this.set('description', description); }
 
+  getOwner() { return this.get('owner'); }
+  setOwner(owner) { return this.set('owner', owner); }
+
   getTags() { return this.get('tags'); }
   setTags(tags) { return this.set('tags', tags); }
 
@@ -50,5 +58,4 @@ export default class Api extends Record({
 
   getNumberOfUsers() { return this.get('numberOfUsers'); }
   setNumberOfUsers(numberOfUsers) { return this.set('numberOfUsers', numberOfUsers); }
-
 };

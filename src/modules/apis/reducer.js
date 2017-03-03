@@ -1,6 +1,6 @@
-import { Record } from "immutable";
+import {Record} from "immutable";
 import * as types from "./actionTypes";
-import { Api, Apis, CRUDState } from "../../model";
+import {Api, Apis, CRUDState} from "../../model";
 
 const StateRecord = new Record({
   api: new Api(), // for create or detail
@@ -52,8 +52,8 @@ export default function (state = INITIAL_STATE, action) {
         .set('isProcessing', false)
         .set('CRUDState', new CRUDState().setLoadSuccessful(true));
     case types.LOAD_ERROR:
-      state.reset();
       return state
+        .reset()
         .set('errors', errorMessage);
 
     // ===================
@@ -82,6 +82,16 @@ export default function (state = INITIAL_STATE, action) {
       return state
         .reset()
         .set('CRUDState', new CRUDState().setResetSuccessful(true));
+
+    // ===================
+    // TOGGLE STATUS
+    // ===================
+    case types.TOGGLE_STATUS:
+      const val = state.get('api').getStatus().toUpperCase() === 'Active'.toUpperCase() ? 'Disabled' : 'Active';
+      return state
+        .reset()
+        .update('api', api => new Api(state.get('api').setStatus(val)))
+        .set('CRUDState', new CRUDState().setToggleStatusSuccessful(true));
 
     // ===================
     // UPDATE

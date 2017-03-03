@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import {Form} from "react-bootstrap";
+import {Form, Row} from "react-bootstrap";
 import {Tabs, Tab} from "material-ui/Tabs";
 import FontIcon from "material-ui/FontIcon";
-//import CircularLoader from 'respinner/lib/CircularLoader';
 import SpinLoader from "respinner/lib/SpinLoader";
 import * as LayoutHelper from "./LayoutHelper";
 
@@ -61,8 +60,12 @@ export default class GenericLayout extends Component {
                 onActive={this.resetSecondaryTabContent}>
                 <div className='tabs-top'>
                   <Form horizontal onSubmit={this.props.config.onSubmit}>
-                    {LayoutHelper.renderTechnicalId(this.props.config)}
+                    <Row className="form-group">
+                      {LayoutHelper.renderTechnicalId(this.props.config)}
+                      {LayoutHelper.renderStatus(this.props.config)}
+                    </Row>
                     {this.props.children}
+                    {LayoutHelper.renderActions(this.props.config)}
                     {LayoutHelper.renderErrors(this.props.config.errors)}
                   </Form>
                 </div>
@@ -87,8 +90,12 @@ export default class GenericLayout extends Component {
         {LayoutHelper.renderActionButton(this.props.config)}
         <div id='workarea' className="workarea">
           <Form horizontal onSubmit={this.props.config.onSubmit}>
-            {LayoutHelper.renderTechnicalId(this.props.config)}
+            <Row className="form-group">
+              {LayoutHelper.renderTechnicalId(this.props.config)}
+              {LayoutHelper.renderStatus(this.props.config)}
+            </Row>
             {this.props.children}
+            {LayoutHelper.renderActions(this.props.config)}
             {LayoutHelper.renderErrors(this.props.config.errors)}
           </Form>
         </div>

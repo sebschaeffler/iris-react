@@ -7,6 +7,7 @@ export const SUBMIT_SUCCESS='apps/SUBMIT_SUCCESS';
 export const SUBMIT_ERROR='apps/SUBMIT_ERROR';
 
 export const RESET='apps/RESET';
+export const TOGGLE_STATUS='apps/TOGGLE_STATUS';
 
 export const UPDATE='apps/UPDATE';
 export const UPDATE_SUCCESS='apps/UPDATE_SUCCESS';

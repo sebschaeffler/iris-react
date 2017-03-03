@@ -38,6 +38,12 @@ export function resetApp() {
   };
 };
 
+export function toggleStatus() {
+  return {
+    type: a.TOGGLE_STATUS
+  };
+};
+
 export function updateApp(params) {
   if (params === null || params.id === '') {
     throw new Error("ERROR while updating 'id' is mandatory");
