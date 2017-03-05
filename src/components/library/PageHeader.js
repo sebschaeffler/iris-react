@@ -10,7 +10,7 @@ function renderBreadcrumbs(rootText, youAreHereText, display, title) {
   }
 
   return (
-    <div className="col-xs-12 col-lg-4 col-md-6 pull-right breadcrumb-wrapper">
+    <div className="col-xs-10 col-lg-6 col-md-6 pull-right breadcrumb-wrapper">
       <span className="label">{youAreHereText}</span>
       <ol className="breadcrumb">
         <li><Link to="/">{rootText}</Link></li>
@@ -35,8 +35,8 @@ export const PageHeader = (props) => {
   return (
     <div className="page-header">
         <div className="row">
-          <h2 className="col-lg-4 col-md-8">
-            <FontAwesome name={headerIcon} />
+          <h2 className="col-lg-4 col-md-8 pageheader">
+            <FontAwesome name={headerIcon} className='header_icon'/>
             &nbsp;{title}
           </h2>
           { renderBreadcrumbs(rootText, youAreHereText, display, title) }

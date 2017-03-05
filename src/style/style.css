@@ -71,7 +71,7 @@ a:focus, a:hover {
 .breadcrumb-wrapper .label {
   color: #999;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: normal;
   display: inline-block;
 }
@@ -90,7 +90,7 @@ a:focus, a:hover {
 }
 
 .breadcrumb li {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .breadcrumb > li {
@@ -666,15 +666,31 @@ table.dataTable thead .sorting:after {
   min-height:100%;
 }
 */
-
+.title-div {
+  position: absolute;
+  left: 245px;
+  top: 12px;
+}
+.title {
+  font-size: 30px;
+  color: #009;
+  font-weight: 500;
+}
 .app_layout {
   background-color: #fff;
+  padding-bottom: 25px;
 }
-
+.header_icon {
+  opacity: 0.7;
+  font-size: 26px;
+}
 .app_main_layout {
   text-align: left;
 }
-
+.pageheader {
+  font-weight: 400;
+  font-size: 26px;
+}
 .welcome_main {
   display: flex;
   align-items: center;
@@ -947,4 +963,20 @@ table.dataTable thead .sorting:after {
 
 .getting-started-div {
   margin: 10px;
+}
+
+.footer-div {
+  background: #fff;
+  width: 100%;
+  height: 40px;
+  position: fixed;
+  opacity: 0.85;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  padding: 10px;
+}
+.footer-title {
+  color: #009;
+  font-size: 10pt;
 }

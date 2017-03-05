@@ -41,6 +41,9 @@ export default class AppLayout extends Component {
               </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
+            <div className='title-div'>
+              <span className='title'>Digital Business Platform</span>
+            </div>
             <Navbar.Collapse>
               <Nav pullRight>
                 <NavDropdown eventKey={4} title={<span><FontAwesome name='user' /><span className='teal profile-name'>John Cooper</span></span>} id='profile'>
@@ -131,6 +134,9 @@ export default class AppLayout extends Component {
             </div>
           </Navbar>
           {this.props.children}
+          <div className="footer-div">
+            <span className="footer-title">© 2017 Deutsche Börse</span>
+          </div>
         </div>
       </MuiThemeProvider>
     );

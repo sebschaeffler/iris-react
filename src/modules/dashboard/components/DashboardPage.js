@@ -15,7 +15,7 @@ class DashboardPage extends Component {
         <PageHeader title={this.props.intl.formatMessage(msg(Keys.SECTIONS_DASHBOARD_TITLE))} headerIcon="home"
                     rootText={this.props.intl.formatMessage(appMsg(AppKeys.APP_TITLE))}/>
         <div className="spacer"/>
-        <div className="row">
+        <div className="row" style={{ marginLeft: 6 }}>
           <div className='col-lg-4 col-md-2'>
             No indicators are available yet.
           </div>

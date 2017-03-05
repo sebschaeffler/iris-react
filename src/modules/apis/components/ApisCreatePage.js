@@ -88,7 +88,7 @@ class ApisCreatePage extends Component {
         nextProps.lastCRUDState.isSubmitSuccessful())) {
       this.redirectUser();
     }
-    
+
     console.log(nextProps.initialValues.getStatus())
   }
 
@@ -263,7 +263,9 @@ export const validate = (values) => {
   if (!values.name || values.name.trim() === '') {
     errors.name = 'Name is required';
   }
-
+  if (!values.owner || values.owner.trim() === '') {
+    errors.owner = 'Owner is required';
+  }
   if (!values.technical_name || values.technical_name.trim() === '') {
     errors.technical_name = 'Technical name is required';
   } else if (!values.technical_name.match(/[a-z0-9]/)) {
