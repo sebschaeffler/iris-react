@@ -1,23 +1,6 @@
-import {Record} from "immutable";
-import * as types from "./actionTypes";
-import {Api, Apis, CRUDState} from "../../model";
-
-const StateRecord = new Record({
-  api: new Api(), // for create or detail
-  list: new Apis(), // for retrieving list of apis,
-  CRUDState: new CRUDState(),
-  isProcessing: false,
-  errors: null
-});
-
-class State extends StateRecord {
-  reset() {
-    return this.set('errors', null)
-      .set('isProcessing', false)
-      .set('CRUDState', new CRUDState())
-      .set('api', new Api());
-  }
-}
+import * as types from './actionTypes';
+import {Api, CRUDState} from '../../model';
+import {State} from './stateRecord';
 
 const INITIAL_STATE = new State();
 

@@ -1,6 +1,6 @@
 {
   "en": {
-    "app.title": "Digital Business Platform",
+    "app.title": "Developer portal",
     "app.pages.dashboard": "Dashboard",
     "dashboard.sections.gettingstarted.title": "Getting started",
     "app.pages.apilist": "Explore APIs",
@@ -55,7 +55,7 @@
     "subscriptions.buttons.save": "Save"
   },
   "fr": {
-    "app.title": "Plateforme financière numérique",
+    "app.title": "Portal de développement",
     "app.pages.dashboard": "Dashboard",
     "dashboard.sections.gettingstarted.title": "Démarrage",
     "app.pages.apilist": "Parcourir les APIs",

@@ -11,8 +11,8 @@ export function loadPack(params) {
     if (params && params.id) {
       url += `/${params.id}`;
     }
-    console.log("Load: ", url, " with: ", params)
-    dispatch(apiMiddleware.createAction({
+    //console.log("Load: ", url, " with: ", params)
+    return dispatch(apiMiddleware.createAction({
       endpoint: url,
       actionTypes: [a.LOAD, a.LOAD_SUCCESS, a.LOAD_ERROR],
       parameters: params,
@@ -24,7 +24,7 @@ export function loadPack(params) {
 
 export function submitNewPack(params) {
   return dispatch => {
-    dispatch(apiMiddleware.createAction({
+    return dispatch(apiMiddleware.createAction({
       endpoint: PACKAGE_URL,
       actionTypes: [a.SUBMIT, a.SUBMIT_SUCCESS, a.SUBMIT_ERROR],
       parameters: params,
@@ -50,7 +50,7 @@ export function updatePack(params) {
     throw new Error("ERROR while updating 'id' is mandatory");
   }
   return dispatch => {
-    dispatch(apiMiddleware.createAction({
+    return dispatch(apiMiddleware.createAction({
       endpoint: `${PACKAGE_URL}/${params.id}`,
       actionTypes: [a.UPDATE, a.UPDATE_SUCCESS, a.UPDATE_ERROR],
       parameters: params,
@@ -64,7 +64,7 @@ export function deletePack(id) {
     throw new Error("ERROR while deleting: 'id' is mandatory and needs to be an integer, instead id = ", id);
   }
   return dispatch => {
-    dispatch(apiMiddleware.createAction({
+    return dispatch(apiMiddleware.createAction({
       endpoint: `${PACKAGE_URL}/${id}`,
       actionTypes: [a.DELETE, a.DELETE_SUCCESS, a.DELETE_ERROR],
       parameters: null,

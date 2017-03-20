@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import { Image, Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Image, Navbar, Nav, NavDropdown, MenuItem} from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
-import { Link } from 'react-router';
-import { FormattedMessage } from 'react-intl';
+import {Link} from 'react-router';
+import {FormattedMessage} from 'react-intl';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {indigo500, indigo700, lightGreen500, lightGreen700, grey400} from 'material-ui/styles/colors';
-import { Keys as AppKeys } from '../i18n/keys';
-import LocaleWidget from '../modules/i18n/components/LocaleWidget';
+import {Keys as AppKeys} from '../i18n/keys';
 
 const customTheme = {
   palette: {
@@ -33,101 +32,162 @@ export default class AppLayout extends Component {
       <MuiThemeProvider muiTheme={theme}>
         <div className='app_layout'>
           <Navbar fluid>
-            <Navbar.Header style={{ marginBottom: 10 }}>
+            <Navbar.Header style={{marginBottom: 10}}>
               <Navbar.Brand>
                 <Link to='/'>
-                  <Image src={require('../../assets/dbglogo.png')} />
+                  <Image src={require('../../assets/dbglogo.png')}/>
                 </Link>
               </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
             <div className='title-div'>
-              <span className='title'>Digital Business Platform</span>
+              <span className='title'>Developer Portal</span>
             </div>
             <Navbar.Collapse>
               <Nav pullRight>
-                <NavDropdown eventKey={4} title={<span><FontAwesome name='user' /><span className='teal profile-name'>John Cooper</span></span>} id='profile'>
+                <NavDropdown eventKey={4} title={<span><FontAwesome name='user'/><span className='teal profile-name'>John Cooper</span></span>}
+                             id='profile'>
                   <MenuItem eventKey='1'>
-                    <FontAwesome name='user' /> User Profile
-                </MenuItem>
+                    <FontAwesome name='user'/> User Profile
+                  </MenuItem>
                   <MenuItem eventKey='2'>
-                    <FontAwesome name='cog' /> Settings
-                </MenuItem>
-                  <MenuItem divider />
+                    <FontAwesome name='cog'/> Settings
+                  </MenuItem>
+                  <MenuItem divider/>
                   <MenuItem eventKey='4'>
-                    <FontAwesome name='sign-out' /> Logout
-                </MenuItem>
+                    <FontAwesome name='sign-out'/> Logout
+                  </MenuItem>
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>
-            <div className='navbar-default sidebar' style={{ 'marginLeft': '-20px' }} role='navigation'>
+            <div className='navbar-default sidebar' style={{'marginLeft': '-20px'}} role='navigation'>
               <div className='sidebar-nav navbar-collapse'>
                 <ul className='nav in' id='side-menu'>
                   <li className='sidebar-search'>
                     <div className='input-group custom-search-form'>
-                      <input type='text' className='form-control' placeholder='Search...' />
+                      <input type='text' className='form-control' placeholder='Search...'/>
                       <span className='input-group-btn'>
                         <button className='btn btn-default' type='button'>
-                          <FontAwesome name='search' />
+                          <FontAwesome name='search'/>
                         </button>
                       </span>
                     </div>
                   </li>
                   <li>
-                    <Link to='/dashboard'><div className='sidebar-icon'><FontAwesome name='home' /></div>
+                    <Link to='/dashboard'>
+                      <div className='sidebar-icon'><FontAwesome name='home'/></div>
                       <span className='sidebar-text'>
-                        <FormattedMessage id={AppKeys.PAGES_DASHBOARD} />
+                        <FormattedMessage id={AppKeys.PAGES_DASHBOARD}/>
                       </span>
                     </Link>
                   </li>
                   <li>
-                    <Link to='/apislist'><div className='sidebar-icon'><FontAwesome name='cogs' /></div>
+                    <Link to='/apislist'>
+                      <div className='sidebar-icon'><FontAwesome name='cogs'/></div>
                       <span className='sidebar-text'>
-                        <FormattedMessage id={AppKeys.PAGES_EXPLORE_APIS} />
+                        <FormattedMessage id={AppKeys.PAGES_EXPLORE_APIS}/>
                       </span>
                     </Link>
                   </li>
                   <li>
-                    <Link to='/packageslist'><div className='sidebar-icon'><FontAwesome name='shopping-bag' /></div>
+                    <Link to='/packageslist'>
+                      <div className='sidebar-icon'><FontAwesome name='shopping-bag'/></div>
                       <span className='sidebar-text'>
-                        <FormattedMessage id={AppKeys.PAGES_EXPLORE_PACKS} />
+                        <FormattedMessage id={AppKeys.PAGES_EXPLORE_PACKS}/>
                       </span>
                     </Link>
                   </li>
                   <li>
-                    <Link to='/appslist'><div className='sidebar-icon'><FontAwesome name='list' /></div>
+                    <Link to='/appslist'>
+                      <div className='sidebar-icon'><FontAwesome name='list'/></div>
                       <span className='sidebar-text'>
-                        <FormattedMessage id={AppKeys.PAGES_MY_APPLICATIONS} />
+                        <FormattedMessage id={AppKeys.PAGES_MY_APPLICATIONS}/>
                       </span>
                     </Link>
                   </li>
                   <li>
                     <Link to='/subscriptionslist'>
                       <div className='sidebar-icon'>
-                        <FontAwesome name='pencil' />
+                        <FontAwesome name='pencil'/>
                       </div>
                       <span className='sidebar-text'>
-                        <FormattedMessage id={AppKeys.PAGES_MY_SUBSCRIPTIONS} />
+                        <FormattedMessage id={AppKeys.PAGES_MY_SUBSCRIPTIONS}/>
                       </span>
                     </Link>
                   </li>
                   <li>
-                    <Link to='/ui'>
+                    <Link style={{ color: '#333', textDecoration: 'none'}}>
                       <div className='sidebar-icon'>
-                        <FontAwesome name='paint-brush' />
+                        <FontAwesome name='book'/>
                       </div>
                       <span className='sidebar-text'>
-                        <FormattedMessage id='UI Guidelines' />
-                      </span>
+                          UI/UX Guidelines
+                        </span>
                     </Link>
+                    <ul>
+                      <li>
+                        <div className='sidebar-icon'>
+                          <FontAwesome name='magic'/>
+                        </div>
+                        <Link to='/ui-themes'>
+                          <span className='sidebar-text'>
+                           Components
+                        </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='/ui-colors'>
+                          <div className='sidebar-icon'>
+                            <FontAwesome name='paint-brush'/>
+                          </div>
+                          <span className='sidebar-text'>
+                          Colors
+                        </span>
+                        </Link>
+                      </li>
+                    </ul>
                   </li>
                   <li>
-                    <div className='sidebar-locale'>
-                      <div className='sidebar-icon'><FontAwesome name='flag' /></div>
+                    <Link style={{ color: '#333', textDecoration: 'none'}}>
+                      <div className='sidebar-icon'>
+                        <FontAwesome name='code'/>
+                      </div>
                       <span className='sidebar-text'>
-                        <LocaleWidget locale='en' /><span className='locale-widget-separator'>|</span><LocaleWidget locale='fr' />
-                      </span>
-                    </div>
+                          Code samples
+                        </span>
+                    </Link>
+                    <ul>
+                      <li>
+                        <Link to='/code-web'>
+                          <div className='sidebar-icon'>
+                            <FontAwesome name='chrome'/>
+                          </div>
+                          <span className='sidebar-text'>
+                          Web applications
+                        </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='/code-mobile'>
+                          <div className='sidebar-icon'>
+                            <FontAwesome name='mobile'/>
+                          </div>
+                          <span className='sidebar-text'>
+                          Mobile applications
+                        </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='/code-be'>
+                          <div className='sidebar-icon'>
+                            <FontAwesome name='database'/>
+                          </div>
+                          <span className='sidebar-text'>
+                          Back-end applications
+                        </span>
+                        </Link>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </div>

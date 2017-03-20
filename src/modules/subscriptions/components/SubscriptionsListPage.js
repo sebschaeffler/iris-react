@@ -77,6 +77,7 @@ class SubscriptionsListPage extends Component {
               headerText={item.getName()}
               rating={0}
               linkTo={'/subscription/' + item.getId()}
+              description={item.getDescription()}
               deleteAction={this.deleteSubscription}
               id={item.getId()}
               css='default-dark'

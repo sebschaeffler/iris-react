@@ -1,7 +1,11 @@
-import UIPage from './UIPage';
+import UIColors from './UIColors';
 import ColorsPage from './ColorsPage';
+import UIThemes from './UIThemes';
+import ThemesPage from './ThemesPage';
 
 export default {
-  UIPage,
-  ColorsPage
+  UIColors,
+  ColorsPage,
+  UIThemes,
+  ThemesPage
 };

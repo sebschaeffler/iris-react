@@ -34,7 +34,7 @@ const AppWidget = (props) => {
               </div>
               <div className='col-xs-8 text-right'>
                 <div className='huge'>{props.headerText}</div>
-                <div className='secondary-text'>{props.secondaryText}</div>
+                <div className='last-item'>{props.secondaryText}</div>
               </div>
             </div>
           </Link>

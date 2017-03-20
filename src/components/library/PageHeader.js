@@ -35,7 +35,7 @@ export const PageHeader = (props) => {
   return (
     <div className="page-header">
         <div className="row">
-          <h2 className="col-lg-4 col-md-8 pageheader">
+          <h2 className="col-lg-5 col-md-8 pageheader">
             <FontAwesome name={headerIcon} className='header_icon'/>
             &nbsp;{title}
           </h2>

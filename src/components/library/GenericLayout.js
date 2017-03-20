@@ -75,6 +75,8 @@ export default class GenericLayout extends Component {
                 label={this.props.config.secondaryTabLabel}
                 onActive={this.getSecondaryTabContent}>
                 <div className='tabs-top'>
+                  <a href={this.props.config.remoteProps.initialValues.getDocEndpoint()} target="_new">External Link to documentation</a>
+                  <br/><br/>
                   {this.state.secondaryTabContent}
                 </div>
               </Tab>

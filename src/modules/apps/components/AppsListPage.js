@@ -76,6 +76,7 @@ class AppsListPage extends Component {
               count=''
               headerText={item.getName()}
               linkTo={'/app/' + item.getId()}
+              description={item.getDescription()}
               deleteAction={this.deleteApp}
               id={item.getId()}
               css='default-dark'

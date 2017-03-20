@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import Title from 'react-title-component';
 import withWidth, {MEDIUM, LARGE} from 'material-ui/utils/withWidth';
 import ClearFix from 'material-ui/internal/ClearFix';
 import {getContrastRatio} from 'material-ui/utils/colorManipulator';
@@ -152,7 +151,6 @@ class ColorsPage extends Component {
 
     return (
       <div style={{ margin: 48}}>
-        <Title render={(previousTitle) => `Colors - ${previousTitle}`} />
         <h2 style={styles.headline}>UI Color Palette</h2>
         <p>
           Javascript variables for every color used in

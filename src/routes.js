@@ -7,6 +7,7 @@ import apps from './modules/apps';
 import packs from './modules/packs';
 import subscriptions from './modules/subscriptions';
 import uiPage from './modules/repositories/ui';
+import codePage from './modules/repositories/code';
 
 const getRoutes = (store) => {
   return (
@@ -34,9 +35,15 @@ const getRoutes = (store) => {
         <Route path='newsubscription' component={subscriptions.components.SubscriptionsCreatePage}/>
         <Route path='subscription/:id' component={subscriptions.components.SubscriptionsCreatePage}/>
       </Route>
-      <Route component={uiPage.UIPage}>
-        <Route path='ui' component={uiPage.ColorsPage}/>
+      <Route component={uiPage.UIColors}>
+        <Route path='ui-colors' component={uiPage.ColorsPage}/>
       </Route>
+      <Route component={uiPage.UIThemes}>
+        <Route path='ui-themes' component={uiPage.ThemesPage}/>
+      </Route>
+      <Route path='code-be' component={codePage.CodeBeAppPage} />
+      <Route path='code-web' component={codePage.CodeWebAppPage} />
+      <Route path='code-mobile' component={codePage.CodeMobileAppPage} />
     </Route>
   );
 };

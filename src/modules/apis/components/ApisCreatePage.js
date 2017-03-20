@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form/immutable';
 import { injectIntl } from 'react-intl';
 import { Panel, Col, ControlLabel, Row } from 'react-bootstrap';
 import IFrame from 'react-iframe';
+import FontAwesome from "react-fontawesome";
 import msg, { Keys } from './ApisPage_messages';
 import GenericLayout from '../../../components/library/GenericLayout';
 import SFieldText from '../../../components/library/SFieldText';
@@ -33,6 +34,7 @@ class ApisCreatePage extends Component {
     this.onApiSubmit = this.onApiSubmit.bind(this);
     this.deleteApi = this.deleteApi.bind(this);
     this.toggleStatus = this.toggleStatus.bind(this);
+    this.displayExternalLink = this.displayExternalLink.bind(this);
   }
 
   getConfig() {
@@ -135,13 +137,22 @@ class ApisCreatePage extends Component {
     const url = this.props.initialValues.doc_endpoint;
     if (url) {
       return (
-        <IFrame url={url} width='100%' height='100%' />
+        <IFrame url={url} width='100%' height='80vh' />
       );
     } else {
       return (
         <span>
           There is no documentation available yet.
         </span>
+      );
+    }
+  }
+
+  displayExternalLink() {
+    const url = this.props.initialValues.doc_endpoint;
+    if (url) {
+      return (
+        <a href={url} target="_new"><FontAwesome name="book"/></a>
       );
     }
   }
@@ -156,18 +167,11 @@ class ApisCreatePage extends Component {
               name='owner'
               label='Owner'
               size={8}
+              placeholder='e.g. Deutsche Boerse'
               staticValue={this.props.initialValues.getOwner()}
               component={SFieldText}
               disabled={!this.state.isEditEnabled}
             />
-            {/*<Field
-              type='text'
-              name='visibility'
-              label='Visibility'
-              size={2}
-              staticValue={this.props.initialValues.getVisibility()}
-              component={SFieldText}
-              disabled />*/}
           </Row>
           <Row className={this.state.isEditEnabled ? '' : 'form-group'}>
             <Field
